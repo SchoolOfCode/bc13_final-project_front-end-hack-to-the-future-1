@@ -19,7 +19,9 @@ export default function Home() {
      crossOrigin=""/>
       </Head>
       <main>
+      
         <Map />
+        <h1 className="z-50 absolute top-0">IndyGo</h1>
       </main>
     </>
   );
