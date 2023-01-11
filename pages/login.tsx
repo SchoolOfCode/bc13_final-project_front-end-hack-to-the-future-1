@@ -1,6 +1,9 @@
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
+// useSession is a helper function that shows if there is an active session and it displays the session information.
+// use case for session would be conditional rendering based on if there is an active session (user logged in) or not
+
 export default function Login() {
   const session = useSession();
   const supabase = useSupabaseClient();
