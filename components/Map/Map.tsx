@@ -80,6 +80,7 @@ export default function Map() {
       className='h-screen w-screen'
       center={[userLat, userLng]}
       zoom={16}
+      zoomControl={false}
       scrollWheelZoom={true}
     >
       <TileLayer
