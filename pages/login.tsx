@@ -1,18 +1,9 @@
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
-import {
-  useSession,
-  useUser,
-  useSupabaseClient,
-} from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function Login() {
   const session = useSession();
-
   const supabase = useSupabaseClient();
-
-  const user = useUser();
-
-  
 
   return (
     <div className="container" style={{ padding: "50px 0 100px 0" }}>

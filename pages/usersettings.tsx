@@ -1,7 +1,7 @@
 import { useSession } from "@supabase/auth-helpers-react";
 import { useProfile } from "../hooks/useProfile";
 
-export default function UserType() {
+export default function UserSettings() {
   const { profile } = useProfile();
   return (
     <div className="container" style={{ padding: "50px 0 100px 0" }}>
