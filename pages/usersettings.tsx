@@ -2,13 +2,16 @@ import { useSession } from "@supabase/auth-helpers-react";
 import { useProfile } from "../hooks/useProfile";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Button from "../components/Button/Button";
+import { useRouter } from 'next/router'
 
 export default function UserSettings() {
   const { profile } = useProfile();
+  const router = useRouter()
 
   const supabase = useSupabaseClient() 
   const handleClick=async () => {
     await supabase.auth.signOut()
+    router.push('/')
   }
 
   return (
