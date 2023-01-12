@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Button from "../components/Button/Button";
 import { useProfile } from "../hooks/useProfile";
 import { useEffect } from "react";
+import Image from "next/image";
 
 export default function UserType() {
   const router = useRouter();
@@ -45,10 +46,15 @@ export default function UserType() {
   }
 
   return (
-    <div>
-      <p>Are you creating a business account?</p>
-      <Button onClick={redirectConsumer} buttonText="No" />
-      <Button onClick={redirectBusiness} buttonText="Yes" />
+    <div className="flex w-full h-screen justify-center items-center bg-slate-300">
+      <div className="flex w-5/6 flex-col justify-around h-4/6 items-center gap-5">
+          <Image src="/logo.svg" alt="logo" width="400" height="400" />
+          <div id="userTypeChoice" className="flex flex-col justify-center gap-4 items-center text-center h-3/6 w-5/6 max-w-md bg-slate-700">
+          <p className="text-open text-slate-50 text-xl">Please choose your account preference to set up your account.</p>          
+          <Button onClick={redirectConsumer} buttonText="Continue as Customer" />
+          <Button onClick={redirectBusiness} buttonText="Continue as Business" />          
+          </div>
+      </div>
     </div>
   );
 }
