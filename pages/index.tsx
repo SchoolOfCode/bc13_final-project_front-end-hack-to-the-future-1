@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
 import Map from '../components/Map/';
+import Carousel from '../components/Carousel/Carousel';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,6 +28,9 @@ export default function Home() {
       <main>
         <div className='z-0'>
           <Map />
+        </div>
+        <div className='z-10 absolute bottom-5'>
+          <Carousel />
         </div>
       </main>
     </>
