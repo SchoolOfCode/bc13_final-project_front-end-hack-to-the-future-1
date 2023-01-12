@@ -44,13 +44,14 @@ export default function Login() {
                 default: {
                   colors: {
                     brand: "#F87171",
-                    brandAccent: "darkred",
+                    brandAccent: "#fca5a5",
                     brandButtonText: "#334155",
                     anchorTextColor: "#F8FAFC",
                     messageText: "#F8FAFC",
                     inputText: "#F8FAFC",
                     inputLabelText: "#F8FAFC",
                     inputPlaceholder: "#E2E8F0",
+                    defaultButtonBorder: "#334155",
                   },
                 },
               },
