@@ -12,6 +12,7 @@ export default function UserType() {
   const { profile } = useProfile();
 
   useEffect(() => {
+
     if (profile?.user_type === "consumer") {
       router.push("/");
     } else if (profile?.user_type === "business") {
