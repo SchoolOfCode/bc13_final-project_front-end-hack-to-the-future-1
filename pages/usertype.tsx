@@ -48,12 +48,24 @@ export default function UserType() {
   return (
     <div className="flex w-full h-screen justify-center items-center bg-slate-300">
       <div className="flex w-5/6 flex-col justify-around h-4/6 items-center gap-5">
-          <Image src="/logo.svg" alt="logo" width="400" height="400" />
-          <div id="userTypeChoice" className="flex flex-col justify-center gap-4 items-center text-center h-3/6 w-5/6 max-w-md bg-slate-700">
-          <p className="text-open text-slate-50 text-xl">Please choose your account preference to set up your account.</p>          
-          <Button onClick={redirectConsumer} buttonText="Continue as Customer" />
-          <Button onClick={redirectBusiness} buttonText="Continue as Business" />          
-          </div>
+        <Image src="/logo.svg" alt="logo" width="400" height="400" />
+        <div
+          id="userTypeChoice"
+          className="flex flex-col justify-center gap-4 items-center text-center h-3/6 w-5/6 max-w-md bg-slate-700"
+        >
+          <h1 className="text-open text-slate-50 text-3xl text-left"> Welcome {profile?.full_name}.</h1>
+          <p className="text-open text-slate-50 text-xl text-left">
+            Please choose your account preference to set up your account.
+          </p>
+          <Button
+            onClick={redirectConsumer}
+            buttonText="Continue as Customer"
+          />
+          <Button
+            onClick={redirectBusiness}
+            buttonText="Continue as Business"
+          />
+        </div>
       </div>
     </div>
   );
