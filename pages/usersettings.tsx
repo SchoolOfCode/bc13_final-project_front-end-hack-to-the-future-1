@@ -13,6 +13,9 @@ export default function UserSettings() {
     await supabase.auth.signOut()
     router.push('/')
   }
+  const redirectToRoot=() => {
+    router.push('/')
+  }
 
   return (
    
@@ -25,6 +28,7 @@ export default function UserSettings() {
             Hello {profile.full_name}. You are a {profile.user_type}
           </p>
           <Button onClick={handleClick} buttonText="Logout"/>
+          <Button onClick={redirectToRoot} buttonText="Back"/>
         </div>
       )}
     </div>
