@@ -4,6 +4,7 @@ import Button from "../components/Button/Button";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useProfile } from "../hooks/useProfile";
+import Image from "next/image";
 
 // useSession is a helper function that shows if there is an active session and it displays the session information.
 // use case for session would be conditional rendering based on if there is an active session (user logged in) or not
@@ -32,9 +33,10 @@ export default function Login() {
     <div className="flex w-full h-screen justify-center items-center bg-slate-700">
       {!session ? (
         <div className="flex flex-col justify-around h-4/6 items-center">
-          <div>
+          <Image src="/logo.svg" alt="logo" width="400" height="400" />
+          {/* <div>
             <p className="text-slate-200">(Logo will go here)</p>
-          </div>
+          </div> */}
           <Auth
             providers={["facebook", "google"]}
             supabaseClient={supabase}
