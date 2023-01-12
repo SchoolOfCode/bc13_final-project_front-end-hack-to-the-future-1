@@ -29,14 +29,35 @@ export default function Login() {
   }, [profile]);
 
   return (
-    <div className="container" style={{ padding: "50px 0 100px 0" }}>
+    <div className="flex w-full h-screen justify-center items-center bg-slate-700">
       {!session ? (
-        <Auth
-          providers={["facebook", "google"]}
-          supabaseClient={supabase}
-          appearance={{ theme: ThemeSupa }}
-          theme="dark"
-        />
+        <div className="flex flex-col justify-around h-4/6 items-center">
+          <div>
+            <p className="text-slate-200">(Logo will go here)</p>
+          </div>
+          <Auth
+            providers={["facebook", "google"]}
+            supabaseClient={supabase}
+            appearance={{
+              theme: ThemeSupa,
+              variables: {
+                default: {
+                  colors: {
+                    brand: "#F87171",
+                    brandAccent: "darkred",
+                    brandButtonText: "#334155",
+                    anchorTextColor: "#F8FAFC",
+                    messageText: "#F8FAFC",
+                    inputText: "#F8FAFC",
+                    inputLabelText: "#F8FAFC",
+                    inputPlaceholder: "#E2E8F0",
+                  },
+                },
+              },
+            }}
+            theme="light"
+          />
+        </div>
       ) : (
         <div>
           <Button onClick={handleClick} buttonText="User Settings" />
