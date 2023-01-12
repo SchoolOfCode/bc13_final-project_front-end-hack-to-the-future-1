@@ -54,8 +54,8 @@ export default function UserType() {
           id="userTypeChoice"
           className="flex flex-col justify-center gap-4 items-center text-center h-3/6 w-5/6 max-w-md bg-slate-700 py-10"
         >
-          <h1 className="text-open text-slate-50 text-3xl text-left"> Welcome {profile?.full_name}.</h1>
-          <p className="text-open text-slate-50 text-xl text-left p-5">
+          <h1 className="font-Open text-slate-50 text-3xl text-left"> Welcome {profile?.full_name}.</h1>
+          <p className="font-Open text-slate-50 text-xl text-left p-5">
             Please choose your account preference to set up your account.
           </p>
           <Button
