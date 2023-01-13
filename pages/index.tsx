@@ -1,12 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.css";
 import Map from "../components/Map/";
 import Button from "../components/Button/Button";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
-const inter = Inter({ subsets: ["latin"] });
+
 
 export default function Home() {
   const user = useUser();
@@ -32,7 +30,7 @@ export default function Home() {
         />
       </Head>
       <header className="flex justify-between w-full z-10 absolute top-0 border-box p-4">
-        <h1>IndyGo</h1>
+      <Image src="/logo.svg" alt="logo" width="59" height="59" />
         {user ? (
           <Button buttonText="Settings" onClick={redirectToSettings} />
         ) : (

@@ -34,9 +34,6 @@ export default function Login() {
       {!session ? (
         <div className="flex flex-col justify-around h-4/6 items-center">
           <Image src="/logo.svg" alt="logo" width="400" height="400" />
-          {/* <div>
-            <p className="text-slate-200">(Logo will go here)</p>
-          </div> */}
           <Auth
             providers={["facebook", "google"]}
             supabaseClient={supabase}
