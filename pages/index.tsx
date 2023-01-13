@@ -4,7 +4,7 @@ import Map from "../components/Map/";
 import Button from "../components/Button/Button";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
-
+import Carousel from "../components/Carousel/Carousel";
 
 export default function Home() {
   const user = useUser();
@@ -37,10 +37,12 @@ export default function Home() {
           <Button buttonText="Log In" onClick={redirectToLogIn} />
         )}
       </header>
-
-      <main>
+      <main className="w-screen">
         <div className="z-0">
           <Map />
+        </div>
+        <div className="z-10 absolute bottom-5 w-screen">
+          <Carousel />
         </div>
       </main>
     </>
