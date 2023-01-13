@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { supabase } from '../../supabase';
+import React, { useState, useEffect } from "react";
+import { supabase } from "../../supabase";
 
 //Deals constant below is hard-coded data used during development
 
@@ -22,7 +22,7 @@ export default function Carousel() {
 
   useEffect(() => {
     async function getDeals() {
-      const { data } = await supabase.from('deals').select();
+      const { data } = await supabase.from("deals").select();
 
       const dealsData: any = data
         ? data.map((item) => ({
@@ -30,21 +30,21 @@ export default function Carousel() {
             business_id: item.business_id,
             expiration_time: item.expiration_time,
           }))
-        : console.log('No data found');
+        : console.log("No data found");
       setOffers(dealsData);
     }
     getDeals();
   }, []);
 
   return (
-    <div className='flex flex-col justify-center z-10 '>
-      <ul className='flex flex-row px-5 gap-5 overflow-y-auto z-10 '>
+    <div className="flex flex-col justify-center z-10 w-screen">
+      <ul className="flex flex-row px-5 gap-5 overflow-y-auto z-10 w-screen">
         {offers.map((offer, i) => (
           <li
             key={i}
-            className='flex-none max-w-10/12 py-10 bg-slate-700 rounded-3xl text-white text-center'
+            className="flex-none max-w-10/12 py-10 bg-slate-700 rounded-3xl text-white text-center max-w-md"
           >
-            <h1 className='flex-none text-center max-w-sm text-2xl font-bold my-12 z-10 '>
+            <h1 className="flex-none text-center flex-wrap max-w-sm text-2xl font-bold my-12 z-10 ">
               {offer.business_id}
             </h1>
             {offer.name}
