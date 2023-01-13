@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../supabase";
+import {GiSombrero} from "react-icons/gi"
+import {RiCake3Line} from "react-icons/ri"
+import {RiRestaurantFill} from "react-icons/ri"
+
 
 //Deals constant below is hard-coded data used during development
 
@@ -38,13 +42,14 @@ export default function Carousel() {
 
   return (
     <div className="flex flex-col justify-center z-10 w-screen">
-      <ul className="flex flex-row px-5 gap-5 overflow-y-auto z-10 w-screen">
+      <ul id="deal-carousel" className="flex flex-row px-5 gap-5 overflow-y-auto z-10 w-screen">
         {offers.map((offer, i) => (
           <li
             key={i}
-            className="flex-none max-w-10/12 py-10 bg-slate-700 rounded-3xl text-white text-center max-w-md"
+            id="deal-card" className="flex-none max-w-10/12 py-10 bg-slate-700 rounded-3xl text-white text-center max-w-md max-h-md"
           >
-            <h1 className="flex-none text-center flex-wrap max-w-sm text-2xl font-bold my-12 z-10 ">
+            <div id="b-type-icon" className="flex justify-center flex-wrap max-w-sm max-h-sm z-10"><RiRestaurantFill size='2rem'/></div>
+            <h1 id="business-name" className="flex justify-items-center text-center flex-wrap max-w-sm text-2xl font-bold my-12 z-10 ">
               {offer.business_id}
             </h1>
             {offer.name}
@@ -54,3 +59,4 @@ export default function Carousel() {
     </div>
   );
 }
+
