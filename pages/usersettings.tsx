@@ -36,6 +36,12 @@ export default function UserSettings() {
     }
   }, [user, profile]);
 
+  useEffect(() => {
+    if (profile?.user_type === "") {
+      router.push("/usertype");
+    }
+  }, [profile]);
+
   const saveChanges = async () => {
     if (user) {
       const { data, error } = await supabase.auth.updateUser({
@@ -68,7 +74,7 @@ export default function UserSettings() {
       console.log(data, `is from full name`);
       if (data === null) {
         setNameWarning("Error: Please try again");
-        setNameWarningColour("text-red-500 text-xs");
+        setNameWarningColour("text-red-600 text-xs");
       } else if (name != profile?.full_name) {
         setNameWarning("Name updated");
         setNameWarningColour("text-lime-400 text-xs");
@@ -88,11 +94,9 @@ export default function UserSettings() {
         setPasswordWarning(
           "Error: Passwords should be at least 6 characters please try again"
         );
-        setPasswordWarningColour("text-red-500 text-xs");
+        setPasswordWarningColour("text-red-600 text-xs");
       } else {
-        setPasswordWarning(
-          "Please check your email to confirm the changes"
-        );
+        setPasswordWarning("Please check your email to confirm the changes");
         setPasswordWarningColour("text-lime-400 text-xs");
       }
     }
@@ -113,9 +117,9 @@ export default function UserSettings() {
         <p>Redirecting...</p>
       ) : (
         <div className="flex flex-col h-screen w-full  justify-start items-center">
-          <header className="flex justify-between w-full border-box p-4 mt-5">
-            <Image src="/logo.svg" alt="logo" width="59" height="59" />
-            <Button onClick={handleClick} buttonText="Log Out" />
+          <header className="flex justify-between items-center w-full border-box p-4 mt-5">
+            <Image src="/logo.svg" alt="logo" width="100" height="100" />
+            <Button onClick={handleClick} buttonText="LOG OUT" />
           </header>
           <div className="flex flex-col justify-start gap-4 items-center text-center h-5/6 w-5/6 max-w-md bg-slate-800 py-10">
             <h1 className="font-Open font-bold text-xl text-slate-50">
@@ -129,7 +133,7 @@ export default function UserSettings() {
                 Full Name
               </label>
               <input
-              className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm"
+                className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2"
                 id="name"
                 name="name"
                 value={name}
@@ -146,7 +150,7 @@ export default function UserSettings() {
                 Email Address
               </label>
               <input
-              className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm"
+                className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2"
                 id="email"
                 name="email"
                 value={email}
@@ -163,7 +167,7 @@ export default function UserSettings() {
                 New Password
               </label>
               <input
-              className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm" 
+                className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2"
                 id="password"
                 name="password"
                 type="password"
@@ -175,8 +179,16 @@ export default function UserSettings() {
               <p className={passwordWarningColour}>{passwordWarning}</p>
             </form>
             <div className="flex justify-between gap-4">
-            <Button onClick={redirectToRoot} buttonText="Back" className="border-indigo-400 bg-opacity-0 text-indigo-400 "/>
-            <Button onClick={saveChanges} buttonText="Save Changes" className="border-indigo-400"/>
+              <Button
+                onClick={redirectToRoot}
+                buttonText="BACK"
+                className="border-indigo-400 bg-opacity-0 text-indigo-400 "
+              />
+              <Button
+                onClick={saveChanges}
+                buttonText="SAVE CHANGES"
+                className="border-indigo-400"
+              />
             </div>
           </div>
         </div>

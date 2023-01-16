@@ -12,13 +12,3 @@
 .leaflet-bottom {
   z-index: 0 !important;
 }
-#userTypeChoice > button {
-  width: 80%;
-  box-shadow: none;
-}
-#userTypeChoice > button:nth-of-type(2) {
-  background-color: rgba(232, 155, 155, 0);
-  color: #f87171;
-  border-color:#f87171;
-  box-shadow: none;
-}
