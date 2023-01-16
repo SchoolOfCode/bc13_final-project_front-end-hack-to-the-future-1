@@ -36,6 +36,12 @@ export default function UserSettings() {
     }
   }, [user, profile]);
 
+  useEffect(() => {
+    if (profile?.user_type === "") {
+      router.push("/usertype");
+    }
+  }, [profile]);
+
   const saveChanges = async () => {
     if (user) {
       const { data, error } = await supabase.auth.updateUser({
@@ -90,9 +96,7 @@ export default function UserSettings() {
         );
         setPasswordWarningColour("text-red-500 text-xs");
       } else {
-        setPasswordWarning(
-          "Please check your email to confirm the changes"
-        );
+        setPasswordWarning("Please check your email to confirm the changes");
         setPasswordWarningColour("text-lime-400 text-xs");
       }
     }
@@ -129,7 +133,7 @@ export default function UserSettings() {
                 Full Name
               </label>
               <input
-              className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm"
+                className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm"
                 id="name"
                 name="name"
                 value={name}
@@ -146,7 +150,7 @@ export default function UserSettings() {
                 Email Address
               </label>
               <input
-              className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm"
+                className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm"
                 id="email"
                 name="email"
                 value={email}
@@ -163,7 +167,7 @@ export default function UserSettings() {
                 New Password
               </label>
               <input
-              className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm" 
+                className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm"
                 id="password"
                 name="password"
                 type="password"
@@ -175,8 +179,16 @@ export default function UserSettings() {
               <p className={passwordWarningColour}>{passwordWarning}</p>
             </form>
             <div className="flex justify-between gap-4">
-            <Button onClick={redirectToRoot} buttonText="Back" className="border-indigo-400 bg-opacity-0 text-indigo-400 "/>
-            <Button onClick={saveChanges} buttonText="Save Changes" className="border-indigo-400"/>
+              <Button
+                onClick={redirectToRoot}
+                buttonText="Back"
+                className="border-indigo-400 bg-opacity-0 text-indigo-400 "
+              />
+              <Button
+                onClick={saveChanges}
+                buttonText="Save Changes"
+                className="border-indigo-400"
+              />
             </div>
           </div>
         </div>

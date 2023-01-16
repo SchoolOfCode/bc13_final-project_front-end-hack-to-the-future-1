@@ -4,17 +4,31 @@ import Map from "../components/Map/";
 import Button from "../components/Button/Button";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
+import { useProfile } from "../hooks/useProfile";
+import { useEffect } from "react";
 import Carousel from "../components/Carousel/Carousel";
 
 export default function Home() {
   const user = useUser();
+  const { profile } = useProfile();
   const router = useRouter();
+
+  useEffect(() => {
+    if (profile?.user_type === "business") {
+      router.push("/businesshome");
+    } else if (profile?.user_type === "") {
+      router.push("/usertype");
+    }
+  }, [profile]);
+
   function redirectToSettings() {
     router.push("/usersettings");
   }
+
   function redirectToLogIn() {
     router.push("/login");
   }
+
   return (
     <>
       <Head>
@@ -30,7 +44,7 @@ export default function Home() {
         />
       </Head>
       <header className="flex justify-between w-full z-10 absolute top-0 border-box p-4">
-      <Image src="/logo.svg" alt="logo" width="59" height="59" />
+        <Image src="/logo.svg" alt="logo" width="59" height="59" />
         {user ? (
           <Button buttonText="Settings" onClick={redirectToSettings} />
         ) : (

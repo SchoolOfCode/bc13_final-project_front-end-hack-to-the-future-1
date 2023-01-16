@@ -58,8 +58,8 @@ export default function Login() {
                     inputBorder: "#F59E0B",
                     inputBorderHover: "#D97706",
                     inputBorderFocus: "#D97706",
-                    messageText: "#1E293B",
-                    messageTextDanger: "#D97706",
+                    messageText: "#A3E635",
+                    messageTextDanger: "#dc2626",
                   },
                   fonts: {
                     bodyFontFamily: `Open Sans, ui-sans-serif, sans-serif`,
