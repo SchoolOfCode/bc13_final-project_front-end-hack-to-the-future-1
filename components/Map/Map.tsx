@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../../supabase';
 import Icons from '../Icons'; //<-- Exploring the possibilites of using tailwind to style the users icon.
 import { Database } from '../../types/supabase';
+import Carousel from '../Carousel/Carousel';
 
 {
   /* REF:LOCATIONINTERFACEv1. This code describes the interface for Location which matches the data types of the 'Businesses' table in Supabase database. */
@@ -14,6 +15,7 @@ export interface Location {
   lat: number;
   lon: number;
   name: string;
+  business_id: string;
 }
 
 {
@@ -34,6 +36,7 @@ export default function Map() {
             lon: item.lon,
             name: item.name,
             business_type: item.business_type,
+            business_id: item.id
           }))
         : console.log('No data found');
       setLocations(locationsData);
@@ -109,6 +112,11 @@ export default function Map() {
         Popup info <br /> Easily customizable.
         </Popup>
       </Marker> */}
+
+      <div className="z-10 absolute bottom-5 w-screen">
+          <Carousel businessData={locations}/>
+      </div>
     </MapContainer>
+  
   );
 }

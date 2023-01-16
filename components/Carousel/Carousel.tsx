@@ -3,6 +3,8 @@ import { supabase } from "../../supabase";
 import {GiSombrero} from "react-icons/gi"
 import {RiCake3Line} from "react-icons/ri"
 import {RiRestaurantFill} from "react-icons/ri"
+import { isTemplateExpression } from "typescript";
+
 
 
 //Deals constant below is hard-coded data used during development
@@ -19,12 +21,47 @@ export interface Deals {
   name: string;
   expiration_time: Date;
   business_id: string;
+  business_name: string;
 }
 
-export default function Carousel() {
+export default function Carousel({businessData}:any) {
+
+//   Storing the props object in a variable.
+
+
+  
+
+  //Map through offers. Compare offers.business_id with businessData.business_id. If match replace offers.business_name with businessData.name. Update a mergedInfo state with the new array.
   const [offers, setOffers] = useState<Deals[]>([]);
 
+
+  let businessStuff = offers
+  console.log(businessStuff)
+
   useEffect(() => {
+
+    let updatedOffers = []
+    offers.forEach((item1) => {
+        businessData.forEach((item2)=> {
+            if (item1.business_id === item2.business_id){
+                item1.business_name = item2.name
+                updatedOffers.push(item1)
+            }
+        })
+    })
+    setOffers(updatedOffers)
+    
+    }, [businessData]);
+
+ 
+
+
+
+ 
+
+
+  
+    useEffect(() => {
     async function getDeals() {
       const { data } = await supabase.from("deals").select();
 
@@ -33,6 +70,7 @@ export default function Carousel() {
             name: item.name,
             business_id: item.business_id,
             expiration_time: item.expiration_time,
+            business_name: null
           }))
         : console.log("No data found");
       setOffers(dealsData);
@@ -50,7 +88,7 @@ export default function Carousel() {
           >
             <div id="b-type-icon" className="flex justify-center flex-wrap max-w-sm max-h-sm z-10"><RiRestaurantFill size='2rem'/></div>
             <h1 id="business-name" className="flex justify-items-center text-center flex-wrap max-w-sm text-2xl font-bold my-12 z-10 ">
-              {offer.business_id}
+              {offer.business_name}
             </h1>
             {offer.name}
           </li>
