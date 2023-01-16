@@ -36,11 +36,11 @@ export default function Map() {
             lon: item.lon,
             name: item.name,
             business_type: item.business_type,
-            business_id: item.id
+            business_id: item.id,
           }))
         : console.log('No data found');
       setLocations(locationsData);
-      console.log(typeof locationsData);
+      console.log('Type of locationsData', typeof locationsData);
     }
     getLocations();
   }, []);
@@ -113,10 +113,9 @@ export default function Map() {
         </Popup>
       </Marker> */}
 
-      <div className="z-10 absolute bottom-5 w-screen">
-          <Carousel businessData={locations}/>
+      <div className='z-10 absolute bottom-5 w-screen'>
+        <Carousel businessData={locations} />
       </div>
     </MapContainer>
-  
   );
 }

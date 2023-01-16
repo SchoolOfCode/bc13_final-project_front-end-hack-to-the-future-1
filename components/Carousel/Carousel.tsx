@@ -28,32 +28,34 @@ export default function Carousel({ businessData }: any) {
   //Map through offers. Compare offers.business_id with businessData.business_id. If match replace offers.business_name with businessData.name. Update a mergedInfo state with the new array.
   const [offers, setOffers] = useState<Deals[]>([]);
 
-  let businessStuff = offers;
-  console.log(businessStuff);
-
-  useEffect(() => {
-    let updatedOffers: any = [];
-    offers.forEach((item1) => {
-      businessData.forEach((item2: any) => {
-        if (item1.business_id === item2.business_id) {
-          item1.business_name = item2.name;
-          updatedOffers.push(item1);
-        }
-      });
-    });
-    setOffers(updatedOffers);
-  }, [businessData]);
+  // useEffect(() => {
+  //   let updatedOffers: any = [];
+  //   offers.forEach((item1) => {
+  //     businessData.forEach((item2: any) => {
+  //       if (item1.business_id === item2.business_id) {
+  //         item1.business_name = item2.name;
+  //         updatedOffers.push(item1);
+  //       }
+  //     });
+  //   });
+  //   setOffers(updatedOffers);
+  // }, [businessData]);
 
   useEffect(() => {
     async function getDeals() {
-      const { data } = await supabase.from('deals').select();
+      const { data } = await supabase
+        .from('deals')
+        .select('*, businesses (name)');
+      console.log('Data from supabase', data);
 
       const dealsData: any = data
         ? data.map((item) => ({
             name: item.name,
             business_id: item.business_id,
             expiration_time: item.expiration_time,
-            business_name: null,
+            business_name: Array.isArray(item.businesses)
+              ? item.businesses[0].name
+              : item.businesses?.name,
           }))
         : console.log('No data found');
       setOffers(dealsData);
