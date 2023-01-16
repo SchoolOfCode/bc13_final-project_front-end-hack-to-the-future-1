@@ -74,7 +74,7 @@ export default function UserSettings() {
       console.log(data, `is from full name`);
       if (data === null) {
         setNameWarning("Error: Please try again");
-        setNameWarningColour("text-red-500 text-xs");
+        setNameWarningColour("text-red-600 text-xs");
       } else if (name != profile?.full_name) {
         setNameWarning("Name updated");
         setNameWarningColour("text-lime-400 text-xs");
@@ -94,7 +94,7 @@ export default function UserSettings() {
         setPasswordWarning(
           "Error: Passwords should be at least 6 characters please try again"
         );
-        setPasswordWarningColour("text-red-500 text-xs");
+        setPasswordWarningColour("text-red-600 text-xs");
       } else {
         setPasswordWarning("Please check your email to confirm the changes");
         setPasswordWarningColour("text-lime-400 text-xs");
