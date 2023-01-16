@@ -43,12 +43,18 @@ export default function Home() {
           crossOrigin=""
         />
       </Head>
-      <header className="flex justify-between w-full z-10 absolute top-0 border-box p-4">
-        <Image src="/logo.svg" alt="logo" width="59" height="59" />
+      <header className="flex justify-between items-center w-full z-10 absolute top-0 border-box p-4">
+        <Image
+          src="/logo.svg"
+          alt="logo"
+          width="100"
+          height="100"
+          className="rounded-lg"
+        />
         {user ? (
-          <Button buttonText="Settings" onClick={redirectToSettings} />
+          <Button buttonText="SETTINGS" onClick={redirectToSettings} />
         ) : (
-          <Button buttonText="Log In" onClick={redirectToLogIn} />
+          <Button buttonText="LOG IN" onClick={redirectToLogIn} />
         )}
       </header>
       <main className="w-screen">

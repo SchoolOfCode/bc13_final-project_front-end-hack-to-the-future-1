@@ -37,6 +37,16 @@ export default function Login() {
           <Auth
             providers={["facebook", "google"]}
             supabaseClient={supabase}
+            localization={{
+              variables: {
+                sign_up: {
+                  button_label: "SIGN UP",
+                },
+                sign_in: {
+                  button_label: "SIGN IN",
+                },
+              },
+            }}
             appearance={{
               theme: ThemeSupa,
               variables: {
