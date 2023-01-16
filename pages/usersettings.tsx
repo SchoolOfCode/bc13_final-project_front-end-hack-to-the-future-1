@@ -14,12 +14,18 @@ export default function UserSettings() {
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const [emailWarning,setEmailWarning] = useState <string>();
-  const [emailWarningColour,setEmailWarningColour] = useState <string>("text-red-600 text-xs");
-  const [nameWarning,setNameWarning] = useState <string>();
-  const [nameWarningColour,setNameWarningColour] = useState <string>("text-red-600 text-xs");
-  const [passwordWarning,setPasswordWarning] = useState <string>();
-  const [passwordWarningColour,setPasswordWarningColour] = useState <string>("text-red-600 text-xs");
+  const [emailWarning, setEmailWarning] = useState<string>();
+  const [emailWarningColour, setEmailWarningColour] = useState<string>(
+    "text-red-600 text-xs"
+  );
+  const [nameWarning, setNameWarning] = useState<string>();
+  const [nameWarningColour, setNameWarningColour] = useState<string>(
+    "text-red-600 text-xs"
+  );
+  const [passwordWarning, setPasswordWarning] = useState<string>();
+  const [passwordWarningColour, setPasswordWarningColour] = useState<string>(
+    "text-red-600 text-xs"
+  );
 
   useEffect(() => {
     if (profile) {
@@ -40,34 +46,32 @@ export default function UserSettings() {
         // console.log(error)
       }
       // console.log(data, 'this is from email')
-      if(data.user === null){
-        setEmailWarning("Error: The email address may already be in use")
-        setEmailWarningColour("text-red-600 text-xs")
-      } else if(user.email != email){
-        setEmailWarning("Success: Please check email to confirm the change")
-        setEmailWarningColour("text-lime-400 text-xs")
+      if (data.user === null) {
+        setEmailWarning("Error: The email address may already be in use");
+        setEmailWarningColour("text-red-600 text-xs");
+      } else if (user.email != email) {
+        setEmailWarning("Please check email to confirm the change");
+        setEmailWarningColour("text-lime-400 text-xs");
       }
     }
-
 
     if (user) {
       const { data, error } = await supabase
         .from("profiles")
         .update({ full_name: name })
         .eq("id", user.id)
-        .select()
+        .select();
       if (error) {
         // throw error;
         // console.log(error)
       }
-      console.log(data, `is from full name`)
-      if(data === null){
-        setNameWarning("Error: Please try again")
-        setNameWarningColour("text-red-500 text-xs")
-      } else if(name !=profile?.full_name){
-        setNameWarning("Success: Name updated")
-        setNameWarningColour("text-lime-400 text-xs")
-
+      console.log(data, `is from full name`);
+      if (data === null) {
+        setNameWarning("Error: Please try again");
+        setNameWarningColour("text-red-500 text-xs");
+      } else if (name != profile?.full_name) {
+        setNameWarning("Name updated");
+        setNameWarningColour("text-lime-400 text-xs");
       }
     }
 
@@ -77,19 +81,21 @@ export default function UserSettings() {
       });
       if (error) {
         // throw error;
-        console.log(error)
+        console.log(error);
       }
-      console.log(`${data} this is from password`)
-      if(error){
-        setPasswordWarning("Error: Passwords should be at least 6 characters please try again")
-        setPasswordWarningColour("text-red-500 text-xs")
-      } else{ 
-        setPasswordWarning("Success: Please check your email to confirm the changes")
-        setPasswordWarningColour("text-lime-400 text-xs")
-
+      console.log(`${data} this is from password`);
+      if (error) {
+        setPasswordWarning(
+          "Error: Passwords should be at least 6 characters please try again"
+        );
+        setPasswordWarningColour("text-red-500 text-xs");
+      } else {
+        setPasswordWarning(
+          "Please check your email to confirm the changes"
+        );
+        setPasswordWarningColour("text-lime-400 text-xs");
       }
     }
-    
   };
 
   const handleClick = async () => {
@@ -106,25 +112,24 @@ export default function UserSettings() {
       {!profile ? (
         <p>Redirecting...</p>
       ) : (
-        <div className="flex flex-col h-screen w-full  justify-center items-center">
-          <header className="flex justify-between w-full border-box p-4">
+        <div className="flex flex-col h-screen w-full  justify-start items-center">
+          <header className="flex justify-between w-full border-box p-4 mt-5">
             <Image src="/logo.svg" alt="logo" width="59" height="59" />
-            <Button onClick={handleClick} buttonText="Logout" />
+            <Button onClick={handleClick} buttonText="Log Out" />
           </header>
-          <div className="flex flex-col justify-center gap-4 items-center text-center h-5/6 w-5/6 max-w-md bg-slate-800 py-10">
-            <h1 className="font-Open-semi-bold text-md text-slate-50">
+          <div className="flex flex-col justify-start gap-4 items-center text-center h-5/6 w-5/6 max-w-md bg-slate-800 py-10">
+            <h1 className="font-Open font-bold text-xl text-slate-50">
               Edit Account Details
             </h1>
-            <p>{name}</p>
-            <p>{email}</p>
-            <form className="flex flex-col justify-center gap-4 items-center text-center h-5/6 w-5/6 max-w-md bg-slate-800 py-10">
+            <form className="flex flex-col justify-start gap-4 items-center text-center h-5/6 w-5/6 max-w-md bg-slate-800 py-10">
               <label
                 htmlFor="name"
-                className="font-Open text-sm text-amber-500"
+                className="font-Open text-sm text-amber-500 font-bold w-full text-left"
               >
                 Full Name
               </label>
               <input
+              className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm"
                 id="name"
                 name="name"
                 value={name}
@@ -136,11 +141,12 @@ export default function UserSettings() {
 
               <label
                 htmlFor="email"
-                className="font-Open text-sm text-amber-500"
+                className="font-Open text-sm font-bold text-amber-500 w-full text-left"
               >
                 Email Address
               </label>
               <input
+              className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm"
                 id="email"
                 name="email"
                 value={email}
@@ -152,11 +158,12 @@ export default function UserSettings() {
 
               <label
                 htmlFor="password"
-                className="font-Open text-sm text-amber-500"
+                className="font-Open text-sm first-line:font-bold text-amber-500 w-full text-left"
               >
                 New Password
               </label>
               <input
+              className="w-80 h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm" 
                 id="password"
                 name="password"
                 type="password"
@@ -167,8 +174,10 @@ export default function UserSettings() {
               />
               <p className={passwordWarningColour}>{passwordWarning}</p>
             </form>
-            <Button onClick={saveChanges} buttonText="Save Changes" />
-            <Button onClick={redirectToRoot} buttonText="Back" />
+            <div className="flex justify-between gap-4">
+            <Button onClick={redirectToRoot} buttonText="Back" className="border-indigo-400 bg-opacity-0 text-indigo-400 "/>
+            <Button onClick={saveChanges} buttonText="Save Changes" className="border-indigo-400"/>
+            </div>
           </div>
         </div>
       )}
