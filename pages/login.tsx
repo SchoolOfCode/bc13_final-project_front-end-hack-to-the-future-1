@@ -30,7 +30,7 @@ export default function Login() {
   }, [profile]);
 
   return (
-    <div className="flex w-full h-screen justify-center items-center bg-slate-700">
+    <div className="flex w-full h-screen justify-center items-center bg-slate-800">
       {!session ? (
         <div className="flex flex-col justify-around h-4/6 items-center">
           <Image src="/logo.svg" alt="logo" width="400" height="400" />
@@ -42,15 +42,40 @@ export default function Login() {
               variables: {
                 default: {
                   colors: {
-                    brand: "#F87171",
-                    brandAccent: "#fca5a5",
+                    anchorTextColor: "#F59E0B",
+                    brand: "#818CF8",
+                    brandAccent: "#C7D2FE",
                     brandButtonText: "#334155",
-                    anchorTextColor: "#F8FAFC",
-                    messageText: "#F8FAFC",
-                    inputText: "#F8FAFC",
-                    inputLabelText: "#F8FAFC",
-                    inputPlaceholder: "#E2E8F0",
-                    defaultButtonBorder: "#334155",
+                    defaultButtonBackground: "#818CF8",
+                    defaultButtonBackgroundHover: "#C7D2FE",
+                    defaultButtonBorder: "#818CF8",
+                    defaultButtonText: "#1E293B",
+                    dividerBackground: "#F59E0B",
+                    inputBackground: "#CBD5E1",
+                    inputText: "#1E293B",
+                    inputPlaceholder: "#1E293B",
+                    inputLabelText: "#F59E0B",
+                    inputBorder: "#F59E0B",
+                    inputBorderHover: "#D97706",
+                    inputBorderFocus: "#D97706",
+                    messageText: "#1E293B",
+                    messageTextDanger: "#D97706",
+                  },
+                  fonts: {
+                    bodyFontFamily: `Open Sans, ui-sans-serif, sans-serif`,
+                    buttonFontFamily: `Open Sans, ui-sans-serif, sans-serif`,
+                    inputFontFamily: `Open Sans, ui-sans-serif, sans-serif`,
+                    labelFontFamily: `Open Sans, ui-sans-serif, sans-serif`,
+                  },
+                  fontSizes: {
+                    baseBodySize: "13px",
+                    baseInputSize: "14px",
+                    baseLabelSize: "14px",
+                    baseButtonSize: "14px",
+                  },
+                  borderWidths: {
+                    buttonBorderWidth: "0px",
+                    inputBorderWidth: "1px",
                   },
                 },
               },
