@@ -81,7 +81,7 @@ export default function UserType() {
         if (error) {
           throw error;
         }
-        router.push("/businessaccountdetails");
+        router.push("/businesshome");
       }
     }
   }
