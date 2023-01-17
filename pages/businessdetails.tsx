@@ -5,6 +5,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useBusiness } from "../hooks/useBusiness";
 import { useProfile } from "../hooks/useProfile";
+import Positioner from "../components/Positioner";
+
+
 
 export default function BusinessDetails() {
   const { business } = useBusiness();
@@ -25,10 +28,21 @@ export default function BusinessDetails() {
     "text-red-600 text-xs"
   );
 
+  // State to hold new postcode field.
+  const [postcode, setPostcode] = useState<string>();
+  const [postcodeWarning, setPostcodeWarning] = useState<string>();
+  const [postcodeWarningColour, setPostcodeWarningColour] = useState<string>(
+    "text-red-600 text-xs"
+  );
+
+  // State to hold Lat/Long
+  const [latlong, setLatlong] = useState<[number,number]>();
+
   useEffect(() => {
     if (business) {
       setName(business.name);
       setWebsite(business.website);
+      setPostcode(business.postcode);
     }
   }, [business]);
 
@@ -45,13 +59,13 @@ export default function BusinessDetails() {
     if (business) {
       const { data, error } = await supabase
         .from("businesses")
-        .update({ name: name })
+        .update({ name: name , website: website, postcode: postcode})
         .eq("id", business.id)
         .select();
     } else {
       const { data, error } = await supabase
         .from("businesses")
-        .insert({ name: name, website: website })
+        .insert({ name: name, website: website, postcode: postcode })
         .select();
       if (data && profile) {
         const { error } = await supabase
@@ -71,12 +85,21 @@ export default function BusinessDetails() {
     router.push("/");
   };
 
+  const positionFinder = async() => {
+    if (postcode) {
+    const response =  await fetch(`https://api.postcodes.io/postcodes/${postcode}`); 
+    const data = await response.json();
+    console.log(data.result.longitude);
+    setLatlong([data.result.latitude, data.result.longitude])
+    }
+  };
+
   return (
-    <div className="flex flex-col bg-slate-800 h-screen w-full">
+    <div className="flex flex-col bg-slate-800 h-full w-full z-1">
       {!profile ? (
         <p>Redirecting...</p>
       ) : (
-        <div className="flex flex-col h-screen w-full  justify-start items-center">
+        <div className="flex flex-col h-full w-full  justify-start items-center">
           <header className="flex justify-between items-center w-full border-box p-4 mt-5">
             <Image src="/logo.svg" alt="logo" width="100" height="100" />
             <Button onClick={handleClick} buttonText="USER SETTINGS" />
@@ -88,7 +111,7 @@ export default function BusinessDetails() {
             <p className="font-Open text-sm text-slate-50">
               Conditional Text Content Goes Here
             </p>
-            <form className="flex flex-col justify-start gap-4 items-center text-center h-5/6 w-5/6 max-w-md bg-slate-800 py-10">
+            <form className="flex flex-col justify-start gap-4 items-center text-center h-5/6 w-5/6 max-w-md bg-slate-800 pt-10 pb-2">
               <label
                 htmlFor="name"
                 className="font-Open text-sm text-amber-500 font-bold w-full text-left"
@@ -122,7 +145,31 @@ export default function BusinessDetails() {
                 }}
               />
               <p className={websiteWarningColour}>{websiteWarning}</p>
+              <label
+                htmlFor="postcode"
+                className="font-Open text-sm font-bold text-amber-500 w-full text-left"
+              >
+                Postcode
+              </label>
+              <input
+                className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2"
+                id="postcode"
+                name="postcode"
+                value={postcode}
+                onChange={(e) => {
+                  setPostcode(e.target.value);
+                }}
+              />
+              <p className={postcodeWarningColour}>{postcodeWarning}</p>
             </form>
+            <Button
+                onClick={positionFinder}
+                buttonText="Set Location"
+                className="border-indigo-400 bg-opacity-0 text-indigo-400 "
+              />
+            <div className="flex justify-center items-center h-full w-full">
+              <Positioner />
+            </div> 
             <div className="flex justify-between gap-4">
               <Button
                 onClick={redirectToRoot}

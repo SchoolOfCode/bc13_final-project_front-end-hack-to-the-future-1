@@ -10,6 +10,7 @@ export interface Business {
   name: string;
   business_type: string;
   website: string;
+  postcode: string;
 }
 
 /**
@@ -45,6 +46,7 @@ export function useBusiness() {
               name: data.name ?? "",
               business_type: data.business_type ?? "",
               website: data.website ?? "",
+              postcode: data.postcode ?? "",
             });
           }
         }
