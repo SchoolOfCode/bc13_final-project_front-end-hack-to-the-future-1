@@ -15,15 +15,15 @@ export default function BusinessAccountDetails() {
   }
   return (
     <div className="bg-slate-800 h-full w-full p-1">
-      <header className="flex justify-between items-center border-box pb-4 pr-4 pl-4 mt-5">
+      <header className="flex justify-between items-center border-box pr-4 pl-4 mt-5">
         <Image src="/logo.svg" alt="logo" width="100" height="100" />
         <Button onClick={redirectToSettings} buttonText="SETTINGS" />
       </header>
-      <div className="flex flex-col justify-center items-center p-5">
+      <div className="flex flex-col justify-center items-center p-3">
         <Button onClick={redirectToNewDeal} buttonText="NEW DEAL" className="w-5/6 h-14 border-indigo-400  "/>
 
       </div>
-      <div className="flex flex-col justify-center items-center gap-5">
+      <div className="flex flex-col justify-center items-center">
         <DealCard
           businessName="Pam's Bakery"
           businessDistance="10m away"
