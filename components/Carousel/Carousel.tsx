@@ -64,16 +64,16 @@ export default function Carousel({ businessData }: any) {
   }, []);
 
   return (
-    <div className='flex flex-col justify-center z-10 w-screen'>
+    <div className='flex flex-col justify-center z-10 w-screen h-full'>
       <ul
         id='deal-carousel'
-        className='flex flex-row px-5 gap-5 overflow-y-auto z-10 w-screen'
+        className='flex absolute bottom-5 items-end flex-row px-5 gap-5 overflow-y-auto z-10 w-screen h-full'
       >
         {offers.map((offer, i) => (
           <li
             key={i}
             id='deal-card'
-            className='flex-none max-w-10/12 py-10 bg-slate-700 rounded-3xl text-white text-center max-w-md max-h-md'
+            className='flex-none min-w-80 w-10/12 py-10 px-10 bg-slate-700 rounded-3xl text-white text-center h-full border-box overflow-y-hidden'
           >
             <div
               id='b-type-icon'
@@ -83,7 +83,7 @@ export default function Carousel({ businessData }: any) {
             </div>
             <h1
               id='business-name'
-              className='flex justify-items-center text-center flex-wrap max-w-sm text-2xl font-bold my-12 z-10 '
+              className='flex justify-center items-center text-center flex-wrap max-w-sm text-2xl font-bold my-4 z-10 '
             >
               {offer.business_name}
             </h1>

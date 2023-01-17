@@ -113,9 +113,9 @@ export default function Map() {
         </Popup>
       </Marker> */}
 
-      <div className='z-10 absolute bottom-5 w-screen'>
+      {/* <div className='z-10 absolute bottom-5 w-screen'>
         <Carousel businessData={locations} />
-      </div>
+      </div> */}
     </MapContainer>
   );
 }
