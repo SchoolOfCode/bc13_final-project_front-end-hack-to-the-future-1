@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-import {
-  useSession,
-  useUser,
-  useSupabaseClient,
-} from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useProfile } from "./useProfile";
 
 /**
  * Creating TypeScript for the values that we are going to retrive from the profiles table in Supabase.
  */
-export interface Profile {
+export interface Business {
   id: string;
-  user_type: string;
-  full_name: string;
-  business_id: string;
+  name: string;
+  business_type: string;
+  website: string;
 }
 
 /**
@@ -20,36 +17,34 @@ export interface Profile {
  * Works by checking the active session and user, and if one exists, queries the profiles table in supabase using the userid obtained from the useUser helper function.
  * @returns
  */
-export function useProfile() {
+export function useBusiness() {
   const session = useSession();
-  const user = useUser();
+  const { profile } = useProfile();
   const supabase = useSupabaseClient();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [business, setBusiness] = useState<Business | null>(null);
 
   useEffect(() => {
     (async function () {
       try {
         setLoading(true);
-
-        if (user) {
-          const { data, error } = await supabase
-            .from("profiles")
-            .select(`id, user_type, full_name, business_id`)
-            .eq("id", user.id)
+        if (profile) {
+          const { data } = await supabase
+            .from("businesses")
+            .select()
+            .eq("id", profile.business_id)
             .single();
           if (error) {
             throw error;
           }
-
           if (data) {
-            setProfile({
+            setBusiness({
               id: data.id ?? "",
-              user_type: data.user_type ?? "",
-              full_name: data.full_name ?? "",
-              business_id: data.business_id ?? "",
+              name: data.name ?? "",
+              business_type: data.business_type ?? "",
+              website: data.website ?? "",
             });
           }
         }
@@ -59,7 +54,7 @@ export function useProfile() {
         setLoading(false);
       }
     })();
-  }, [session]);
+  }, [profile]);
 
-  return { loading, error, profile };
+  return { loading, error, business };
 }
