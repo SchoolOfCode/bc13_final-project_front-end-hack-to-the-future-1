@@ -19,7 +19,8 @@ export default function Newdeal() {
   const handleSubmit = async () => {
     const formSubmit  = await supabase
   .from('deals')
-  .insert({ offerText, startDate, endDate })
+  .insert({ name: offerText, created_at: startDate, expiration_time: endDate })
+  router.push("/businesshome"); //<--- CHECK BUSINESS HOME PAGE NAME
   }
 
  return (
@@ -43,7 +44,7 @@ export default function Newdeal() {
             What are you offering?
           </label>
           <input
-            className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2"
+            className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2 focus:ring-indigo-400 focus:ring-4"
             id="offerName"
             name="offerName"
             value={offerText}
@@ -59,7 +60,7 @@ export default function Newdeal() {
             Offer Start:
           </label>
           <input
-            className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2"
+            className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2 focus:ring-indigo-400 focus:ring-4"
             id="start"
             name="start"
             type="datetime-local"
@@ -77,7 +78,7 @@ export default function Newdeal() {
             Offer End:
           </label>
           <input
-            className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2"
+            className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2 focus:ring-indigo-400 focus:ring-4"
             id="End"
             name="End"
             type="datetime-local"
