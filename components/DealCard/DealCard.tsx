@@ -24,7 +24,7 @@ function DealCard({
   className,
 }: DealProps) {
   const classes = twMerge(`
-  w-4/5 h-1/3 bg-slate-600 flex flex-col rounded-3xl min-h-max
+  w-4/5 h-1/3 bg-slate-600 flex flex-col rounded-3xl 
     ${className ?? ""}
   `);
   const { profile } = useProfile();
@@ -32,7 +32,7 @@ function DealCard({
   return (
     <div
       id="container"
-      className="w-full h-screen flex justify-center min-h-max"
+      className="w-full h-1/3 flex justify-center min-h-max py-4"
     >
       <div id="Card-Container" className={classes}>
         {profile?.user_type === "business" ? (
