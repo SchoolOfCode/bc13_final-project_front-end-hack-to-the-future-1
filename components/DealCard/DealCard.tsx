@@ -4,12 +4,14 @@ import { RiRestaurantFill } from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
 import { useProfile } from "../../hooks/useProfile";
 import { useEffect } from "react";
+import ConsumerDeal from "./ConsumerDeal";
+import BusinessDeal from "./BusinessDeal";
 
 export interface DealProps {
   businessName?: string;
   businessDistance?: string;
   dealText: string;
-  dealTime: string;
+  dealTime?: string;
   dealHighlight: string;
   onClick?: () => void;
   className?: string;
@@ -54,43 +56,23 @@ function DealCard({
           className="flex flex-col justify-center items-center text-left mb-8"
         >
           {profile?.user_type === "business" ? (
-            <div className="flex flex-col justify-center items-center text-left mb-8">
-              <h1 className="font-Open font-bold text-slate-50 text-2xl">
-                {businessName}
-              </h1>
-              <h2 className="font-Open text-indigo-200 text-xl mb-2">
-                {dealText}
-              </h2>
-              <hr className="border-1 w-4/5 border-slate-800 py-2"></hr>
-              <p className="font-Open font-light text-slate-200 text-lg">
-                {dealTime}
-              </p>
-              <h3 className="font-Open font-semibold text-amber-500 text-md">
-                {dealHighlight}
-              </h3>
-            </div>
+            <BusinessDeal
+              businessName={businessName}
+              dealTime={dealTime}
+              dealText={dealText}
+              dealHighlight={dealHighlight}
+            />
           ) : (
-            <div className="flex flex-col justify-center items-center text-left mb-8">
-              {" "}
-              <h1 className="font-Open font-bold text-slate-50 text-2xl">
-                {businessName}
-              </h1>
-              <h3 className="font-Open font-semibold text-lime-400 text-md">
-                {businessDistance}
-              </h3>
-              <h2 className="font-Open text-indigo-200 text-xl mb-2">
-                {dealText}
-              </h2>
-              <hr className="border-1 w-4/5 border-slate-800 py-2"></hr>
-              <h3 className="font-Open font-semibold text-amber-500 text-md">
-                {dealHighlight}
-              </h3>
-            </div>
+            <ConsumerDeal
+              businessName={businessName}
+              businessDistance={businessDistance}
+              dealText={dealText}
+              dealHighlight={dealHighlight}
+            />
           )}
         </div>
       </div>
     </div>
   );
 }
-
 export default DealCard;

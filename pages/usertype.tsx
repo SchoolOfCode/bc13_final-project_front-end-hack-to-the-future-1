@@ -25,6 +25,7 @@ export default function UserType() {
     }
   }, [profile]);
 
+  //remove typeof
   async function updateName() {
     if (typeof name === "string" && name.length > 0) {
       if (user) {
@@ -131,3 +132,4 @@ export default function UserType() {
     </div>
   );
 }
+

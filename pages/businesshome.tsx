@@ -4,7 +4,8 @@ import DealCard from "../components/DealCard/DealCard";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { supabase } from "../supabase";
-
+import { Database } from "../types/supabase";
+//should be a type (interface is like a contract)
 interface Deals {
   name: string;
   expiration_time: Date;
@@ -36,7 +37,7 @@ export default function BusinessAccountDetails() {
     getDeals();
   }, []);
 
-  const handleClick = () => {};
+  const handleDeleteDeal = () => {};
   const router = useRouter();
   function redirectToSettings() {
     router.push("/usersettings");
@@ -67,20 +68,20 @@ export default function BusinessAccountDetails() {
             dealText={offer.name}
             dealTime=" Offer ends 15:00 21/12/2023"
             dealHighlight="2 Hours remaining"
-            onClick={handleClick}
+            onClick={handleDeleteDeal}
           />
         ))}
       </div>
-      <div className="flex flex-col justify-center items-center">
+      {/* <div className="flex flex-col justify-center items-center">
         <DealCard
           businessName="Pam's Bakery"
           businessDistance="10m away"
           dealText="Buy one get one free on sausage rolls"
           dealTime=" Offer ends 15:00 21/12/2023"
           dealHighlight="2 Hours remaining"
-          onClick={handleClick}
+          onClick={handleDeleteDeal}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
