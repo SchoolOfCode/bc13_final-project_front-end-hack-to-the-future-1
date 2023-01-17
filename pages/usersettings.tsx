@@ -133,7 +133,7 @@ export default function UserSettings() {
                 Full Name
               </label>
               <input
-                className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2"
+                className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2 focus:ring-indigo-400 focus:ring-4"
                 id="name"
                 name="name"
                 value={name}
@@ -150,7 +150,7 @@ export default function UserSettings() {
                 Email Address
               </label>
               <input
-                className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2"
+                className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2 focus:ring-indigo-400 focus:ring-4"
                 id="email"
                 name="email"
                 value={email}
@@ -167,7 +167,7 @@ export default function UserSettings() {
                 New Password
               </label>
               <input
-                className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2"
+                className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2 focus:ring-indigo-400 focus:ring-4"
                 id="password"
                 name="password"
                 type="password"
