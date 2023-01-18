@@ -33,6 +33,14 @@ export default function BusinessDetails() {
     "text-red-600 text-xs"
   );
 
+
+  // State to hold new addressLine1 field.
+  const [addressLine1, setAddressLine1] = useState<string>();
+  const [addressLine1Warning, setAddressLine1Warning] = useState<string>();
+  const [addressLine1WarningColour, setAddressLine1WarningColour] = useState<string>(
+    "text-red-600 text-xs"
+  );
+
   // State to hold Lat/Long which is updated on click event of 'Set Position' button.
   const [latlong, setLatlong] = useState<[number, number]>();
   const [businessPosition, setBusinessPosition] = useState<any>();
@@ -40,6 +48,7 @@ export default function BusinessDetails() {
   const updateBusinessPosition = (newLatLong : any) => {
     setBusinessPosition(newLatLong);
     console.log(newLatLong);
+    setLatlong(newLatLong)
   };
 
   useEffect(() => {
@@ -63,13 +72,13 @@ export default function BusinessDetails() {
     if (business) {
       const { data, error } = await supabase
         .from("businesses")
-        .update({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1] })
+        .update({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1], address_line1: addressLine1 })
         .eq("id", business.id)
         .select();
     } else {
       const { data, error } = await supabase
         .from("businesses")
-        .insert({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1] })
+        .insert({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1], address_line1: addressLine1 })
         .select();
       if (data && profile) {
         const { error } = await supabase
@@ -151,6 +160,22 @@ export default function BusinessDetails() {
                 }}
               />
               <p className={websiteWarningColour}>{websiteWarning}</p>
+              <label
+                htmlFor="address-line1"
+                className="font-Open text-sm font-bold text-amber-500 w-full text-left"
+              >
+                Address Line 1
+              </label>
+              <input
+                className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2"
+                id="address-line1"
+                name="address-line1"
+                value={addressLine1}
+                onChange={(e) => {
+                  setAddressLine1(e.target.value);
+                }}
+              />
+              <p className={addressLine1WarningColour}>{addressLine1Warning}</p>
               <label
                 htmlFor="postcode"
                 className="font-Open text-sm font-bold text-amber-500 w-full text-left"

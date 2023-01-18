@@ -5,6 +5,7 @@ import { supabase } from "../../supabase";
 import Icons from "../Icons"; //<-- Exploring the possibilites of using tailwind to style the users icon.
 import { Database } from "../../types/supabase";
 import Carousel from "../Carousel/Carousel";
+import React from "react";
 
 {
   /* REF:LOCATIONINTERFACEv1. This code describes the interface for Location which matches the data types of the 'Businesses' table in Supabase database. */

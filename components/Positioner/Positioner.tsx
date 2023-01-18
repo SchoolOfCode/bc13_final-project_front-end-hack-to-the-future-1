@@ -3,6 +3,7 @@ import L from "leaflet";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
 import { markAssetError } from "next/dist/client/route-loader";
+import Map from "../Map";
 
 export interface PositionerProps {
   latlong: any;

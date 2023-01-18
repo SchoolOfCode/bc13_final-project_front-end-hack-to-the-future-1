@@ -11,6 +11,7 @@ export interface Business {
   business_type: string;
   website: string;
   postcode: string;
+  address_line1: string;
 }
 
 /**
@@ -47,6 +48,7 @@ export function useBusiness() {
               business_type: data.business_type ?? "",
               website: data.website ?? "",
               postcode: data.postcode ?? "",
+              address_line1: data.address_line1 ?? "",
             });
           }
         }
