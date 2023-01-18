@@ -17,13 +17,13 @@ export default function UserType() {
     "text-red-600 text-xs"
   );
 
-  useEffect(() => {
-    if (profile?.user_type === "consumer") {
-      router.push("/");
-    } else if (profile?.user_type === "business") {
-      router.push("/businesshome");
-    }
-  }, [profile]);
+  // useEffect(() => {
+  //   if (profile?.user_type === "consumer") {
+  //     router.push("/");
+  //   } else if (profile?.user_type === "business") {
+  //     router.push("/businesshome");
+  //   }
+  // }, [profile]);
 
   async function updateName() {
     if (typeof name === "string" && name.length > 0) {

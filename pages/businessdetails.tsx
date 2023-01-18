@@ -56,6 +56,7 @@ export default function BusinessDetails() {
       setName(business.name);
       setWebsite(business.website);
       setPostcode(business.postcode);
+      setAddressLine1(business.address_line1)
     }
   }, [business]);
 
@@ -65,7 +66,8 @@ export default function BusinessDetails() {
   useEffect(() => {
     if (profile?.user_type === "") {
       router.push("/usertype");
-    }
+    } else if (profile?.user_type === "consumer") {
+      router.push("/")};
   }, [profile]);
 
   const saveChanges = async () => {
@@ -88,6 +90,7 @@ export default function BusinessDetails() {
           .select();
       }
     }
+    router.push("/businesshome")
   };
 
   const handleClick = async () => {
@@ -95,7 +98,11 @@ export default function BusinessDetails() {
   };
 
   const redirectToRoot = () => {
-    router.push("/");
+    if (business) {
+      router.push("/businesshome");
+    } else {
+      router.push("/usertype")
+    } 
   };
 
   const positionFinder = async () => {
