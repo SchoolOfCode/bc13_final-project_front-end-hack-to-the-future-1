@@ -12,12 +12,13 @@ export default function Newdeal() {
   const router = useRouter();
   const [offerText, setOfferText] = useState<any>();
   const [startDate, setStartDate] = useState<any>();
-  const [endDate, setEndDate] = useState<any>();
+  const [endDate, setEndDate] = useState<any>(new Date());
   const [timeRemaining, setTimeRemaining] = useState<string>();
 
   /* function to return to businesshome  */
   const handleClick = () => {
-    router.push('/businesshome');
+    // router.push('/businesshome');
+    console.log(new Date());
   };
 
   /* submits the newly created offer to the deals table in database */
@@ -29,6 +30,34 @@ export default function Newdeal() {
     });
     router.push('/businesshome');
   };
+
+  /*Calculating the time remaining in the deal*/
+  useEffect(() => {
+    const current = new Date();
+    const date = new Date(endDate);
+    console.log(date);
+
+    const diff = date.getTime() - current.getTime();
+
+    let msec = diff;
+    let dd = Math.floor(msec / 1000 / 60 / 60 / 24);
+    msec -= dd * 1000 * 60 * 60 * 24;
+    let hh = Math.floor(msec / 1000 / 60 / 60);
+    msec -= hh * 1000 * 60 * 60;
+    let mm = Math.floor(msec / 1000 / 60);
+    msec -= mm * 1000 * 60;
+    let ss = Math.floor(msec / 1000);
+    msec -= ss * 1000;
+
+    console.log(
+      dd + ' days : ' + hh + ' hrs : ' + mm + ' mins : ' + ss + ' secs'
+    );
+    if (dd >= 1) {
+      setTimeRemaining(dd + ' days : ' + hh + ' hrs remaining');
+    } else {
+      setTimeRemaining(hh + ' hrs : ' + mm + ' mins remaining');
+    }
+  }, [endDate]);
 
   return (
     <div className='flex flex-col w-full h-screen bg-slate-800'>
@@ -97,17 +126,17 @@ export default function Newdeal() {
       </div>
       <div
         id='Card, Preview & Button'
-        className='flex flex-col justify-center items-center min-w-90'
+        className='flex flex-col justify-center items-center w-full'
       >
         <h1 className='font-Open text-sm font-bold text-amber-500 w-full text-center'>
           PREVIEW
         </h1>
-        <div id='DealCard container' className='py-3 min-w-max'>
+        <div id='DealCard container' className='py-3 w-5/6'>
           <DealCard
             businessName={business?.name}
-            dealText={offerText}
-            dealHighlight='timeRemaining'
-            dealTime={endDate}
+            dealText={offerText ? offerText : 'Your Offer Here'}
+            dealHighlight={timeRemaining ? timeRemaining : 'Time Remaining'}
+            dealTime={endDate ? endDate : '0000'}
           />
         </div>
         <Button onClick={handleSubmit} buttonText='ADD OFFER' />
