@@ -67,7 +67,7 @@ export default function Carousel({ businessData }: any) {
     <div className='flex flex-col justify-center z-10 w-screen h-full'>
       <ul
         id='deal-carousel'
-        className='flex absolute bottom-5 items-end flex-row px-5 gap-5 overflow-y-auto z-10 w-screen h-full'
+        className='flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full'
       >
         {offers.map((offer, i) => (
           <li

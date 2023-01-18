@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { supabase } from "../supabase";
 import { Database } from "../types/supabase";
-import { useProfile } from "../hooks/useProfile";
 
 //should be a type (interface is like a contract)
 interface Deals {
@@ -17,15 +16,12 @@ interface Deals {
 
 export default function BusinessAccountDetails() {
   const [offers, setOffers] = useState<Deals[]>([]);
-  // const { profile } = useProfile();
-  // const businessID = profile?.business_id;
+  // const [businessid, setBusinessID] = useState<Deals[]>([])
   useEffect(() => {
     async function getDeals() {
       const { data } = await supabase
         .from("deals")
-        .select("*, businesses (id,name)")
-        .eq("business_id", `20fbaa38-8dff-4a12-a4a1-43eb7a4d00b2`);
-
+        .select("*, businesses (name)");
       console.log("Data from supabase", data);
 
       const dealsData: any = data
@@ -77,7 +73,7 @@ export default function BusinessAccountDetails() {
           buttonText="NEW DEAL"
           className="w-5/6 h-14 border-indigo-400  "
         />
-      </div>
+      </div> 
       <div className="flex flex-col justify-center items-center h-full">
         {offers.map((offer, i) => (
           <DealCard
@@ -91,6 +87,16 @@ export default function BusinessAccountDetails() {
           />
         ))}
       </div>
+      {/* <div className="flex flex-col justify-center items-center">
+        <DealCard
+          businessName="Pam's Bakery"
+          businessDistance="10m away"
+          dealText="Buy one get one free on sausage rolls"
+          dealTime=" Offer ends 15:00 21/12/2023"
+          dealHighlight="2 Hours remaining"
+          onClick={handleDeleteDeal}
+        />
+      </div> */}
     </div>
   );
 }

@@ -3,13 +3,11 @@ import { RxCross2 } from "react-icons/rx";
 import { RiRestaurantFill } from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
 import { useProfile } from "../../hooks/useProfile";
-import { useEffect } from "react";
 import ConsumerDeal from "./ConsumerDeal";
 import BusinessDeal from "./BusinessDeal";
 
 export interface DealProps {
   businessName?: string;
-  businessDistance?: string;
   dealText: string;
   dealTime?: string;
   dealHighlight: string;
@@ -18,7 +16,6 @@ export interface DealProps {
 }
 function DealCard({
   businessName,
-  businessDistance,
   dealText,
   dealTime,
   dealHighlight,
@@ -26,7 +23,7 @@ function DealCard({
   className,
 }: DealProps) {
   const classes = twMerge(`
-  w-4/5 h-1/3 bg-slate-600 flex flex-col rounded-3xl 
+  min-w-80 w-10/12 h-full min-h-full border-box overflow-y-hidden bg-slate-600 flex flex-col rounded-3xl 
     ${className ?? ""}
   `);
   const { profile } = useProfile();
@@ -65,7 +62,6 @@ function DealCard({
           ) : (
             <ConsumerDeal
               businessName={businessName}
-              businessDistance={businessDistance}
               dealText={dealText}
               dealHighlight={dealHighlight}
             />
