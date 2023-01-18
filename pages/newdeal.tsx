@@ -4,28 +4,35 @@ import { useProfile } from "../hooks/useProfile";
 import Image from "next/image";
 import Button from "../components/Button/Button";
 import { supabase } from "../supabase";
+import DealCard from "../components/DealCard/DealCard";
+import { useBusiness } from "../hooks/useBusiness";
+
+
 
 export default function Newdeal() {
-  const { profile } = useProfile();
+  const {business} = useBusiness();
   const router = useRouter();
-  const [offerText, setOfferText] = useState<string>();
+  const [offerText, setOfferText] = useState<any>();
   const [startDate, setStartDate] = useState<any>();
   const [endDate, setEndDate] = useState<any>();
+  const [timeRemaining, setTimeRemaining] = useState<string>();
 
+  /* function to return to businesshome  */
   const handleClick = () => {
-    router.push("/businesshome"); //<--- CHECK BUSINESS HOME PAGE NAME
+    router.push("/businesshome");
   };
 
+  /* submits the newly created offer to the deals table in database */
   const handleSubmit = async () => {
     const formSubmit  = await supabase
   .from('deals')
   .insert({ name: offerText, created_at: startDate, expiration_time: endDate })
-  router.push("/businesshome"); //<--- CHECK BUSINESS HOME PAGE NAME
+  router.push("/businesshome");
   }
 
  return (
     <div className="flex flex-col w-full h-screen bg-slate-800">
-      <div className="flex flex-col h-screen w-full  justify-start items-center">
+      <div className="flex flex-col w-full  justify-start items-center">
         <header className="flex justify-between items-center w-full border-box p-4 mt-5">
           <Image src="/logo.svg" alt="logo" width="100" height="100" />
           <Button onClick={handleClick} buttonText="CANCEL" />
@@ -67,7 +74,7 @@ export default function Newdeal() {
             value={startDate}
             onChange={(e) => {
               setStartDate(e.target.value);
-              console.log("Start Date", startDate);
+                        
             }}
           />
           {/* End Date/Time */}
@@ -94,7 +101,10 @@ export default function Newdeal() {
           PREVIEW
         </h1>
         <div>
-          <p>Card Component</p>
+          <DealCard businessName={business?.name} 
+              dealText={offerText}
+              dealHighlight="timeRemaining"
+              dealTime={endDate}/>
         </div>
         <Button onClick={handleSubmit} buttonText="ADD OFFER" />
       </div>

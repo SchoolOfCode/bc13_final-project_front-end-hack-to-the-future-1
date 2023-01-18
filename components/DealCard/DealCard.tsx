@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { useProfile } from "../../hooks/useProfile";
 import { useEffect } from "react";
 
+
 export interface DealProps {
   businessName?: string;
   businessDistance?: string;
