@@ -17,14 +17,15 @@ interface Deals {
 
 export default function BusinessAccountDetails() {
   const [offers, setOffers] = useState<Deals[]>([]);
-  // const { profile } = useProfile();
-  // const businessID = profile?.business_id;
+  const { profile } = useProfile();
+  const businessID = profile?.business_id;
   useEffect(() => {
     async function getDeals() {
+      if(profile){
       const { data } = await supabase
         .from("deals")
         .select("*, businesses (id,name)")
-        .eq("business_id", `20fbaa38-8dff-4a12-a4a1-43eb7a4d00b2`);
+        .eq("business_id",profile.business_id );
 
       console.log("Data from supabase", data);
 
@@ -39,9 +40,9 @@ export default function BusinessAccountDetails() {
           }))
         : console.log("No data found");
       setOffers(dealsData);
-    }
+    }}
     getDeals();
-  }, []);
+  }, [profile]);
 
   const handleDeleteDeal = () => {};
   // pull down business info and check business_id

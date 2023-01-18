@@ -26,6 +26,7 @@ jest.mock('next/router', () => ({
   }),
 }));
 
+
 describe('UserSettings', () => {
   it('renders the page correctly', () => {
     render(<UserSettings />);
