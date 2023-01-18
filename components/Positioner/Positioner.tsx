@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
+import { markAssetError } from "next/dist/client/route-loader";
 
 export interface PositionerProps {
   latlong: any;
@@ -25,7 +26,7 @@ export default function Positioner({
   function DraggableMarker() {
     const [draggable, setDraggable] = useState(false);
     const [position, setPosition] = useState(center);
-    const markerRef = useRef(null);
+    const markerRef = useRef<any>(null);
     const map = useMap();
 
     useEffect(() => {
@@ -35,14 +36,16 @@ export default function Positioner({
       }
     }, [latlong]);
 
+    // This code handles events relating to the marker. Ie. When the marker has been dragged/repositioned.
     const eventHandlers = useMemo(
       () => ({
         dragend() {
           const marker = markerRef.current;
           if (marker != null) {
             setPosition(marker.getLatLng());
-            console.log(marker);
-            updateBusinessPosition(marker.getLatLng());
+            const markerLatLong = marker.getLatLng();
+            console.log(marker)
+            updateBusinessPosition([markerLatLong.lat,markerLatLong.lng]);
           }
         },
       }),

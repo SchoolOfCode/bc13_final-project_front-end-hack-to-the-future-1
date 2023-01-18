@@ -33,11 +33,11 @@ export default function BusinessDetails() {
     "text-red-600 text-xs"
   );
 
-  // State to hold Lat/Long
+  // State to hold Lat/Long which is updated on click event of 'Set Position' button.
   const [latlong, setLatlong] = useState<[number, number]>();
-  const [businessPosition, setBusinessPosition] = useState<[number, number]>();
+  const [businessPosition, setBusinessPosition] = useState<any>();
 
-  const updateBusinessPosition = ({ newLatLong }: any) => {
+  const updateBusinessPosition = (newLatLong : any) => {
     setBusinessPosition(newLatLong);
     console.log(newLatLong);
   };
@@ -63,13 +63,13 @@ export default function BusinessDetails() {
     if (business) {
       const { data, error } = await supabase
         .from("businesses")
-        .update({ name: name, website: website, postcode: postcode })
+        .update({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1] })
         .eq("id", business.id)
         .select();
     } else {
       const { data, error } = await supabase
         .from("businesses")
-        .insert({ name: name, website: website, postcode: postcode })
+        .insert({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1] })
         .select();
       if (data && profile) {
         const { error } = await supabase
@@ -95,7 +95,7 @@ export default function BusinessDetails() {
         `https://api.postcodes.io/postcodes/${postcode}`
       );
       const data = await response.json();
-      console.log(data.result.longitude);
+      console.log(`Postcode Position:`,data.result.latitude, data.result.longitude);
       setLatlong([data.result.latitude, data.result.longitude]);
     }
   };
