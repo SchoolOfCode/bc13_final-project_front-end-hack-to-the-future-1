@@ -1,34 +1,69 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import { useState, useEffect } from "react";
-import { supabase } from "../../supabase";
-import Icons from "../Icons"; //<-- Exploring the possibilites of using tailwind to style the users icon.
-import { Database } from "../../types/supabase";
-import Carousel from "../Carousel/Carousel";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
 
+export default function Positioner({ latlong }: any) {
+  console.log(latlong);
+  const center = {
+    lat: 53.367513,
+    lng: -1.501612,
+  };
 
-export default function Positioner() {
-  //Add a state to contain the latitude and logitude of each business
-  const [locations, setLocations] = useState<Location[]>([]);
-
-  
-  /*Hardcoded user location data until it's possible to pull from capacitor */
-  const userLat: number = 53.367513;
-  const userLng: number = -1.501612;
-
-  // Custom icon for users position
-  // iconUrl: '../Icons.tsx', <-- Exploring the possibilites of using tailwind to style the users icon.
   let userIcon = L.icon({
     iconUrl: "https://cdn.onlinewebfonts.com/svg/img_155117.png",
     iconSize: [25, 25],
   });
 
+  function DraggableMarker() {
+    const [draggable, setDraggable] = useState(false);
+    const [position, setPosition] = useState(center);
+    const markerRef = useRef(null);
+
+    useEffect(() => {
+      if (latlong) {
+        setPosition(latlong);
+      }
+    }, [latlong]);
+
+    const eventHandlers = useMemo(
+      () => ({
+        dragend() {
+          const marker = markerRef.current;
+          if (marker != null) {
+            setPosition(marker.getLatLng());
+          }
+        },
+      }),
+      []
+    );
+    const toggleDraggable = useCallback(() => {
+      setDraggable((d) => !d);
+    }, []);
+
+    return (
+      <Marker
+        draggable={draggable}
+        eventHandlers={eventHandlers}
+        position={position}
+        ref={markerRef}
+        icon={userIcon}
+      >
+        <Popup minWidth={90}>
+          <span onClick={toggleDraggable}>
+            {draggable
+              ? "Marker is draggable"
+              : "Tap and then drag the icon to change business location"}
+          </span>
+        </Popup>
+      </Marker>
+    );
+  }
+
   return (
     <MapContainer
-      className="h-60 w-full"
-      // style={{ height: 80, width: 300 }}
-      center={[userLat, userLng]}
+      className="h-80 w-full"
+      center={center}
       zoom={20}
       zoomControl={false}
       scrollWheelZoom={true}
@@ -37,14 +72,9 @@ export default function Positioner() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      
-      {/* Marker below is the users position with custom icon */}
       <div>
-        <Marker icon={userIcon} position={[userLat, userLng]}>
-          <Popup>You are here!</Popup>
-        </Marker>
+        <DraggableMarker />
       </div>
-      
     </MapContainer>
   );
 }

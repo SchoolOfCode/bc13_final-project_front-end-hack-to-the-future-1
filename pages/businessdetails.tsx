@@ -7,8 +7,6 @@ import { useBusiness } from "../hooks/useBusiness";
 import { useProfile } from "../hooks/useProfile";
 import Positioner from "../components/Positioner";
 
-
-
 export default function BusinessDetails() {
   const { business } = useBusiness();
   const { profile } = useProfile();
@@ -36,7 +34,7 @@ export default function BusinessDetails() {
   );
 
   // State to hold Lat/Long
-  const [latlong, setLatlong] = useState<[number,number]>();
+  const [latlong, setLatlong] = useState<[number, number]>();
 
   useEffect(() => {
     if (business) {
@@ -59,7 +57,7 @@ export default function BusinessDetails() {
     if (business) {
       const { data, error } = await supabase
         .from("businesses")
-        .update({ name: name , website: website, postcode: postcode})
+        .update({ name: name, website: website, postcode: postcode })
         .eq("id", business.id)
         .select();
     } else {
@@ -85,12 +83,14 @@ export default function BusinessDetails() {
     router.push("/");
   };
 
-  const positionFinder = async() => {
+  const positionFinder = async () => {
     if (postcode) {
-    const response =  await fetch(`https://api.postcodes.io/postcodes/${postcode}`); 
-    const data = await response.json();
-    console.log(data.result.longitude);
-    setLatlong([data.result.latitude, data.result.longitude])
+      const response = await fetch(
+        `https://api.postcodes.io/postcodes/${postcode}`
+      );
+      const data = await response.json();
+      console.log(data.result.longitude);
+      setLatlong([data.result.latitude, data.result.longitude]);
     }
   };
 
@@ -163,13 +163,13 @@ export default function BusinessDetails() {
               <p className={postcodeWarningColour}>{postcodeWarning}</p>
             </form>
             <Button
-                onClick={positionFinder}
-                buttonText="Set Location"
-                className="border-indigo-400 bg-opacity-0 text-indigo-400 "
-              />
+              onClick={positionFinder}
+              buttonText="Set Location"
+              className="border-indigo-400 bg-opacity-0 text-indigo-400 "
+            />
             <div className="flex justify-center items-center h-full w-full">
-              <Positioner />
-            </div> 
+              <Positioner latlong={latlong} />
+            </div>
             <div className="flex justify-between gap-4">
               <Button
                 onClick={redirectToRoot}
