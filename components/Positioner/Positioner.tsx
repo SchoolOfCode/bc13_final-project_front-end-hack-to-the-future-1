@@ -3,8 +3,15 @@ import L from "leaflet";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
 
-export default function Positioner({ latlong }: any) {
-  console.log(latlong);
+export interface PositionerProps {
+  latlong: any;
+  updateBusinessPosition: ({ props }: any) => void;
+}
+
+export default function Positioner({
+  latlong,
+  updateBusinessPosition,
+}: PositionerProps) {
   const center = {
     lat: 53.367513,
     lng: -1.501612,
@@ -19,10 +26,12 @@ export default function Positioner({ latlong }: any) {
     const [draggable, setDraggable] = useState(false);
     const [position, setPosition] = useState(center);
     const markerRef = useRef(null);
+    const map = useMap();
 
     useEffect(() => {
       if (latlong) {
         setPosition(latlong);
+        map.panTo(latlong);
       }
     }, [latlong]);
 
@@ -32,6 +41,8 @@ export default function Positioner({ latlong }: any) {
           const marker = markerRef.current;
           if (marker != null) {
             setPosition(marker.getLatLng());
+            console.log(marker);
+            updateBusinessPosition(marker.getLatLng());
           }
         },
       }),

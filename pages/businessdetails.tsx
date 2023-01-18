@@ -35,6 +35,12 @@ export default function BusinessDetails() {
 
   // State to hold Lat/Long
   const [latlong, setLatlong] = useState<[number, number]>();
+  const [businessPosition, setBusinessPosition] = useState<[number, number]>();
+
+  const updateBusinessPosition = ({ newLatLong }: any) => {
+    setBusinessPosition(newLatLong);
+    console.log(newLatLong);
+  };
 
   useEffect(() => {
     if (business) {
@@ -168,7 +174,10 @@ export default function BusinessDetails() {
               className="border-indigo-400 bg-opacity-0 text-indigo-400 "
             />
             <div className="flex justify-center items-center h-full w-full">
-              <Positioner latlong={latlong} />
+              <Positioner
+                latlong={latlong}
+                updateBusinessPosition={updateBusinessPosition}
+              />
             </div>
             <div className="flex justify-between gap-4">
               <Button
