@@ -6,9 +6,12 @@ import Button from '../components/Button/Button';
 import { supabase } from '../supabase';
 import DealCard from '../components/DealCard/DealCard';
 import { useBusiness } from '../hooks/useBusiness';
+import { useLocation } from '../hooks/useLocation';
 
 export default function Newdeal() {
   const { business } = useBusiness();
+  const { profile } = useProfile();
+  const { pos } = useLocation();
   const router = useRouter();
   const [offerText, setOfferText] = useState<any>();
   const [startDate, setStartDate] = useState<any>();
@@ -16,9 +19,9 @@ export default function Newdeal() {
   const [timeRemaining, setTimeRemaining] = useState<string>();
 
   /* function to return to businesshome  */
-  const handleClick = () => {
-    router.push('/businesshome');  
-    };
+  const tobusinesshome = () => {
+    router.push('/businesshome');
+  };
 
   /* submits the newly created offer to the deals table in database */
   const handleSubmit = async () => {
@@ -26,6 +29,7 @@ export default function Newdeal() {
       name: offerText,
       created_at: startDate,
       expiration_time: endDate,
+      business_id: profile?.business_id,
     });
     router.push('/businesshome');
   };
@@ -34,7 +38,7 @@ export default function Newdeal() {
   useEffect(() => {
     const current = new Date();
     const date = new Date(endDate);
-    
+
     const diff = date.getTime() - current.getTime();
 
     let msec = diff;
@@ -51,8 +55,8 @@ export default function Newdeal() {
       dd + ' days : ' + hh + ' hrs : ' + mm + ' mins : ' + ss + ' secs'
     );
     if (!endDate) {
-      setTimeRemaining("Time Remaining")}
-    else if (dd >= 1) {
+      setTimeRemaining('Time Remaining');
+    } else if (dd >= 1) {
       setTimeRemaining(dd + ' days : ' + hh + ' hrs remaining');
     } else {
       setTimeRemaining(hh + ' hrs : ' + mm + ' mins remaining');
@@ -66,7 +70,7 @@ export default function Newdeal() {
       <div className='flex flex-col w-full  justify-start items-center'>
         <header className='flex justify-between items-center w-full border-box pt-4 px-4 mt-5'>
           <Image src='/logo.svg' alt='logo' width='100' height='100' />
-          <Button onClick={handleClick} buttonText='CANCEL' />
+          <Button onClick={tobusinesshome} buttonText='CANCEL' />
         </header>
       </div>
       <div className='flex flex-col justify-start items-center'>
@@ -120,7 +124,7 @@ export default function Newdeal() {
             name='End'
             type='datetime-local'
             value={endDate}
-            onChange={(e) => { 
+            onChange={(e) => {
               setEndDate(e.target.value);
             }}
           />
@@ -133,12 +137,17 @@ export default function Newdeal() {
         <h1 className='font-Open text-sm font-bold text-amber-500 w-full text-center'>
           PREVIEW
         </h1>
-        <div id='DealCard container' className='flex justify-center items-center h-80 py-3 min-w-5/6 max-w-5/6'>
+        <div
+          id='DealCard container'
+          className='flex justify-center items-center h-80 py-3 min-w-5/6 max-w-5/6'
+        >
           <DealCard
             businessName={business?.name}
             dealText={offerText ? offerText : 'Your Offer Here'}
-            dealHighlight={timeRemaining? timeRemaining : 'Time Remaining'}
-            dealTime={endDate? new Date(endDate).toLocaleString(): "Deal End Date"}
+            dealHighlight={timeRemaining ? timeRemaining : 'Time Remaining'}
+            dealTime={
+              endDate ? new Date(endDate).toLocaleString() : 'Deal End Date'
+            }
           />
         </div>
         <Button onClick={handleSubmit} buttonText='ADD OFFER' />
