@@ -13,7 +13,7 @@ export interface DealProps {
   businessName?: string;
   dealText: string;
   dealTime?: string;
-  dealHighlight: string;
+  dealHighlight: String;
   onClick?: () => void;
   className?: string;
 }
@@ -52,7 +52,7 @@ function DealCard({
       </div>
       <div
         id="Card-text"
-        className="flex flex-col justify-center items-center text-left mb-8"
+        className="flex flex-col justify-center items-center text-center mb-8"
       >
         {profile?.user_type === "business" ? (
           <BusinessDeal
