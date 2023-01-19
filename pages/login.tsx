@@ -28,7 +28,7 @@ export default function Login() {
       router.push("/usertype");
     }
   }, [profile]);
-
+//refactor the auth ui stuff into its own login component for readability
   return (
     <div className="flex w-full h-screen justify-center items-center bg-slate-800">
       {!session ? (

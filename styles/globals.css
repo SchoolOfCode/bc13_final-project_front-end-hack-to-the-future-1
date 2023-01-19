@@ -12,3 +12,8 @@
 .leaflet-bottom {
   z-index: 0 !important;
 }
+
+* {
+  scrollbar-width: none;
+  scrollbar-color: #d97706;
+}

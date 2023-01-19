@@ -61,7 +61,7 @@ export default function Home() {
         <div className="z-0">
           <Map />
         </div>
-        <div className="z-10 absolute bottom-5 w-screen h-56">
+        <div className="z-10 absolute bottom-5 w-screen h-60">
           <Carousel />
         </div>
       </main>

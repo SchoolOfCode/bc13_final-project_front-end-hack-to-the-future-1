@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { supabase } from "../supabase";
 import { Database } from "../types/supabase";
-import { useProfile } from "../hooks/useProfile";
 
 //should be a type (interface is like a contract)
 interface Deals {
@@ -17,34 +16,28 @@ interface Deals {
 
 export default function BusinessAccountDetails() {
   const [offers, setOffers] = useState<Deals[]>([]);
-  const { profile } = useProfile();
-  const businessID = profile?.business_id;
+  // const [businessid, setBusinessID] = useState<Deals[]>([])
   useEffect(() => {
     async function getDeals() {
-      if (profile) {
-        console.log(profile.business_id);
-        const { data } = await supabase
-          .from("deals")
-          .select("*, businesses (id,name)")
-          .eq("business_id", profile.business_id);
+      const { data } = await supabase
+        .from("deals")
+        .select("*, businesses (name)");
+      console.log("Data from supabase", data);
 
-        console.log("Data from supabase", data);
-
-        const dealsData: any = data
-          ? data.map((item) => ({
-              name: item.name,
-              business_id: item.business_id,
-              expiration_time: item.expiration_time,
-              business_name: Array.isArray(item.businesses)
-                ? item.businesses[0].name
-                : item.businesses?.name,
-            }))
-          : console.log("No data found");
-        setOffers(dealsData);
-      }
+      const dealsData: any = data
+        ? data.map((item) => ({
+            name: item.name,
+            business_id: item.business_id,
+            expiration_time: item.expiration_time,
+            business_name: Array.isArray(item.businesses)
+              ? item.businesses[0].name
+              : item.businesses?.name,
+          }))
+        : console.log("No data found");
+      setOffers(dealsData);
     }
     getDeals();
-  }, [profile]);
+  }, []);
 
   const handleDeleteDeal = () => {};
   // pull down business info and check business_id
@@ -80,21 +73,30 @@ export default function BusinessAccountDetails() {
           buttonText="NEW DEAL"
           className="w-5/6 h-14 border-indigo-400  "
         />
-      </div>
-      <div className="flex flex-col gap-5 justify-center items-center h-full pt-5">
+      </div> 
+      <div className="flex flex-col justify-center items-center h-full">
         {offers.map((offer, i) => (
           <DealCard
             key={i}
             businessName={offer.business_name}
-            //businessDistance="10m away"
+            businessDistance="10m away"
             dealText={offer.name}
             dealTime=" Offer ends 15:00 21/12/2023"
             dealHighlight="2 Hours remaining"
             onClick={handleDeleteDeal}
-            className="h-80"
           />
         ))}
       </div>
+      {/* <div className="flex flex-col justify-center items-center">
+        <DealCard
+          businessName="Pam's Bakery"
+          businessDistance="10m away"
+          dealText="Buy one get one free on sausage rolls"
+          dealTime=" Offer ends 15:00 21/12/2023"
+          dealHighlight="2 Hours remaining"
+          onClick={handleDeleteDeal}
+        />
+      </div> */}
     </div>
   );
 }
