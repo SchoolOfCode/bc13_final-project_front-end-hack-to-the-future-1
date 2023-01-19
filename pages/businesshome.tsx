@@ -52,11 +52,11 @@ export default function BusinessAccountDetails() {
     getDeals();
   }, [profile]);
 
-  const handleDeleteDeal = async () => {
+  const handleDeleteDeal = async (id:string) => {
     const { data, error } = await supabase
   .from('deals')
   .delete()
-  .eq('id', 'ca8e6284-98b3-4f16-b955-1aef0d160573')
+  .eq('id', id)
   };
   // pull down business info and check business_id
   // check that the business_id of the user matches the business_id stored within the currently selected deal
@@ -103,7 +103,9 @@ export default function BusinessAccountDetails() {
   function redirectToNewDeal() {
     router.push("/newdeal");
   }
-
+//conditional logic
+//if there is an offer and its not empty map through everything
+//else render only the buttons
 
   return (
     <div className="bg-slate-800 h-full w-full p-1">
@@ -118,19 +120,50 @@ export default function BusinessAccountDetails() {
           className="w-5/6 h-14 border-indigo-400  "
         />
       </div>
+      {offers?(
       <div className="flex flex-col gap-5 justify-center items-center h-full pt-5">
-        {offers.map((offer, i) => (
+        {offers.map((offer) => (
           <DealCard
-            key={i}
+            key={offer.id}
             businessName={offer.business_name}
             dealText={offer.name}
             dealTime={new Date(offer.expiration_time).toLocaleString()}
             dealHighlight={getTimeRemaining(offer.expiration_time)}
             onClick={handleDeleteDeal}
             className="h-80"
+            id={offer.id}
           />
         ))}
       </div>
+
+      ):( <div className="flex flex-col gap-5 justify-center items-center h-full pt-5">
+      <DealCard 
+        businessName="My Business"
+        dealText="Example deal"
+        dealTime="Offer valid until: "
+        dealHighlight="ENDING SOON"
+        onClick={handleDeleteDeal}
+        className="h-80"
+      />
+       <DealCard 
+        businessName="My Business"
+        dealText="Example deal"
+        dealTime="Offer valid until: "
+        dealHighlight="ENDING SOON"
+        onClick={handleDeleteDeal}
+        className="h-80"
+      />
+       <DealCard 
+        businessName="My Business"
+        dealText="Example deal"
+        dealTime="Offer valid until: "
+        dealHighlight="ENDING SOON"
+        onClick={handleDeleteDeal}
+        className="h-80"
+      />
+      </div>
+
+      )}
     </div>
   );
 }

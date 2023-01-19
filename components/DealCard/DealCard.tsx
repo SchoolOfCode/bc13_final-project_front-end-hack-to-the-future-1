@@ -1,21 +1,20 @@
-
-import React from 'react';
-import { RxCross2 } from 'react-icons/rx';
-import { RiRestaurantFill } from 'react-icons/ri';
-import { twMerge } from 'tailwind-merge';
-import { useProfile } from '../../hooks/useProfile';
-import { useEffect } from 'react';
+import React from "react";
+import { RxCross2 } from "react-icons/rx";
+import { RiRestaurantFill } from "react-icons/ri";
+import { twMerge } from "tailwind-merge";
+import { useProfile } from "../../hooks/useProfile";
+import { useEffect } from "react";
 import ConsumerDeal from "./ConsumerDeal";
 import BusinessDeal from "./BusinessDeal";
-
 
 export interface DealProps {
   businessName?: string;
   dealText: string;
   dealTime?: string;
   dealHighlight: String;
-  onClick?: () => void;
+  onClick?: (id: string) => void;
   className?: string;
+  id?: string;
 }
 function DealCard({
   businessName,
@@ -24,6 +23,7 @@ function DealCard({
   dealHighlight,
   onClick,
   className,
+  id,
 }: DealProps) {
   const classes = twMerge(`
 
@@ -34,11 +34,15 @@ function DealCard({
   const { profile } = useProfile();
 
   return (
-
     <div id="card-container" className={classes}>
-      {profile?.user_type === "business" ? (
+      {profile?.user_type === "business" && id && onClick ? (
         <div id="Delete-Icon" className="flex justify-end items-end p-5">
-          <RxCross2 onClick={onClick} className="text-3xl text-slate-50" />
+          <RxCross2
+            onClick={() => {
+              onClick(id);
+            }}
+            className="text-3xl text-slate-50"
+          />
         </div>
       ) : (
         <div className="flex justify-end items-end p-5"></div>
@@ -60,6 +64,7 @@ function DealCard({
             dealTime={dealTime}
             dealText={dealText}
             dealHighlight={dealHighlight}
+            id={id}
           />
         ) : (
           <ConsumerDeal
@@ -68,7 +73,6 @@ function DealCard({
             dealHighlight={dealHighlight}
           />
         )}
-
       </div>
     </div>
   );
