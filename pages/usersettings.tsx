@@ -108,7 +108,7 @@ export default function UserSettings() {
   };
 
   const redirectToRoot = () => {
-    router.push("/");
+   router.push("/");
   };
 
   return (
@@ -192,7 +192,7 @@ export default function UserSettings() {
             </div>
           </div>
         </div>
-      )}
+       )} 
     </div>
   );
 }
