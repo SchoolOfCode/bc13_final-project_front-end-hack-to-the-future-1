@@ -1,10 +1,11 @@
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import { useState, useEffect } from 'react';
-import { supabase } from '../../supabase';
-import Icons from '../Icons'; //<-- Exploring the possibilites of using tailwind to style the users icon.
-import { Database } from '../../types/supabase';
-import Carousel from '../Carousel/Carousel';
+import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import { useState, useEffect } from "react";
+import { supabase } from "../../supabase";
+import Icons from "../Icons"; //<-- Exploring the possibilites of using tailwind to style the users icon.
+import { Database } from "../../types/supabase";
+import Carousel from "../Carousel/Carousel";
+import React from "react";
 
 {
   /* REF:LOCATIONINTERFACEv1. This code describes the interface for Location which matches the data types of the 'Businesses' table in Supabase database. */
@@ -28,7 +29,7 @@ export default function Map() {
 
   useEffect(() => {
     async function getLocations() {
-      const { data } = await supabase.from('businesses').select();
+      const { data } = await supabase.from("businesses").select();
 
       const locationsData: any = data
         ? data.map((item) => ({
@@ -38,9 +39,9 @@ export default function Map() {
             business_type: item.business_type,
             business_id: item.id,
           }))
-        : console.log('No data found');
+        : console.log("No data found");
       setLocations(locationsData);
-      console.log('Type of locationsData', typeof locationsData);
+      console.log("Type of locationsData", typeof locationsData);
     }
     getLocations();
   }, []);
@@ -74,13 +75,13 @@ export default function Map() {
   // Custom icon for users position
   // iconUrl: '../Icons.tsx', <-- Exploring the possibilites of using tailwind to style the users icon.
   let userIcon = L.icon({
-    iconUrl: 'https://cdn.onlinewebfonts.com/svg/img_155117.png',
+    iconUrl: "https://cdn.onlinewebfonts.com/svg/img_155117.png",
     iconSize: [25, 25],
   });
 
   return (
     <MapContainer
-      className='h-screen w-screen'
+      className="h-screen w-screen"
       center={[userLat, userLng]}
       zoom={16}
       zoomControl={false}
@@ -88,7 +89,7 @@ export default function Map() {
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {/* REF:MARKERv2. This code is rendering a list of markers on a map, where each marker corresponds to a location in the locations array which is stored as state. */}
       <div>
