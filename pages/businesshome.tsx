@@ -13,7 +13,7 @@ interface Deals {
   expiration_time: string;
   business_id: string;
   business_name: string;
- 
+  id: string;
 }
 
 export default function BusinessAccountDetails() {
@@ -35,6 +35,7 @@ export default function BusinessAccountDetails() {
 
         const dealsData: any = data
           ? data.map((item) => ({
+              id: item.id,
               name: item.name,
               business_id: item.business_id,
               expiration_time: item.expiration_time,
@@ -51,17 +52,19 @@ export default function BusinessAccountDetails() {
     getDeals();
   }, [profile]);
 
-  const handleDeleteDeal = () => {};
+  const handleDeleteDeal = async () => {
+    const { data, error } = await supabase
+  .from('deals')
+  .delete()
+  .eq('id', 'ca8e6284-98b3-4f16-b955-1aef0d160573')
+  };
   // pull down business info and check business_id
   // check that the business_id of the user matches the business_id stored within the currently selected deal
   //query the DB and delete the selected deal from the DB
 
   //from supabase api doc
 
-  //const { data, error } = await supabase
-  // .from('deals')
-  // .delete()
-  // .eq('id', 'someValue')
+  
 
   //we need to work out the filter + matching
 
@@ -95,7 +98,7 @@ export default function BusinessAccountDetails() {
 
   const router = useRouter();
   function redirectToSettings() {
-    router.push("/usersettings");
+    router.push("/businessdetails");
   }
   function redirectToNewDeal() {
     router.push("/newdeal");
