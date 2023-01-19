@@ -16,12 +16,11 @@ interface Deals {
   id: string;
 }
 
+
 export default function BusinessAccountDetails() {
   const [offers, setOffers] = useState<Deals[]>([]);
-  const [timeRemaining, setTimeRemaining] = useState<string>();
-  // const [endDate, setEndDate] = useState<any>(new Date());
   const { profile } = useProfile();
-  const businessID = profile?.business_id;
+ 
   useEffect(() => {
     async function getDeals() {
       if (profile) {
@@ -33,8 +32,11 @@ export default function BusinessAccountDetails() {
 
         console.log("Data from supabase", data);
 
-        const dealsData: any = data
-          ? data.map((item) => ({
+        if (!data) {
+          return
+        }
+        const dealsData:any =
+           data.map((item) => ({
               id: item.id,
               name: item.name,
               business_id: item.business_id,
@@ -43,7 +45,7 @@ export default function BusinessAccountDetails() {
                 ? item.businesses[0].name
                 : item.businesses?.name,
             }))
-          : console.log("No data found");
+           console.log("No data found");
           console.log("this is deals data",dealsData)
         setOffers(dealsData);
         
@@ -70,7 +72,7 @@ export default function BusinessAccountDetails() {
 
   
 
-  function getTimeRemaining (offerExpiry) {
+  function getTimeRemaining (offerExpiry:string) {
       let expiration_string = '';
       const current = new Date();
       const expiryDate = new Date(offerExpiry)

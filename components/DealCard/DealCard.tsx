@@ -3,7 +3,6 @@ import { RxCross2 } from "react-icons/rx";
 import { RiRestaurantFill } from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
 import { useProfile } from "../../hooks/useProfile";
-import { useEffect } from "react";
 import ConsumerDeal from "./ConsumerDeal";
 import BusinessDeal from "./BusinessDeal";
 

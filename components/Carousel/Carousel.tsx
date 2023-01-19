@@ -19,7 +19,7 @@ import DealCard from "../DealCard/DealCard";
 export interface Deals {
   id: string;
   name: string;
-  expiration_time: Date;
+  expiration_time: string;
   business_id: string;
   business_name: string;
 }
@@ -66,7 +66,7 @@ export default function Carousel({ businessData }: any) {
     getDeals();
   }, []);
 
-  function getTimeRemaining(offerExpiry) {
+  function getTimeRemaining(offerExpiry:string) {
     let expiration_string = "";
     const current = new Date();
     const expiryDate = new Date(offerExpiry);
