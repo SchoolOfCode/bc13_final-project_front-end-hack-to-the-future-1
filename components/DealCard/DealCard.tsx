@@ -1,10 +1,13 @@
-import React from "react";
-import { RxCross2 } from "react-icons/rx";
-import { RiRestaurantFill } from "react-icons/ri";
-import { twMerge } from "tailwind-merge";
-import { useProfile } from "../../hooks/useProfile";
+
+import React from 'react';
+import { RxCross2 } from 'react-icons/rx';
+import { RiRestaurantFill } from 'react-icons/ri';
+import { twMerge } from 'tailwind-merge';
+import { useProfile } from '../../hooks/useProfile';
+import { useEffect } from 'react';
 import ConsumerDeal from "./ConsumerDeal";
 import BusinessDeal from "./BusinessDeal";
+
 
 export interface DealProps {
   businessName?: string;
@@ -23,12 +26,15 @@ function DealCard({
   className,
 }: DealProps) {
   const classes = twMerge(`
+
   flex flex-none flex-col justify-center w-10/12 h-full p-10 border-box overflow-y-hidden bg-slate-700 rounded-3xl text-white text-center
     ${className ?? ""}
+
   `);
   const { profile } = useProfile();
 
   return (
+
     <div id="card-container" className={classes}>
       {profile?.user_type === "business" ? (
         <div id="Delete-Icon" className="flex justify-end items-end p-5">
@@ -62,6 +68,7 @@ function DealCard({
             dealHighlight={dealHighlight}
           />
         )}
+
       </div>
     </div>
   );
