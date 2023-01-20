@@ -74,7 +74,7 @@ export default function BusinessDetails() {
     if (business) {
       const { data, error } = await supabase
         .from("businesses")
-        .update({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1], address_line1: addressLine1 })
+        .update({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1], address_line1: addressLine1, user_id: profile?.id })
         .eq("id", business.id)
         .select();
     } else {
