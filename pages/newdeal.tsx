@@ -11,7 +11,6 @@ import { useLocation } from '../hooks/useLocation';
 export default function Newdeal() {
   const { business } = useBusiness();
   const { profile } = useProfile();
-  const { pos } = useLocation();
   const router = useRouter();
   const [offerText, setOfferText] = useState<any>();
   const [startDate, setStartDate] = useState<any>();
