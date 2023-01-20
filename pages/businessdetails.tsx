@@ -33,22 +33,20 @@ export default function BusinessDetails() {
     "text-red-600 text-xs"
   );
 
-
   // State to hold new addressLine1 field.
   const [addressLine1, setAddressLine1] = useState<string>();
   const [addressLine1Warning, setAddressLine1Warning] = useState<string>();
-  const [addressLine1WarningColour, setAddressLine1WarningColour] = useState<string>(
-    "text-red-600 text-xs"
-  );
+  const [addressLine1WarningColour, setAddressLine1WarningColour] =
+    useState<string>("text-red-600 text-xs");
 
   // State to hold Lat/Long which is updated on click event of 'Set Position' button.
   const [latlong, setLatlong] = useState<[number, number]>();
   const [businessPosition, setBusinessPosition] = useState<any>();
 
-  const updateBusinessPosition = (newLatLong : any) => {
+  const updateBusinessPosition = (newLatLong: any) => {
     setBusinessPosition(newLatLong);
     console.log(newLatLong);
-    setLatlong(newLatLong)
+    setLatlong(newLatLong);
   };
 
   useEffect(() => {
@@ -56,7 +54,7 @@ export default function BusinessDetails() {
       setName(business.name);
       setWebsite(business.website);
       setPostcode(business.postcode);
-      setAddressLine1(business.address_line1)
+      setAddressLine1(business.address_line1);
     }
   }, [business]);
 
@@ -67,30 +65,42 @@ export default function BusinessDetails() {
     if (profile?.user_type === "") {
       router.push("/usertype");
     } else if (profile?.user_type === "consumer") {
-      router.push("/")};
+      router.push("/");
+    }
   }, [profile]);
 
   const saveChanges = async () => {
     if (business && profile) {
       const { data, error } = await supabase
         .from("businesses")
-        .update({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1], address_line1: addressLine1, user_id: profile.id })
+        .update({
+          name: name,
+          website: website,
+          postcode: postcode,
+          lat: businessPosition[0],
+          lon: businessPosition[1],
+          address_line1: addressLine1,
+          user_id: profile.id,
+        })
         .eq("id", business.id)
-        .select();
+        .select()
+        .single();
     } else if (profile) {
       const { data, error } = await supabase
         .from("businesses")
-        .insert({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1], address_line1: addressLine1, user_id: profile.id })
-        .select();
-      if (data && profile) {
-        const { error } = await supabase
-          .from("profiles")
-          .update({ business_id: data[0].id })
-          .eq("id", profile.id)
-          .select();
-      }
+        .insert({
+          name: name,
+          website: website,
+          postcode: postcode,
+          lat: businessPosition[0],
+          lon: businessPosition[1],
+          address_line1: addressLine1,
+          user_id: profile.id,
+        })
+        .select()
+        .single();
     }
-    router.push("/businesshome")
+    router.push("/businesshome");
   };
 
   const handleClick = async () => {
@@ -101,8 +111,8 @@ export default function BusinessDetails() {
     if (business) {
       router.push("/businesshome");
     } else {
-      router.push("/usertype")
-    } 
+      router.push("/usertype");
+    }
   };
 
   const positionFinder = async () => {
@@ -111,7 +121,11 @@ export default function BusinessDetails() {
         `https://api.postcodes.io/postcodes/${postcode}`
       );
       const data = await response.json();
-      console.log(`Postcode Position:`,data.result.latitude, data.result.longitude);
+      console.log(
+        `Postcode Position:`,
+        data.result.latitude,
+        data.result.longitude
+      );
       setLatlong([data.result.latitude, data.result.longitude]);
     }
   };

@@ -17,3 +17,7 @@
   scrollbar-width: none;
   scrollbar-color: #d97706;
 }
+
+.supabase-ui-auth_ui-message {
+  color: white !important;
+}

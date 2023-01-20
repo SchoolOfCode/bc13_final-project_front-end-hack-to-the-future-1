@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useProfile } from "./useProfile";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 
 /**
  * Creating TypeScript for the values that we are going to retrive from the profiles table in Supabase.
@@ -12,6 +11,7 @@ export interface Business {
   website: string;
   postcode: string;
   address_line1: string;
+  user_id: string;
 }
 
 /**
@@ -20,8 +20,7 @@ export interface Business {
  * @returns
  */
 export function useBusiness() {
-  const session = useSession();
-  const { profile } = useProfile();
+  const user = useUser();
   const supabase = useSupabaseClient();
 
   const [loading, setLoading] = useState(false);
@@ -32,11 +31,11 @@ export function useBusiness() {
     (async function () {
       try {
         setLoading(true);
-        if (profile) {
+        if (user) {
           const { data } = await supabase
             .from("businesses")
             .select()
-            .eq("id", profile.business_id)
+            .eq("user_id", user.id)
             .single();
           if (error) {
             throw error;
@@ -49,6 +48,7 @@ export function useBusiness() {
               website: data.website ?? "",
               postcode: data.postcode ?? "",
               address_line1: data.address_line1 ?? "",
+              user_id: data.user_id ?? "",
             });
           }
         }
@@ -58,7 +58,7 @@ export function useBusiness() {
         setLoading(false);
       }
     })();
-  }, [profile]);
+  }, [user]);
 
   return { loading, error, business };
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   useSession,
   useUser,
-  useSupabaseClient
+  useSupabaseClient,
 } from "@supabase/auth-helpers-react";
 
 /**
