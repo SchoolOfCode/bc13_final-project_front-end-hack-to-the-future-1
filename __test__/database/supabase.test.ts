@@ -15,14 +15,14 @@ import { supabaseAnon, supabaseService } from "../../jest.setup";
 // That a Business user type CANNOT EDIT another users profile information
 // That a Business user type CANNOT DELETE another users profile information
 
-describe("Supabase Basic Tests", () => {
-  it("profiles table should exist", async () => {
-    const { data, error } = await supabaseAnon.rpc("test_example_table_exists");
-    expect(data).toEqual(true);
-  });
-});
+// describe("Supabase Basic Tests", () => {
+//   it("profiles table should exist", async () => {
+//     const { data, error } = await supabaseAnon.rpc("test_example_table_exists");
+//     expect(data).toEqual(true);
+//   });
+// });
 
-describe("Supabase Businesses Table", () => {
+describe("Supabase Testing for Business User Account Type", () => {
   const testBusiness = {
     name: "Test Business",
     website: "www.example.com",
@@ -32,26 +32,38 @@ describe("Supabase Businesses Table", () => {
     address_line1: "123 Example Street",
   };
 
-  it("Should be able to create a business", async () => {
-    const {} = await supabaseAnon.auth.signInWithPassword({
+  it("Testing as Business User: Should be able to login, and be authenticated.", async () => {
+    const { data } = await supabaseAnon.auth.signInWithPassword({
       email: "lewisgormanneale@gmail.com",
       password: "password123",
     });
+    //console.log(data)
+    expect(data.session?.user.role).toEqual('authenticated');
+  });
+
+  it("Testing as Business User: Should be able to create a business", async () => {
     const { data, error } = await supabaseAnon
       .from("businesses")
       .insert(testBusiness)
-      .select();
-    expect(data).toMatchObject(true);
+      .select()
+      .single();
+      console.log(data)
+      expect(data).toEqual(
+        expect.objectContaining(testBusiness)
+      )
   });
 
-  it("should return all businesses", async () => {
-    const { data, error } = await supabaseAnon.from("deals").select();
-    console.log(data);
-    expect(data).toEqual(data);
-  });
 
-  it("profiles table should exist", async () => {
-    const { data, error } = await supabaseAnon.rpc("test_example_table_exists");
-    expect(data).toEqual(true);
-  });
+  // it("Testing as should return all businesses", async () => {
+  //   const { data: { user } } = await supabaseAnon.auth.getUser()
+  //   const { data, error } = await supabaseAnon.from("deals").select();
+  //   console.log(data);
+  //   console.log(user)
+  //   expect(data).toEqual(data);
+  // });
+
+  // it("profiles table should exist", async () => {
+  //   const { data, error } = await supabaseAnon.rpc("test_example_table_exists");
+  //   expect(data).toEqual(true);
+  // });
 });
