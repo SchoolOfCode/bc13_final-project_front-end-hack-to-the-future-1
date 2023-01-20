@@ -19,7 +19,7 @@ import DealCard from "../DealCard/DealCard";
 export interface Deals {
   id: string;
   name: string;
-  expiration_time: Date;
+  expiration_time: string;
   business_id: string;
   business_name: string;
 }
@@ -66,6 +66,30 @@ export default function Carousel({ businessData }: any) {
     getDeals();
   }, []);
 
+  function getTimeRemaining(offerExpiry:string) {
+    let expiration_string = "";
+    const current = new Date();
+    const expiryDate = new Date(offerExpiry);
+    const diff = expiryDate.getTime() - current.getTime();
+
+    let msec = diff;
+    let dd = Math.floor(msec / 1000 / 60 / 60 / 24);
+    msec -= dd * 1000 * 60 * 60 * 24;
+    let hh = Math.floor(msec / 1000 / 60 / 60);
+    msec -= hh * 1000 * 60 * 60;
+    let mm = Math.floor(msec / 1000 / 60);
+    msec -= mm * 1000 * 60;
+    let ss = Math.floor(msec / 1000);
+    msec -= ss * 1000;
+
+    if (dd >= 1) {
+      expiration_string = dd + " days : " + hh + " hrs";
+    } else {
+      expiration_string = hh + " hrs : " + mm + " mins";
+    }
+
+    return "Offer Expires in " + expiration_string;
+  }
   return (
     <div className="flex flex-col justify-center z-10 w-screen h-full">
       <ul
@@ -77,27 +101,8 @@ export default function Carousel({ businessData }: any) {
             key={offer.id}
             businessName={offer.business_name}
             dealText={offer.name}
-            dealHighlight="hello"
+            dealHighlight={getTimeRemaining(offer.expiration_time)}
           />
-          // <li
-          //   key={i}
-          //   id="deal-card"
-          //   className="flex-none min-w-80 w-10/12 py-10 px-10 bg-slate-700 rounded-3xl text-white text-center h-full border-box overflow-y-hidden"
-          // >
-          //   <div
-          //     id="b-type-icon"
-          //     className="flex justify-center flex-wrap max-w-sm max-h-sm z-10"
-          //   >
-          //     <RiRestaurantFill size="2rem" />
-          //   </div>
-          //   <h1
-          //     id="business-name"
-          //     className="flex justify-center items-center text-center flex-wrap max-w-sm text-2xl font-bold my-4 z-10 "
-          //   >
-          //     {offer.business_name}
-          //   </h1>
-          //   {offer.name}
-          // </li>
         ))}
       </ul>
     </div>
