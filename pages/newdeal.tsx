@@ -11,7 +11,6 @@ import { useLocation } from '../hooks/useLocation';
 export default function Newdeal() {
   const { business } = useBusiness();
   const { profile } = useProfile();
-  const { pos } = useLocation();
   const router = useRouter();
   const [offerText, setOfferText] = useState<any>();
   const [startDate, setStartDate] = useState<any>();
@@ -132,14 +131,14 @@ export default function Newdeal() {
       </div>
       <div
         id='Card, Preview & Button'
-        className='flex flex-col justify-center items-center w-full'
+        className='flex flex-col justify-center items-center w-full h-85 p-4'
       >
         <h1 className='font-Open text-sm font-bold text-amber-500 w-full text-center'>
           PREVIEW
         </h1>
         <div
           id='DealCard container'
-          className='flex justify-center items-center h-80 py-3 min-w-5/6 max-w-5/6'
+          className='flex justify-center items-center h-full min-h-full py-3  w-full'
         >
           <DealCard
             businessName={business?.name}
