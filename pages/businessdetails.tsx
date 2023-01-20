@@ -71,16 +71,16 @@ export default function BusinessDetails() {
   }, [profile]);
 
   const saveChanges = async () => {
-    if (business) {
+    if (business && profile) {
       const { data, error } = await supabase
         .from("businesses")
-        .update({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1], address_line1: addressLine1, user_id: profile?.id })
+        .update({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1], address_line1: addressLine1, user_id: profile.id })
         .eq("id", business.id)
         .select();
-    } else {
+    } else if (profile) {
       const { data, error } = await supabase
         .from("businesses")
-        .insert({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1], address_line1: addressLine1 })
+        .insert({ name: name, website: website, postcode: postcode, lat: businessPosition[0], lon: businessPosition[1], address_line1: addressLine1, user_id: profile.id })
         .select();
       if (data && profile) {
         const { error } = await supabase
