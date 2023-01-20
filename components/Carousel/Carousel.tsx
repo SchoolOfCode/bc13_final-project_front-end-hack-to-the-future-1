@@ -30,18 +30,48 @@ export default function Carousel({ businessData }: any) {
   //Map through offers. Compare offers.business_id with businessData.business_id. If match replace offers.business_name with businessData.name. Update a mergedInfo state with the new array.
   const [offers, setOffers] = useState<Deals[]>([]);
 
-  // useEffect(() => {
-  //   let updatedOffers: any = [];
-  //   offers.forEach((item1) => {
-  //     businessData.forEach((item2: any) => {
-  //       if (item1.business_id === item2.business_id) {
-  //         item1.business_name = item2.name;
-  //         updatedOffers.push(item1);
-  //       }
-  //     });
-  //   });
-  //   setOffers(updatedOffers);
-  // }, [businessData]);
+// api.postcodes.io/postcodes
+// send a POST request to postcode.io reverse geolocator
+// {
+//   "geolocations" : [ {
+//     "longitude": -2.49690382054704,
+//     "latitude": 53.5351312861402,
+//     "radius": 800
+ 
+//   }]
+// }
+
+// useEffect(() => {
+//   const getUsers = async () => {
+//     const users = await fetchUsers();
+//     setUsers(users);
+//   };
+
+//   getUsers(); // run it, run it
+
+//   return () => {
+//     // this now gets called when the component unmounts
+//   };
+// }, []);
+
+// await fetch("http://localhost:3001/api/posts", {
+//       method: "POST",
+//       headers: { "content-type": "application/json" },
+//       mode: "cors",
+//       body: JSON.stringify(newObj),
+//     });
+//     const response = await fetch(`http://localhost:3001/api/posts`);
+//     const data = await response.json();
+
+// long and lat from geolocation (useGeo())
+// save the fetch object as variable 
+// access the fetch object to find postcodes
+// store the postcodes in their own states
+// when fetching from supabase db setting the query to return ALL deals
+// WHERE postcode of business matches one of the stored postcode states
+// What is the dependency? 
+// will this send infinite requests? 
+
 
   useEffect(() => {
     async function getDeals() {
