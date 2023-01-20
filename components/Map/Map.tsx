@@ -39,14 +39,16 @@ export default function Map() {
   const { pos } = useLocation();
 
   function RecenterMap() {
-    const map = useMap()
-      useEffect(() => {
-        if (pos?.lat) {
-          map.flyTo([pos?.lat, pos?.lng],16);
-        }
-        const bounds = map.getBounds()
-        console.log(bounds)
-      }, [pos]);}
+    const map = useMap();
+    useEffect(() => {
+      if (pos?.lat) {
+        map.flyTo([pos?.lat, pos?.lng], 14);
+      }
+      const bounds = map.getBounds();
+      console.log(bounds);
+    }, [pos]);
+    return <p>Success</p>;
+  }
 
   useEffect(() => {
     async function getbusinessLocations() {
