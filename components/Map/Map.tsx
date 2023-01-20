@@ -38,11 +38,15 @@ export default function Map() {
   const [userLng, setUserLng] = useState<number>(-1.353992);
   const { pos } = useLocation();
 
-  function RecentreMap() {
-    const map = useMapEvent('click', (e) => {
-      map.flyTo([userLat, userLng], 12);
-    });
-  }
+  function RecenterMap() {
+    const map = useMap()
+      useEffect(() => {
+        if (pos?.lat) {
+          map.flyTo([pos?.lat, pos?.lng],16);
+        }
+        const bounds = map.getBounds()
+        console.log(bounds)
+      }, [pos]);}
 
   useEffect(() => {
     async function getbusinessLocations() {
@@ -113,7 +117,7 @@ export default function Map() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
-      <RecentreMap />
+      <RecenterMap />
       {/* REF:MARKERv2. This code is rendering a list of markers on a map, where each marker corresponds to a location in the businessLocations array which is stored as state. */}
       <div>
         {businessLocations.map((location, i) => (
