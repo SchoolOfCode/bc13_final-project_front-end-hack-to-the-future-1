@@ -69,11 +69,25 @@ describe("Supabase Testing for Profiles Table Row Level Security", () => {
     const { data } = await supabaseAnon
       .from("profiles")
       .update({
-        full_name: "Test Profile Updated",
+        full_name: "Test Business User 1 Updated",
       })
       .eq("id", user?.id)
       .select();
-    expect(data![0].full_name).toEqual("Test Profile Updated");
+    expect(data![0].full_name).toEqual("Test Business User 1 Updated");
+  });
+
+  it("Testing as Business User 1: Reversion Of Edited Profile Name Change Successful", async () => {
+    const {
+      data: { user },
+    } = await supabaseAnon.auth.getUser();
+    const { data } = await supabaseAnon
+      .from("profiles")
+      .update({
+        full_name: "Test Business User 1",
+      })
+      .eq("id", user?.id)
+      .select();
+    expect(data![0].full_name).toEqual("Test Business User 1");
   });
 
   it("Business User 1 Logs Out", async () => {
@@ -226,6 +240,116 @@ describe("Supabase Testing for Businesses Table Row Level Security", () => {
   it("Test Conclusion: Successful sign out of Business User 2 and Deletion Of Remaining Test Business", async () => {
     const { error } = await supabaseAnon.auth.signOut();
     expect(error).toEqual(null);
+
+    const { data } = await supabaseService
+      .from("businesses")
+      .delete()
+      .eq("user_id", businessUser1ID)
+      .select();
+    expect(data![0].user_id).toEqual(businessUser1ID);
+  });
+});
+
+describe("Supabase Testing for Deals Table Row Level Security", () => {
+  let testBusinessID = "";
+  let testDealID = "";
+
+  it("Testing as Business User 1: Should be able to login, and be authenticated.", async () => {
+    const { data } = await supabaseAnon.auth.signInWithPassword(businessUser1);
+    expect(data.session?.user.role).toEqual("authenticated");
+  });
+
+  it("Testing as Business User 1: Create A Business For Testing Purposes", async () => {
+    const {
+      data: { user },
+    } = await supabaseAnon.auth.getUser();
+
+    const testBusiness = {
+      name: "Test Business",
+      website: "www.example.com",
+      postcode: "SW1P 4QE",
+      lat: 90,
+      lon: 90,
+      address_line1: "123 Example Street",
+      user_id: user?.id,
+    };
+
+    const businessResponse = await supabaseAnon
+      .from("businesses")
+      .insert(testBusiness)
+      .select()
+      .single();
+    testBusinessID = businessResponse.data.id;
+    expect(businessResponse.data).toEqual(
+      expect.objectContaining(testBusiness)
+    );
+  });
+
+  it("Testing as Business User 1: Should be able to create a deal", async () => {
+    const testDeal = {
+      name: "Test Deal",
+      business_id: testBusinessID,
+      user_id: businessUser1ID,
+    };
+
+    const { data } = await supabaseAnon
+      .from("deals")
+      .insert(testDeal)
+      .select()
+      .single();
+    testDealID = data.id;
+    expect(data.name).toEqual("Test Deal");
+  });
+
+  it("Testing as Business User 1: Should be able to edit a deal they created", async () => {
+    const { data } = await supabaseAnon
+      .from("deals")
+      .update({
+        name: "Updated Test Deal",
+      })
+      .eq("id", testDealID)
+      .select()
+      .single();
+    expect(data.name).toEqual("Updated Test Deal");
+  });
+
+  it("Business User 1 Logs Out", async () => {
+    const { error } = await supabaseAnon.auth.signOut();
+    expect(error).toEqual(null);
+  });
+
+  //Not Logged In Tests
+  it("Should not be able to create a deal while not logged in", async () => {
+    const testDeal = {
+      name: "Test Deal",
+    };
+
+    const { statusText } = await supabaseAnon
+      .from("deals")
+      .insert(testDeal)
+      .select()
+      .single();
+    expect(statusText).toEqual("Unauthorized");
+  });
+
+  it("Should not be able to update a deal while not logged in", async () => {
+    const response = await supabaseAnon
+      .from("deals")
+      .update({
+        name: "Updated Test Deal Again",
+      })
+      .eq("id", testDealID)
+      .select()
+      .single();
+    expect(response.statusText).toEqual("Not Acceptable");
+  });
+
+  it("Test Conclusion: Deletion Of Remaining Test Business and Deal", async () => {
+    const { error } = await supabaseService
+      .from("deals")
+      .delete()
+      .eq("user_id", businessUser1ID)
+      .select();
 
     const { data } = await supabaseService
       .from("businesses")

@@ -2,8 +2,6 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
-import { markAssetError } from "next/dist/client/route-loader";
-import Map from "../Map";
 
 export interface PositionerProps {
   latlong: any;
@@ -45,8 +43,8 @@ export default function Positioner({
           if (marker != null) {
             setPosition(marker.getLatLng());
             const markerLatLong = marker.getLatLng();
-            console.log(marker)
-            updateBusinessPosition([markerLatLong.lat,markerLatLong.lng]);
+            console.log(marker);
+            updateBusinessPosition([markerLatLong.lat, markerLatLong.lng]);
           }
         },
       }),
