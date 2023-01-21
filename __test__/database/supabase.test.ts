@@ -1,18 +1,5 @@
 import { supabaseAnon, supabaseService } from "../../jest.setup";
 
-// that a user cant update another users profile info
-// that when a new business is registered it generates a business ID
-// When a new deal is created it also assigns the correct business ID
-
-// when a deal is deleted by a business it removes that deal from DB
-
-// That a consumer user type CANNOT create new deals
-// that a consumer user type CANNOT assign there own business ID
-
-// That a user CANNOT VIEW another users profile information
-// That a user CANNOT UPDATE another users profile information
-// That a user CANNOT DELETE another users profile information
-
 const businessUser1 = {
   email: "fawiwe3771@moneyzon.com",
   password: "password123",
@@ -25,7 +12,77 @@ const businessUser2 = {
   password: "password123",
 };
 
-describe("Supabase Testing for Businesses Table RLS", () => {
+describe("Supabase Testing for Profiles Table Row Level Security", () => {
+  it("Should not be able to view a profile when not logged in", async () => {
+    const { statusText } = await supabaseAnon
+      .from("profiles")
+      .select()
+      .eq("id", businessUser1ID)
+      .single();
+    expect(statusText).toEqual("Not Acceptable");
+  });
+
+  it("Should not be able to create a profile when not logged in", async () => {
+    const newProfile = {
+      id: "5bade4e6-5383-4bfb-9df4-29a276f4cecb",
+      user_type: "consumer",
+      full_name: "Test Profile",
+    };
+
+    const { statusText } = await supabaseAnon
+      .from("profiles")
+      .insert(newProfile)
+      .select()
+      .single();
+    expect(statusText).toEqual("Unauthorized");
+  });
+
+  it("Should not be able to edit a profile when not logged in", async () => {
+    const { statusText } = await supabaseAnon
+      .from("profiles")
+      .update({
+        full_name: "Updated Test Profile",
+      })
+      .eq("id", businessUser1ID)
+      .single();
+    expect(statusText).toEqual("Not Acceptable");
+  });
+
+  it("Should not be able to delete a profile when not logged in", async () => {
+    const { statusText } = await supabaseAnon
+      .from("profiles")
+      .delete()
+      .eq("id", businessUser1ID)
+      .single();
+    expect(statusText).toEqual("Not Acceptable");
+  });
+
+  it("Testing as Business User 1: Should be able to login, and be authenticated.", async () => {
+    const { data } = await supabaseAnon.auth.signInWithPassword(businessUser1);
+    expect(data.session?.user.role).toEqual("authenticated");
+  });
+
+  it("Testing as Business User 1: Should be able to update a profile assigned to their user_id", async () => {
+    const {
+      data: { user },
+    } = await supabaseAnon.auth.getUser();
+    const { data } = await supabaseAnon
+      .from("profiles")
+      .update({
+        full_name: "Test Profile Updated",
+      })
+      .eq("id", user?.id)
+      .select();
+    expect(data![0].full_name).toEqual("Test Profile Updated");
+  });
+
+  it("Business User 1 Logs Out", async () => {
+    const { error } = await supabaseAnon.auth.signOut();
+    expect(error).toEqual(null);
+  });
+});
+
+describe("Supabase Testing for Businesses Table Row Level Security", () => {
   it("Should not be able to create a business while not logged in", async () => {
     const testBusiness = {
       name: "Test Business",
@@ -177,37 +234,4 @@ describe("Supabase Testing for Businesses Table RLS", () => {
       .select();
     expect(data![0].user_id).toEqual(businessUser1ID);
   });
-
-  //   // it("Testing as Business User: Should be able to delete a business", async () => {
-  //   //   const { data: { user } } = await supabaseAnon.auth.getUser()
-  //   //   try {
-  //   //     // Check if the business exists
-  //   //     const business = await supabaseAnon
-  //   //       .from("businesses")
-  //   //       .eq("user_id", user?.id)
-  //   //       .select()
-  //   //       .first();
-  //   //     if (!business) {
-  //   //       throw new Error("Business not found");
-  //   //     }
-
-  //   //     const response = await supabaseAnon.transact(async (tx) => {
-  //   //       // Update the foreign key in the profiles table
-  //   //       await tx.from("profiles")
-  //   //         .update({ business_id: null })
-  //   //         .eq("business_id", business.id)
-  //   //         .select();
-
-  //   //       // Delete the business
-  //   //       await tx.from("businesses")
-  //   //         .delete()
-  //   //         .eq("id", business.id)
-  //   //         .select();
-  //   //     });
-  //   //     console.log("Business deleted successfully");
-  //   //     expect(response.status).toEqual(200);
-  //   //   } catch (error) {
-  //   //     console.error(error);
-  //   //   }
-  // });
 });
