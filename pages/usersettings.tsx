@@ -44,14 +44,9 @@ export default function UserSettings() {
 
   const saveChanges = async () => {
     if (user) {
-      const { data, error } = await supabase.auth.updateUser({
+      const { data } = await supabase.auth.updateUser({
         email: email,
       });
-      if (error) {
-        // throw error;
-        // console.log(error)
-      }
-      // console.log(data, 'this is from email')
       if (data.user === null) {
         setEmailWarning("Error: The email address may already be in use");
         setEmailWarningColour("text-red-600 text-xs");
@@ -62,16 +57,11 @@ export default function UserSettings() {
     }
 
     if (user) {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("profiles")
         .update({ full_name: name })
         .eq("id", user.id)
         .select();
-      if (error) {
-        // throw error;
-        // console.log(error)
-      }
-      console.log(data, `is from full name`);
       if (data === null) {
         setNameWarning("Error: Please try again");
         setNameWarningColour("text-red-600 text-xs");
@@ -82,17 +72,12 @@ export default function UserSettings() {
     }
 
     if (password) {
-      const { data, error } = await supabase.auth.updateUser({
+      const { error } = await supabase.auth.updateUser({
         password: password,
       });
       if (error) {
-        // throw error;
-        console.log(error);
-      }
-      console.log(`${data} this is from password`);
-      if (error) {
         setPasswordWarning(
-          "Error: Passwords should be at least 6 characters please try again"
+          "Error: Passwords should be at least 6 characters. Please try again!"
         );
         setPasswordWarningColour("text-red-600 text-xs");
       } else {

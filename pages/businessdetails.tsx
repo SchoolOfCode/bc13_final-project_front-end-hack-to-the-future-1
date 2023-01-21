@@ -45,7 +45,6 @@ export default function BusinessDetails() {
 
   const updateBusinessPosition = (newLatLong: any) => {
     setBusinessPosition(newLatLong);
-    console.log(newLatLong);
     setLatlong(newLatLong);
   };
 
@@ -121,11 +120,6 @@ export default function BusinessDetails() {
         `https://api.postcodes.io/postcodes/${postcode}`
       );
       const data = await response.json();
-      console.log(
-        `Postcode Position:`,
-        data.result.latitude,
-        data.result.longitude
-      );
       setLatlong([data.result.latitude, data.result.longitude]);
     }
   };

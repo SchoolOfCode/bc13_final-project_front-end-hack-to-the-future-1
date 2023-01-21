@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import { useProfile } from "../hooks/useProfile";
 import { useEffect } from "react";
 import Carousel from "../components/Carousel/Carousel";
-import { supabase } from "../supabase";
 
 export default function Home() {
   const user = useUser();

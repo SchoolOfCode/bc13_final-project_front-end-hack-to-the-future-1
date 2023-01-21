@@ -7,7 +7,6 @@ import { supabase } from "../supabase";
 import { Database } from "../types/supabase";
 import { useBusiness } from "../hooks/useBusiness";
 
-//should be a type (interface is like a contract)
 interface Deals {
   name: string;
   expiration_time: Date;
@@ -44,19 +43,6 @@ export default function BusinessAccountDetails() {
 
   const handleDeleteDeal = () => {};
 
-  // pull down business info and check business_id
-  // check that the business_id of the user matches the business_id stored within the currently selected deal
-  //query the DB and delete the selected deal from the DB
-
-  //from supabase api doc
-
-  //const { data, error } = await supabase
-  // .from('deals')
-  // .delete()
-  // .eq('id', 'someValue')
-
-  //we need to work out the filter + matching
-
   const router = useRouter();
   function redirectToSettings() {
     router.push("/businessdetails");
@@ -83,7 +69,6 @@ export default function BusinessAccountDetails() {
           <DealCard
             key={i}
             businessName={offer.business_name}
-            //businessDistance="10m away"
             dealText={offer.name}
             dealTime=" Offer ends 15:00 21/12/2023"
             dealHighlight="2 Hours remaining"
