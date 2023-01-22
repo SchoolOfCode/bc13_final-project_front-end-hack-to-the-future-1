@@ -18,8 +18,8 @@ export default function Positioner({
   };
 
   let userIcon = L.icon({
-    iconUrl: "https://cdn.onlinewebfonts.com/svg/img_155117.png",
-    iconSize: [25, 25],
+    iconUrl: "https://cdn.onlinewebfonts.com/svg/img_465789.png",
+    iconSize: [25, 35],
   });
 
   function DraggableMarker() {

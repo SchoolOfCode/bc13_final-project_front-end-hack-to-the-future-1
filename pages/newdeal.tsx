@@ -34,8 +34,7 @@ export default function Newdeal() {
       })
       .select()
       .single();
-    console.log(response);
-    //router.push("/businesshome");
+    router.push("/businesshome");
   };
 
   /*Calculating the time remaining in the deal*/

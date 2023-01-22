@@ -4,7 +4,6 @@ import DealCard from "../components/DealCard/DealCard";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { supabase } from "../supabase";
-import { Database } from "../types/supabase";
 import { useBusiness } from "../hooks/useBusiness";
 
 interface Deals {
@@ -65,17 +64,23 @@ export default function BusinessAccountDetails() {
         />
       </div>
       <div className="flex flex-col gap-5 justify-center items-center h-full pt-5">
-        {offers.map((offer, i) => (
-          <DealCard
-            key={i}
-            businessName={offer.business_name}
-            dealText={offer.name}
-            dealTime=" Offer ends 15:00 21/12/2023"
-            dealHighlight="2 Hours remaining"
-            onClick={handleDeleteDeal}
-            className="h-80"
-          />
-        ))}
+        {offers.length ? (
+          offers.map((offer, i) => (
+            <DealCard
+              key={i}
+              businessName={offer.business_name}
+              dealText={offer.name}
+              dealTime=" Offer ends 15:00 21/12/2023"
+              dealHighlight="2 Hours remaining"
+              onClick={handleDeleteDeal}
+              className="h-80"
+            />
+          ))
+        ) : (
+          <h1 className="font-Open font-bold text-xl text-slate-50">
+            No Active Offers
+          </h1>
+        )}
       </div>
     </div>
   );
