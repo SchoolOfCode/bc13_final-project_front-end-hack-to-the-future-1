@@ -1,9 +1,6 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import usersettings from "../../pages/usersettings";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import UserSettings from "../../pages/usersettings";
-import mockRouter from "next-router-mock";
-import { useRouter } from "next/router";
 
 describe("usersettings", () => {
   it("renders the page correctly", () => {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useProfile } from "../hooks/useProfile";
 import Image from "next/image";
 import Button from "../components/Button/Button";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
@@ -8,11 +7,10 @@ import DealCard from "../components/DealCard/DealCard";
 import { useBusiness } from "../hooks/useBusiness";
 
 export default function Newdeal() {
-  const { business } = useBusiness();
   const supabase = useSupabaseClient();
   const user = useUser();
-  const { profile } = useProfile();
   const router = useRouter();
+  const { business } = useBusiness();
   const [offerText, setOfferText] = useState<any>();
   const [startDate, setStartDate] = useState<any>();
   const [endDate, setEndDate] = useState<any>(new Date());

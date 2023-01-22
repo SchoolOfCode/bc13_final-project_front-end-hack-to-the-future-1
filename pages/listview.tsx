@@ -40,18 +40,6 @@ export default function BusinessAccountDetails() {
   }, []);
 
   const handleDeleteDeal = () => {};
-  // pull down business info and check business_id
-  // check that the business_id of the user matches the business_id stored within the currently selected deal
-  //query the DB and delete the selected deal from the DB
-
-  //from supabase api doc
-
-  //const { data, error } = await supabase
-  // .from('deals')
-  // .delete()
-  // .eq('id', 'someValue')
-
-  //we need to work out the filter + matching
 
   const router = useRouter();
   function redirectToSettings() {
@@ -73,7 +61,7 @@ export default function BusinessAccountDetails() {
           buttonText="NEW DEAL"
           className="w-5/6 h-14 border-indigo-400  "
         />
-      </div> 
+      </div>
       <div className="flex flex-col justify-center items-center h-full">
         {offers.map((offer, i) => (
           <DealCard
@@ -87,16 +75,6 @@ export default function BusinessAccountDetails() {
           />
         ))}
       </div>
-      {/* <div className="flex flex-col justify-center items-center">
-        <DealCard
-          businessName="Pam's Bakery"
-          businessDistance="10m away"
-          dealText="Buy one get one free on sausage rolls"
-          dealTime=" Offer ends 15:00 21/12/2023"
-          dealHighlight="2 Hours remaining"
-          onClick={handleDeleteDeal}
-        />
-      </div> */}
     </div>
   );
 }

@@ -11,12 +11,14 @@ export interface Business {
   website: string;
   postcode: string;
   address_line1: string;
+  lat: number;
+  lon: number;
   user_id: string;
 }
 
 /**
- * Custom hook that be called from anywhere else in the application to retrieve a user's profile details.
- * Works by checking the active session and user, and if one exists, queries the profiles table in supabase using the userid obtained from the useUser helper function.
+ * Custom hook that be called from anywhere else in the application to retrieve details of the business associated with a user, if one exists.
+ * Works by checking the active session and user, and if one exists, queries the businesses table in supabase using the userid obtained from the useUser helper function.
  * @returns
  */
 export function useBusiness() {
@@ -48,6 +50,8 @@ export function useBusiness() {
               website: data.website ?? "",
               postcode: data.postcode ?? "",
               address_line1: data.address_line1 ?? "",
+              lat: data.lat ?? "",
+              lon: data.lon ?? "",
               user_id: data.user_id ?? "",
             });
           }
