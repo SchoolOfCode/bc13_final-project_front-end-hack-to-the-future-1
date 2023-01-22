@@ -1,16 +1,30 @@
 import Button from "../components/Button/Button";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProfile } from "../hooks/useProfile";
 import { useBusiness } from "../hooks/useBusiness";
 import BusinessForm from "../components/BusinessForm/BusinessForm";
 
 export default function BusinessDetails() {
   const { profile } = useProfile();
-  const { business } = useBusiness();
+  const { business, loading } = useBusiness();
 
   const router = useRouter();
+
+  const [pageGreeting, setPageGreeting] = useState("");
+
+  useEffect(() => {
+    if (!loading && business) {
+      setPageGreeting(
+        `Any changes made will immediately be visible to customers after you press Save Changes.`
+      );
+    } else if (!loading && !business) {
+      setPageGreeting(
+        "Thank you for registering your business on IndyGo! We just need a few more details from you so that we can display your business to customers."
+      );
+    } else setPageGreeting("");
+  }, [business, loading]);
 
   /**
    * Route the user back to the user type selection page if they don't have a user type.
@@ -38,17 +52,7 @@ export default function BusinessDetails() {
           <h1 className="font-Open font-bold text-xl text-slate-50">
             Edit Business Details
           </h1>
-          {business ? (
-            <p className="font-Open text-sm text-slate-50">
-              Edit Your Business Details Below
-            </p>
-          ) : (
-            <p>
-              Thank you for registering your business with IndyGo! Please
-              complete the fields below to complete your sign up and make your
-              business visible to customers.
-            </p>
-          )}
+          <p className="font-Open text-sm text-slate-50">{pageGreeting}</p>
           <BusinessForm />
         </div>
       </div>
