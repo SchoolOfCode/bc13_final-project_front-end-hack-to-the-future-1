@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -11,6 +12,11 @@ export default function BusinessForm() {
   const router = useRouter();
   const { business } = useBusiness();
 
+  /**
+   * This object state is updated as the user completes parts of the form by the handleChange function.
+   * The object will also be updated if information already exists for the user's business through a useEffect.
+   * When the user
+   */
   const [businessInfo, setBusinessInfo] = useState({
     name: "",
     business_type: "",
@@ -22,8 +28,18 @@ export default function BusinessForm() {
     user_id: user?.id,
   });
 
+  /**
+   * These are the options that will be selectable in the Business Type dropdown field.
+   */
+  const options = [
+    { value: "Food/Drink", label: "Food/Drink" },
+    { value: "Entertainment", label: "Entertainment" },
+    { value: "Retail", label: "Retail" },
+  ];
+
   // State to hold Lat/Long which is updated on click event of 'Set Position' button.
   const [latLon, setLatLon] = useState<[number, number]>();
+  const [formMessage, setFormMessage] = useState("");
 
   /**
    * If the user already has set up a business, the existing business information will be added to the form input fields.
@@ -61,28 +77,39 @@ export default function BusinessForm() {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    if (business && user) {
-      const { data, error } = await supabase
-        .from("businesses")
-        .update(businessInfo)
-        .eq("id", business.id)
-        .select()
-        .single();
-    } else if (user) {
-      const { data } = await supabase
-        .from("businesses")
-        .insert(businessInfo)
-        .select()
-        .single();
-      const { error } = await supabase
-        .from("profiles")
-        .update({
-          business_id: data.id,
-        })
-        .select()
-        .single();
+    if (
+      businessInfo.name.length > 0 &&
+      businessInfo.postcode.length > 0 &&
+      businessInfo.lat != 0 &&
+      businessInfo.lon != 0
+    ) {
+      if (business && user) {
+        const { data, error } = await supabase
+          .from("businesses")
+          .update(businessInfo)
+          .eq("id", business.id)
+          .select()
+          .single();
+      } else if (user) {
+        const { data } = await supabase
+          .from("businesses")
+          .insert(businessInfo)
+          .select()
+          .single();
+        const { error } = await supabase
+          .from("profiles")
+          .update({
+            business_id: data.id,
+          })
+          .select()
+          .single();
+      }
+      router.push("/businesshome");
+    } else {
+      setFormMessage(
+        "Error With Form Submission: Please ensure all non-optional fields have been completed, and that you have set the location of your business."
+      );
     }
-    router.push("/businesshome");
   };
 
   const positionFinder = async (event: any) => {
@@ -93,6 +120,11 @@ export default function BusinessForm() {
       );
       const data = await response.json();
       setLatLon([data.result.latitude, data.result.longitude]);
+      setBusinessInfo({
+        ...businessInfo,
+        lat: data.result.latitude,
+        lon: data.result.longitude,
+      });
     }
   };
 
@@ -129,22 +161,23 @@ export default function BusinessForm() {
           Business Type
         </label>
         <select
-          className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2"
-          name="business-type"
-          placeholder="Business Type"
+          name="business_type"
           value={businessInfo.business_type}
+          className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2"
           onChange={handleChange}
         >
-          <option>Food/Drink</option>
-          <option>Entertainment</option>
-          <option>Retail</option>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
 
         <label
           htmlFor="website"
           className="font-Open text-sm font-bold text-amber-500 w-full text-left"
         >
-          Website
+          Website <span className="text-xs italic">(Optional)</span>
         </label>
         <input
           className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2"
@@ -159,7 +192,7 @@ export default function BusinessForm() {
           htmlFor="address-line1"
           className="font-Open text-sm font-bold text-amber-500 w-full text-left"
         >
-          Address Line 1
+          Address Line 1 <span className="text-xs italic">(Optional)</span>
         </label>
         <input
           className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2"
@@ -176,27 +209,37 @@ export default function BusinessForm() {
         >
           Postcode
         </label>
-        <input
-          className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2"
-          name="postcode"
-          type="text"
-          placeholder="Postcode"
-          value={businessInfo.postcode}
-          onChange={handleChange}
-        />
-        <Button
-          onClick={positionFinder}
-          buttonText="Set Location"
-          className="border-indigo-400 bg-opacity-0 text-indigo-400 "
-        />
+        <div className="flex w-full">
+          <input
+            className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2"
+            name="postcode"
+            type="text"
+            placeholder="Postcode"
+            value={businessInfo.postcode}
+            onChange={handleChange}
+          />
+          <Button
+            onClick={positionFinder}
+            buttonText="SET LOCATION"
+            className="h-full ml-5"
+          />
+        </div>
 
+        <p className="text-slate-50 text-sm px-5">
+          Pressing Set Location after entering your postcode will place an
+          estimated position for your business on the map below.
+        </p>
+        <p className="text-slate-50 text-sm px-5">
+          You can then specify your business&#39;s exact location by dragging
+          the marker around on the map.
+        </p>
         <div className="flex justify-center items-center h-full w-full">
           <Positioner
             latLon={latLon}
             updateBusinessPosition={updateBusinessPosition}
           />
         </div>
-
+        <p className="text-red-600">{formMessage}</p>
         <div className="flex justify-between gap-4">
           <Button
             onClick={redirectToRoot}
