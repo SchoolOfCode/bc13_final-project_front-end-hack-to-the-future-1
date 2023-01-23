@@ -7,7 +7,6 @@ import { isTemplateExpression } from "typescript";
 import DealCard from "../DealCard/DealCard";
 import { useLocation } from "../../hooks/useLocation";
 
-
 export interface Deals {
   id: string;
   name: string;
@@ -17,60 +16,41 @@ export interface Deals {
 }
 
 export default function Carousel({ businessData }: any) {
-
   const [offers, setOffers] = useState<Deals[]>([]);
   //todo type will be what ever is returned from fetch
-  const [postcodes,setPostcodes]= useState<any[]>([])
+  const [postcodes, setPostcodes] = useState<any[]>([]);
   // long and lat from geolocation (useLocation())
-  const {pos} = useLocation()
+  const { pos } = useLocation();
 
-  
   useEffect(() => {
+    if (pos) {
       const getAllLocalDeals = async () => {
-          const deals = await getAllLocalDeals();
-          await fetch("http://api.postcodes.io/postcodes", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            mode: "cors",
-            body: JSON.stringify(geoLocationObj),
-          });
-          const response = await fetch(`http://api.postcodes.io/postcodes`);
+        // const deals = await getAllLocalDeals();
+        const response = await fetch(
+          `https://api.postcodes.io/postcodes?lon=${pos.lng}&lat=${pos.lat}&radius=1000`
+        );
         const localPostcodes = await response.json();
-console.log(localPostcodes)
+        console.log("hello", localPostcodes.result[0].postcode);
         //localPostcodes needs to be mapped into a new array which we use to update postcodes
         // setPostcodes([array])
 
         //supaBase fetch goes here :
-          // setOffers(deals);
-        };
-        getAllLocalDeals();
-      
-      
-      
-      }, [pos]);
-      
-      const geoLocationObj ={
-        "geolocations" : [ {
-          "longitude": pos?.lng ,
-          "latitude":  pos?.lat ,
-          "radius": 1000
-       
-        }]
-      }
+        // setOffers(deals);
+      };
+      getAllLocalDeals();
+    }
+  }, [pos]);
 
-// save the fetch object as variable (localPostcodes) 
-// access the fetch object to find postcodes
+  // save the fetch object as variable (localPostcodes)
+  // access the fetch object to find postcodes
   //! map through the fetch result and push the postcodes into a new array stored in state
-//? store the postcodes in their own states? Do we limit the number of returned postcodes to 5?
-//! when fetching from supabase db setting the query to return: 
-// * deals WHERE postcode of business matches one of the stored postcode states
-//? What is the dependency? 
-//! DO NOT let this send infinite requests!! 
-
+  //? store the postcodes in their own states? Do we limit the number of returned postcodes to 5?
+  //! when fetching from supabase db setting the query to return:
+  // * deals WHERE postcode of business matches one of the stored postcode states
+  //? What is the dependency?
+  //! DO NOT let this send infinite requests!!
 
   useEffect(() => {
-
-    
     async function getDeals() {
       const { data } = await supabase
         .from("deals")
@@ -93,7 +73,7 @@ console.log(localPostcodes)
     getDeals();
   }, []);
 
-  function getTimeRemaining(offerExpiry:string) {
+  function getTimeRemaining(offerExpiry: string) {
     let expiration_string = "";
     const current = new Date();
     const expiryDate = new Date(offerExpiry);
