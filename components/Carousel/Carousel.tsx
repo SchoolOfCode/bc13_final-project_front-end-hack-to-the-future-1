@@ -55,10 +55,11 @@ export default function Carousel({ businessData }: any) {
     const getAllLocalDeals= async()=>{
   const { data } = await supabase
   .from("businesses")
-  .select("*, deals (id,name,expiration_time, created_at)")
+  .select("*, deals (*)")
   .in("postcode", [postcodes]);
       console.log('deals', data, postcodes)
       setOffers(data)
+      console.log("hello", offers)
     }
 getAllLocalDeals()
   }, [postcodes]);
@@ -124,14 +125,16 @@ getAllLocalDeals()
         id='deal-carousel'
         className='flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full'
       >
-        {offers.map((offer) => (
-          <DealCard
-            key={offer.id}
-            businessName={offer.name}
-            dealText={offer.name}
-            dealHighlight={getTimeRemaining(offer.expiration_time)}
-          />
-        ))}
+        {offers.map((business) =>
+          business.deals.map((offer) => (
+            <DealCard
+              key={offer.id}
+              businessName={business.name}
+              dealText={offer.name}
+              dealHighlight={getTimeRemaining(offer.expiration_time)}
+            />
+          ))
+        )}       
       </ul>
     </div>
   );
