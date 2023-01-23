@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useProfile } from "./useProfile";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 
 /**
  * Creating TypeScript for the values that we are going to retrive from the profiles table in Supabase.
@@ -12,16 +11,18 @@ export interface Business {
   website: string;
   postcode: string;
   address_line1: string;
+  lat: number;
+  lon: number;
+  user_id: string;
 }
 
 /**
- * Custom hook that be called from anywhere else in the application to retrieve a user's profile details.
- * Works by checking the active session and user, and if one exists, queries the profiles table in supabase using the userid obtained from the useUser helper function.
+ * Custom hook that be called from anywhere else in the application to retrieve details of the business associated with a user, if one exists.
+ * Works by checking the active session and user, and if one exists, queries the businesses table in supabase using the userid obtained from the useUser helper function.
  * @returns
  */
 export function useBusiness() {
-  const session = useSession();
-  const { profile } = useProfile();
+  const user = useUser();
   const supabase = useSupabaseClient();
 
   const [loading, setLoading] = useState(false);
@@ -32,11 +33,11 @@ export function useBusiness() {
     (async function () {
       try {
         setLoading(true);
-        if (profile) {
+        if (user) {
           const { data } = await supabase
             .from("businesses")
             .select()
-            .eq("id", profile.business_id)
+            .eq("user_id", user.id)
             .single();
           if (error) {
             throw error;
@@ -49,6 +50,9 @@ export function useBusiness() {
               website: data.website ?? "",
               postcode: data.postcode ?? "",
               address_line1: data.address_line1 ?? "",
+              lat: data.lat ?? "",
+              lon: data.lon ?? "",
+              user_id: data.user_id ?? "",
             });
           }
         }
@@ -58,7 +62,7 @@ export function useBusiness() {
         setLoading(false);
       }
     })();
-  }, [profile]);
+  }, [user]);
 
   return { loading, error, business };
 }
