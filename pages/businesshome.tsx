@@ -8,14 +8,18 @@ import { useBusiness } from "../hooks/useBusiness";
 
 interface Deals {
   name: string;
-  expiration_time: Date;
+  expiration_time: string;
   business_id: string;
   business_name: string;
+  id: string;
 }
+
 
 export default function BusinessAccountDetails() {
   const [offers, setOffers] = useState<Deals[]>([]);
+
   const { business } = useBusiness();
+
   useEffect(() => {
     async function getDeals() {
       if (business) {
@@ -24,8 +28,12 @@ export default function BusinessAccountDetails() {
           .select("*, businesses (id, name)")
           .eq("business_id", business.id);
 
-        const dealsData: any = data
-          ? data.map((item) => ({
+        if (!data) {
+          return
+        }
+        const dealsData:any =
+           data.map((item) => ({
+              id: item.id,
               name: item.name,
               business_id: item.business_id,
               expiration_time: item.expiration_time,
@@ -33,14 +41,51 @@ export default function BusinessAccountDetails() {
                 ? item.businesses[0].name
                 : item.businesses?.name,
             }))
-          : console.log("No data found");
+           console.log("No data found");
+          console.log("this is deals data",dealsData)
         setOffers(dealsData);
+        
       }
     }
     getDeals();
   }, [business]);
 
-  const handleDeleteDeal = () => {};
+
+  const handleDeleteDeal = async (id:string) => {
+    const { data, error } = await supabase
+  .from('deals')
+  .delete()
+  .eq('id', id)
+  };
+
+
+  
+
+  function getTimeRemaining (offerExpiry:string) {
+      let expiration_string = '';
+      const current = new Date();
+      const expiryDate = new Date(offerExpiry)
+      const diff = expiryDate.getTime() - current.getTime();
+      
+      let msec = diff;
+      let dd = Math.floor(msec / 1000 / 60 / 60 / 24);
+      msec -= dd * 1000 * 60 * 60 * 24;
+      let hh = Math.floor(msec / 1000 / 60 / 60);
+      msec -= hh * 1000 * 60 * 60;
+      let mm = Math.floor(msec / 1000 / 60);
+      msec -= mm * 1000 * 60;
+      let ss = Math.floor(msec / 1000);
+      msec -= ss * 1000;
+      
+      if (dd >= 1) {
+        expiration_string = dd + ' days : ' + hh + ' hrs';
+      } else {
+        expiration_string = hh + ' hrs : ' + mm + ' mins';
+      }
+      
+      return "Offer Expires in " + expiration_string;
+  }
+  
 
   const router = useRouter();
   function redirectToSettings() {
@@ -49,6 +94,9 @@ export default function BusinessAccountDetails() {
   function redirectToNewDeal() {
     router.push("/newdeal");
   }
+//conditional logic
+//if there is an offer and its not empty map through everything
+//else render only the buttons
 
   return (
     <div className="bg-slate-800 h-full w-full p-1">
@@ -63,25 +111,53 @@ export default function BusinessAccountDetails() {
           className="w-5/6 h-14 border-indigo-400  "
         />
       </div>
+      {offers?(
       <div className="flex flex-col gap-5 justify-center items-center h-full pt-5">
-        {offers.length ? (
-          offers.map((offer, i) => (
-            <DealCard
-              key={i}
-              businessName={offer.business_name}
-              dealText={offer.name}
-              dealTime=" Offer ends 15:00 21/12/2023"
-              dealHighlight="2 Hours remaining"
-              onClick={handleDeleteDeal}
-              className="h-80"
-            />
-          ))
-        ) : (
-          <h1 className="font-Open font-bold text-xl text-slate-50">
-            No Active Offers
-          </h1>
-        )}
+
+
+        {offers.map((offer) => (
+          <DealCard
+            key={offer.id}
+            businessName={offer.business_name}
+            dealText={offer.name}
+            dealTime={new Date(offer.expiration_time).toLocaleString()}
+            dealHighlight={getTimeRemaining(offer.expiration_time)}
+            onClick={handleDeleteDeal}
+            className="h-80"
+            id={offer.id}
+          />
+        ))}
+
       </div>
+
+      ):( <div className="flex flex-col gap-5 justify-center items-center h-full pt-5">
+      <DealCard 
+        businessName="My Business"
+        dealText="Example deal"
+        dealTime="Offer valid until: "
+        dealHighlight="ENDING SOON"
+        onClick={handleDeleteDeal}
+        className="h-80"
+      />
+       <DealCard 
+        businessName="My Business"
+        dealText="Example deal"
+        dealTime="Offer valid until: "
+        dealHighlight="ENDING SOON"
+        onClick={handleDeleteDeal}
+        className="h-80"
+      />
+       <DealCard 
+        businessName="My Business"
+        dealText="Example deal"
+        dealTime="Offer valid until: "
+        dealHighlight="ENDING SOON"
+        onClick={handleDeleteDeal}
+        className="h-80"
+      />
+      </div>
+
+      )}
     </div>
   );
 }

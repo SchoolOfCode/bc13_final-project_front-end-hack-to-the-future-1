@@ -67,7 +67,6 @@ export default function BusinessAccountDetails() {
           <DealCard
             key={i}
             businessName={offer.business_name}
-            businessDistance="10m away"
             dealText={offer.name}
             dealTime=" Offer ends 15:00 21/12/2023"
             dealHighlight="2 Hours remaining"

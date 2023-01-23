@@ -3,7 +3,7 @@ import { DealProps } from "./DealCard";
 
 function ConsumerDeal({ businessName, dealText, dealHighlight }: DealProps) {
   return (
-    <div className="flex flex-col justify-center items-center text-left mb-8">
+    <div className="flex flex-col justify-center items-center text-center mb-8">
       {" "}
       <h1 className="font-Open font-bold text-slate-50 text-2xl">
         {businessName}

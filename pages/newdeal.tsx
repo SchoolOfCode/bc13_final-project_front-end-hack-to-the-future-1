@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -9,20 +10,24 @@ import { useBusiness } from "../hooks/useBusiness";
 export default function Newdeal() {
   const supabase = useSupabaseClient();
   const user = useUser();
+
   const router = useRouter();
   const { business } = useBusiness();
   const [offerText, setOfferText] = useState<any>();
   const [startDate, setStartDate] = useState<any>();
-  const [endDate, setEndDate] = useState<any>(new Date());
+  const [endDate, setEndDate] = useState<any>();
   const [timeRemaining, setTimeRemaining] = useState<string>();
 
   /* function to return to businesshome  */
-  const handleClick = () => {
-    router.push("/businesshome");
+
+  const tobusinesshome = () => {
+    router.push('/businesshome');
+
   };
 
   /* submits the newly created offer to the deals table in database */
   const handleSubmit = async () => {
+
     const response = await supabase
       .from("deals")
       .insert({
@@ -35,6 +40,7 @@ export default function Newdeal() {
       .select()
       .single();
     router.push("/businesshome");
+
   };
 
   /*Calculating the time remaining in the deal*/
@@ -57,19 +63,29 @@ export default function Newdeal() {
     console.log(
       dd + " days : " + hh + " hrs : " + mm + " mins : " + ss + " secs"
     );
-    if (dd >= 1) {
-      setTimeRemaining(dd + " days : " + hh + " hrs remaining");
+
+    if (!endDate) {
+      setTimeRemaining('Time Remaining');
+    } else if (dd >= 1) {
+      setTimeRemaining(dd + ' days : ' + hh + ' hrs remaining');
+
     } else {
       setTimeRemaining(hh + " hrs : " + mm + " mins remaining");
     }
   }, [endDate]);
 
+  // const dealEndDate = new Date(endDate)
+
   return (
-    <div className="flex flex-col w-full h-full bg-slate-800 pb-10">
-      <div className="flex flex-col w-full  justify-start items-center">
-        <header className="flex justify-between items-center w-full border-box pt-4 px-4 mt-5">
-          <Image src="/logo.svg" alt="logo" width="100" height="100" />
-          <Button onClick={handleClick} buttonText="CANCEL" />
+
+      
+
+    <div className='flex flex-col w-full h-full bg-slate-800 pb-10'>
+      <div className='flex flex-col w-full  justify-start items-center'>
+        <header className='flex justify-between items-center w-full border-box pt-4 px-4 mt-5'>
+          <Image src='/logo.svg' alt='logo' width='100' height='100' />
+          <Button onClick={tobusinesshome} buttonText='CANCEL' />
+
         </header>
       </div>
       <div className="flex flex-col justify-start items-center pb-10">
@@ -130,19 +146,26 @@ export default function Newdeal() {
         </form>
       </div>
       <div
-        id="Card, Preview & Button"
-        className="flex flex-col justify-center items-center w-full"
+
+        id='Card, Preview & Button'
+        className='flex flex-col justify-center items-center w-full h-85 p-4'
+
       >
         <h1 className="font-Open text-sm font-bold text-amber-500 w-full text-center">
           PREVIEW
         </h1>
-        <div id="DealCard container" className="py-3 w-5/6">
+
+        <div
+          id='DealCard container'
+          className='flex justify-center items-center h-full min-h-full py-3  w-full'
+        >
           <DealCard
             businessName={business?.name}
-            dealText={offerText ? offerText : "Your Offer Here"}
-            dealHighlight={timeRemaining ? timeRemaining : "Time Remaining"}
+            dealText={offerText ? offerText : 'Your Offer Here'}
+            dealHighlight={timeRemaining ? timeRemaining : 'Time Remaining'}
             dealTime={
-              endDate ? new Date(endDate).toLocaleString() : "Deal End Date"
+              endDate ? new Date(endDate).toLocaleString() : 'Deal End Date'
+
             }
           />
         </div>
