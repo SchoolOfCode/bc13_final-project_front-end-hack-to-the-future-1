@@ -6,16 +6,6 @@ import { RiRestaurantFill } from "react-icons/ri";
 import { isTemplateExpression } from "typescript";
 import DealCard from "../DealCard/DealCard";
 
-//Deals constant below is hard-coded data used during development
-
-// const deals: string[] = [
-//   "Free Muffin",
-//   "50% off fresh loaves",
-//   "£5 Coffee and cake",
-// ];
-
-//Change from hard-coded deals to data fetched from the database
-
 export interface Deals {
   id: string;
   name: string;

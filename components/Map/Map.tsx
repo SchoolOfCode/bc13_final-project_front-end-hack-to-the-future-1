@@ -1,3 +1,4 @@
+
 import {
   MapContainer,
   TileLayer,
@@ -14,6 +15,7 @@ import { Database } from '../../types/supabase';
 import Carousel from '../Carousel/Carousel';
 import React from 'react';
 import { useLocation } from '../../hooks/useLocation';
+
 
 {
   /* REF:LOCATIONINTERFACEv1. This code describes the interface for Location which matches the data types of the 'Businesses' table in Supabase database. */
@@ -139,15 +141,8 @@ export default function Map() {
           <Popup>You are here!</Popup>
         </Marker>
       </div>
-      {/* REF: MARKERv1.This code is the first iteration. It renders a single marker on a map. The lat and lon values correspond with the response object of a fetch request that returned a single row (data[0].lat & data[0].lon – which were both stored as states: latitude & longitude). This has been superceded by code REF:MARKERv2 */}
-      {/* <Marker position={[lat, lon]}>
-        <Popup>
-        Popup info <br /> Easily customizable.
-        </Popup>
-      </Marker> */}
-      {/* <div className='z-10 absolute bottom-5 w-screen'>
-        <Carousel businessData={businessLocations} />
-      </div> */}
+
+
     </MapContainer>
   );
 }

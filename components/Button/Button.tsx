@@ -2,7 +2,7 @@ import { twMerge } from "tailwind-merge";
 
 export interface ButtonProps {
   buttonText: string;
-  onClick: () => void;
+  onClick: (event: any) => void;
   className?: string;
 }
 
