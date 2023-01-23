@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { supabase } from "../../supabase";
-import { GiSombrero } from "react-icons/gi";
-import { RiCake3Line } from "react-icons/ri";
-import { RiRestaurantFill } from "react-icons/ri";
-import { isTemplateExpression } from "typescript";
-import DealCard from "../DealCard/DealCard";
-import { useLocation } from "../../hooks/useLocation";
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../../supabase';
+import { GiSombrero } from 'react-icons/gi';
+import { RiCake3Line } from 'react-icons/ri';
+import { RiRestaurantFill } from 'react-icons/ri';
+import { isTemplateExpression } from 'typescript';
+import DealCard from '../DealCard/DealCard';
+import { useLocation } from '../../hooks/useLocation';
+import { PostcodesFetch } from '../../types/fetch';
 
 export interface Deals {
   id: string;
@@ -18,9 +19,10 @@ export interface Deals {
 export default function Carousel({ businessData }: any) {
   const [offers, setOffers] = useState<Deals[]>([]);
   //todo type will be what ever is returned from fetch
-  const [postcodes, setPostcodes] = useState<any[]>([]);
+  const [postcodes, setPostcodes] = useState<PostcodesFetch>([]);
   // long and lat from geolocation (useLocation())
   const { pos } = useLocation();
+  const mappedPostcodes: any = [];
 
   useEffect(() => {
     if (pos) {
@@ -30,16 +32,20 @@ export default function Carousel({ businessData }: any) {
           `https://api.postcodes.io/postcodes?lon=${pos.lng}&lat=${pos.lat}&radius=1000`
         );
         const localPostcodes = await response.json();
-        console.log("hello", localPostcodes.result[0].postcode);
         //localPostcodes needs to be mapped into a new array which we use to update postcodes
-        // setPostcodes([array])
-
+        localPostcodes.result.map((item: any) => {
+          //! Create interface for item type
+          mappedPostcodes.push(item.postcode);
+        });
+        setPostcodes(mappedPostcodes);
         //supaBase fetch goes here :
+
         // setOffers(deals);
       };
       getAllLocalDeals();
     }
   }, [pos]);
+  console.log('Postcodes state', postcodes);
 
   // save the fetch object as variable (localPostcodes)
   // access the fetch object to find postcodes
@@ -53,9 +59,9 @@ export default function Carousel({ businessData }: any) {
   useEffect(() => {
     async function getDeals() {
       const { data } = await supabase
-        .from("deals")
-        .select("*, businesses (name)");
-      console.log("Data from supabase", data);
+        .from('deals')
+        .select('*, businesses (name)');
+      console.log('Data from supabase', data);
 
       const dealsData: any = data
         ? data.map((item) => ({
@@ -67,14 +73,14 @@ export default function Carousel({ businessData }: any) {
               ? item.businesses[0].name
               : item.businesses?.name,
           }))
-        : console.log("No data found");
+        : console.log('No data found');
       setOffers(dealsData);
     }
     getDeals();
   }, []);
 
   function getTimeRemaining(offerExpiry: string) {
-    let expiration_string = "";
+    let expiration_string = '';
     const current = new Date();
     const expiryDate = new Date(offerExpiry);
     const diff = expiryDate.getTime() - current.getTime();
@@ -90,18 +96,18 @@ export default function Carousel({ businessData }: any) {
     msec -= ss * 1000;
 
     if (dd >= 1) {
-      expiration_string = dd + " days : " + hh + " hrs";
+      expiration_string = dd + ' days : ' + hh + ' hrs';
     } else {
-      expiration_string = hh + " hrs : " + mm + " mins";
+      expiration_string = hh + ' hrs : ' + mm + ' mins';
     }
 
-    return "Offer Expires in " + expiration_string;
+    return 'Offer Expires in ' + expiration_string;
   }
   return (
-    <div className="flex flex-col justify-center z-10 w-screen h-full">
+    <div className='flex flex-col justify-center z-10 w-screen h-full'>
       <ul
-        id="deal-carousel"
-        className="flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full"
+        id='deal-carousel'
+        className='flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full'
       >
         {offers.map((offer) => (
           <DealCard
