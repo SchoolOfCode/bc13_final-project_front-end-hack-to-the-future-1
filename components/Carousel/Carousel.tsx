@@ -5,16 +5,8 @@ import { RiCake3Line } from "react-icons/ri";
 import { RiRestaurantFill } from "react-icons/ri";
 import { isTemplateExpression } from "typescript";
 import DealCard from "../DealCard/DealCard";
+import { useLocation } from "../../hooks/useLocation";
 
-//Deals constant below is hard-coded data used during development
-
-// const deals: string[] = [
-//   "Free Muffin",
-//   "50% off fresh loaves",
-//   "£5 Coffee and cake",
-// ];
-
-//Change from hard-coded deals to data fetched from the database
 
 export interface Deals {
   id: string;
@@ -25,52 +17,48 @@ export interface Deals {
 }
 
 export default function Carousel({ businessData }: any) {
-  //   Storing the props object in a variable.
 
-  //Map through offers. Compare offers.business_id with businessData.business_id. If match replace offers.business_name with businessData.name. Update a mergedInfo state with the new array.
   const [offers, setOffers] = useState<Deals[]>([]);
+  
+  // long and lat from geolocation (useLocation())
+  // {pos} = useLocation()
 
-// api.postcodes.io/postcodes
-// send a POST request to postcode.io reverse geolocator
-// {
-//   "geolocations" : [ {
-//     "longitude": -2.49690382054704,
-//     "latitude": 53.5351312861402,
-//     "radius": 800
- 
-//   }]
-// }
-
-// useEffect(() => {
-//   const getUsers = async () => {
-//     const users = await fetchUsers();
-//     setUsers(users);
-//   };
-
-//   getUsers(); // run it, run it
-
-//   return () => {
-//     // this now gets called when the component unmounts
-//   };
-// }, []);
-
-// await fetch("http://localhost:3001/api/posts", {
+  
+  // useEffect(() => {
+    //   const getAllLocalDeals = async () => {
+      //     const deals = await getAllLocalDeals();
+      //     setDeals(deals);
+      //   };
+      
+      //   getAllLocalDeals();
+      
+      //   
+      // }, [somedependancy]);
+      
+      // const geoLocationObj ={
+      //   "geolocations" : [ {
+      //     "longitude": -2.49690382054704, ${pos.lng}?
+      //     "latitude": 53.5351312861402, ${pos.lat}?
+      //     "radius": 1000
+       
+      //   }]
+      // }
+// await fetch("http://api.postcodes.io/postcodes", {
 //       method: "POST",
 //       headers: { "content-type": "application/json" },
 //       mode: "cors",
-//       body: JSON.stringify(newObj),
+//       body: JSON.stringify(geoLocationObj),
 //     });
-//     const response = await fetch(`http://localhost:3001/api/posts`);
-//     const data = await response.json();
+//     const response = await fetch(`http://api.postcodes.io/postcodes`);
+//     const localPostcodes = await response.json();
 
-// long and lat from geolocation (useGeo())
-// save the fetch object as variable 
+// save the fetch object as variable (localPostcodes) 
 // access the fetch object to find postcodes
-// store the postcodes in their own states
-// when fetching from supabase db setting the query to return ALL deals
-// WHERE postcode of business matches one of the stored postcode states
-// What is the dependency? 
-// will this send infinite requests? 
+//? store the postcodes in their own states? Do we limit the number of returned postcodes to 5?
+//! when fetching from supabase db setting the query to return: 
+// * deals WHERE postcode of business matches one of the stored postcode states
+//? What is the dependency? 
+//! DO NOT let this send infinite requests!! 
 
 
   useEffect(() => {
