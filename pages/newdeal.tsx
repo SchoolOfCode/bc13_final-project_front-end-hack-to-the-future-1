@@ -8,8 +8,11 @@ import DealCard from "../components/DealCard/DealCard";
 import { useBusiness } from "../hooks/useBusiness";
 
 export default function Newdeal() {
+
+
   const supabase = useSupabaseClient();
   const user = useUser();
+
 
   const router = useRouter();
   const { business } = useBusiness();
