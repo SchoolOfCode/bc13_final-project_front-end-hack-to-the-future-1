@@ -27,7 +27,6 @@ export default function Carousel({ businessData }: any) {
   useEffect(() => {
     if (pos) {
       const getAllLocalDeals = async () => {
-        // const deals = await getAllLocalDeals();
         const response = await fetch(
           `https://api.postcodes.io/postcodes?lon=${pos.lng}&lat=${pos.lat}&radius=1000`
         );
@@ -39,13 +38,24 @@ export default function Carousel({ businessData }: any) {
         });
         setPostcodes(mappedPostcodes);
         //supaBase fetch goes here :
-
+        // const {deals, error} = await supabase.from('businesses').select().in('postcode',postcodes);
+               
         // setOffers(deals);
       };
       getAllLocalDeals();
     }
   }, [pos]);
   console.log('Postcodes state', postcodes);
+
+  useEffect(() => {
+    const localDeals= async()=>{
+  const { data } = await supabase
+  .from("businesses")
+  .select("*, deals (id,name,expiration_time, created_at)")
+  .in("postcode", [postcodes]);
+console.log('deals', data, postcodes)}
+localDeals()
+  }, [postcodes]);
 
   // save the fetch object as variable (localPostcodes)
   // access the fetch object to find postcodes
@@ -61,8 +71,7 @@ export default function Carousel({ businessData }: any) {
       const { data } = await supabase
         .from('deals')
         .select('*, businesses (name)');
-      console.log('Data from supabase', data);
-
+     
       const dealsData: any = data
         ? data.map((item) => ({
             id: item.id,
