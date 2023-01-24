@@ -1,27 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../supabase";
 
-import { isTemplateExpression } from "typescript";
 import DealCard from "../DealCard/DealCard";
 import { useLocation } from "../../hooks/useLocation";
 import { PostcodesFetch } from "../../types/fetch";
 
-export interface Deals {
+export interface Business {
   id: string;
-  expiration_time: string;
-  business_id: string;
-  business_name: string;
-  address_id: string | null;
+  name: string;
   business_type: string | null;
+  website: string | null;
+  user_id: string | null;
+  deals: Deal[];
   created_at: string | null;
   lat: number | null;
   lon: number | null;
-  name: string;
-  website: string | null;
+  address_line1: string | null;
+  postcode: string | null;
 }
 
-export default function Carousel({ businessData }: any) {
-  const [offers, setOffers] = useState<Deals[]>([]);
+export interface Deal {
+  id: string;
+  name: string;
+  created_at: string | null;
+  expiration_time: string;
+  business_id: string;
+  user_id: string;
+}
+
+export default function Carousel() {
+  const [businesses, setBusinesses] = useState<any[]>([]);
   //todo type will be what ever is returned from fetch
   const [postcodes, setPostcodes] = useState<PostcodesFetch[]>([]);
   // long and lat from geolocation (useLocation())
@@ -47,7 +55,7 @@ export default function Carousel({ businessData }: any) {
         //supaBase fetch goes here :
         // const {deals, error} = await supabase.from('businesses').select().in('postcode',postcodes);
 
-        // setOffers(deals);
+        // setBusinesses(deals);
       };
       getAllLocalPostcodes();
     }
@@ -55,21 +63,23 @@ export default function Carousel({ businessData }: any) {
   console.log("Postcodes state", postcodes);
 
   useEffect(() => {
-    const getAllLocalDeals= async()=>{
-  const { data } = await supabase
-  .from("businesses")
-  .select("*, deals (*)")
-  .in("postcode", [postcodes]);
-      console.log('deals', data, postcodes)
-      setOffers(data)
-      console.log("hello", offers)
-    }
-getAllLocalDeals()
+    const getAllLocalDeals = async () => {
+      const { data } = await supabase
+        .from("businesses")
+        .select("*, deals (*)")
+        .in("postcode", [postcodes]);
+      console.log("deals", data, postcodes);
+      if (data != null) {
+        setBusinesses(data);
+      }
+      console.log("hello", businesses);
+    };
+    getAllLocalDeals();
   }, [postcodes]);
 
   useEffect(() => {
-    console.log(offers);
-  }, [offers]);
+    console.log(businesses);
+  }, [businesses]);
 
   // save the fetch object as variable (localPostcodes)
   // access the fetch object to find postcodes
@@ -97,7 +107,7 @@ getAllLocalDeals()
   //             : item.businesses?.name,
   //         }))
   //       : console.log('No data found');
-  //     setOffers(dealsData);
+  //     setBusinesses(dealsData);
   //   }
   //   getDeals();
   // }, []);
@@ -132,9 +142,9 @@ getAllLocalDeals()
         id="deal-carousel"
         className="flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full"
       >
-        {offers ? (
-          offers.map((business) =>
-            business.deals.map((offer) => (
+        {businesses ? (
+          businesses.map((business) =>
+            business.deals.map((offer: any) => (
               <DealCard
                 key={offer.id}
                 businessName={business.name}
@@ -144,7 +154,7 @@ getAllLocalDeals()
             ))
           )
         ) : (
-          <h1>No Offers</h1>
+          <h1>No businesses</h1>
         )}
       </ul>
     </div>
