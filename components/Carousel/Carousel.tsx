@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { supabase } from '../../supabase';
+import React, { useState, useEffect } from "react";
+import { supabase } from "../../supabase";
 
-import { isTemplateExpression } from 'typescript';
-import DealCard from '../DealCard/DealCard';
-import { useLocation } from '../../hooks/useLocation';
-import { PostcodesFetch } from '../../types/fetch';
+import { isTemplateExpression } from "typescript";
+import DealCard from "../DealCard/DealCard";
+import { useLocation } from "../../hooks/useLocation";
+import { PostcodesFetch } from "../../types/fetch";
 
 export interface Deals {
   id: string;
@@ -16,7 +16,7 @@ export interface Deals {
   created_at: string | null;
   lat: number | null;
   lon: number | null;
-  name: string 
+  name: string;
   website: string | null;
 }
 
@@ -36,32 +36,39 @@ export default function Carousel({ businessData }: any) {
         );
         const localPostcodes = await response.json();
         //localPostcodes needs to be mapped into a new array which we use to update postcodes
-        localPostcodes.result.map((item: any) => {
-          //! Create interface for item type
-          mappedPostcodes.push(item.postcode);
-        });
-        setPostcodes(mappedPostcodes);
+        if (localPostcodes) {
+          localPostcodes.result.map((item: any) => {
+            //! Create interface for item type
+            mappedPostcodes.push(item.postcode);
+          });
+          setPostcodes(mappedPostcodes);
+        }
+
         //supaBase fetch goes here :
         // const {deals, error} = await supabase.from('businesses').select().in('postcode',postcodes);
-               
+
         // setOffers(deals);
       };
       getAllLocalPostcodes();
     }
   }, [pos]);
-  console.log('Postcodes state', postcodes);
+  console.log("Postcodes state", postcodes);
 
   useEffect(() => {
-    const getAllLocalDeals= async()=>{
-  const { data } = await supabase
-  .from("businesses")
-  .select("*, deals (id,name,expiration_time, created_at)")
-  .in("postcode", [postcodes]);
-      console.log('deals', data, postcodes)
-      setOffers(data)
-    }
-getAllLocalDeals()
+    const getAllLocalDeals = async () => {
+      const { data } = await supabase
+        .from("businesses")
+        .select("*, deals (id,name,expiration_time, created_at)")
+        .in("postcode", [postcodes]);
+      console.log("deals", data, postcodes);
+      setOffers(data);
+    };
+    getAllLocalDeals();
   }, [postcodes]);
+
+  useEffect(() => {
+    console.log(offers);
+  }, [offers]);
 
   // save the fetch object as variable (localPostcodes)
   // access the fetch object to find postcodes
@@ -77,7 +84,7 @@ getAllLocalDeals()
   //     const { data } = await supabase
   //       .from('deals')
   //       .select('*, businesses (name)');
-     
+
   //     const dealsData: any = data
   //       ? data.map((item) => ({
   //           id: item.id,
@@ -95,7 +102,7 @@ getAllLocalDeals()
   // }, []);
 
   function getTimeRemaining(offerExpiry: string) {
-    let expiration_string = '';
+    let expiration_string = "";
     const current = new Date();
     const expiryDate = new Date(offerExpiry);
     const diff = expiryDate.getTime() - current.getTime();
@@ -111,27 +118,33 @@ getAllLocalDeals()
     msec -= ss * 1000;
 
     if (dd >= 1) {
-      expiration_string = dd + ' days : ' + hh + ' hrs';
+      expiration_string = dd + " days : " + hh + " hrs";
     } else {
-      expiration_string = hh + ' hrs : ' + mm + ' mins';
+      expiration_string = hh + " hrs : " + mm + " mins";
     }
 
-    return 'Offer Expires in ' + expiration_string;
+    return "Offer Expires in " + expiration_string;
   }
   return (
-    <div className='flex flex-col justify-center z-10 w-screen h-full'>
+    <div className="flex flex-col justify-center z-10 w-screen h-full">
       <ul
-        id='deal-carousel'
-        className='flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full'
+        id="deal-carousel"
+        className="flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full"
       >
-        {offers.map((offer) => (
-          <DealCard
-            key={offer.id}
-            businessName={offer.name}
-            dealText={offer.name}
-            dealHighlight={getTimeRemaining(offer.expiration_time)}
-          />
-        ))}
+        {offers ? (
+          offers.map((business) =>
+            business.deals.map((offer) => (
+              <DealCard
+                key={offer.id}
+                businessName={business.name}
+                dealText={offer.name}
+                dealHighlight={getTimeRemaining(offer.expiration_time)}
+              />
+            ))
+          )
+        ) : (
+          <h1>No Offers</h1>
+        )}
       </ul>
     </div>
   );
