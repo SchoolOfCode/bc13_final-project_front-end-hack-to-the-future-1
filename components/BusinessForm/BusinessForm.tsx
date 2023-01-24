@@ -163,7 +163,7 @@ export default function BusinessForm() {
         <select
           name="business_type"
           value={businessInfo.business_type}
-          className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2"
+          className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2 md:mx-full md:my-full"
           onChange={handleChange}
         >
           {options.map((option) => (
@@ -189,7 +189,7 @@ export default function BusinessForm() {
         />
 
         <label
-          htmlFor="address-line1"
+          htmlFor="address_line1"
           className="font-Open text-sm font-bold text-amber-500 w-full text-left"
         >
           Address Line 1 <span className="text-xs italic">(Optional)</span>
@@ -197,7 +197,7 @@ export default function BusinessForm() {
         <input
           className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2"
           type="text"
-          name="address-line1"
+          name="address_line1"
           placeholder="Address Line 1"
           value={businessInfo.address_line1}
           onChange={handleChange}
