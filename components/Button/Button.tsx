@@ -27,6 +27,7 @@ export default function Button({
     z-10
     hover:bg-indigo-300 
     hover:border-indigo-300
+    hover:text-slate-900 
     ${className ?? ""}
   `);
   return (
