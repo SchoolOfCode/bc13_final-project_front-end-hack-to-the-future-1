@@ -4,7 +4,7 @@ import Button from "../components/Button/Button";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
+import React from "react";
 export default function UserSettings() {
   const { profile } = useProfile();
   const user = useUser();
@@ -167,7 +167,8 @@ export default function UserSettings() {
               <Button
                 onClick={redirectToRoot}
                 buttonText="BACK"
-                className="border-indigo-400 bg-opacity-0 text-indigo-400 "
+                className="border-indigo-400 bg-opacity-0 text-indigo-400  
+                "
               />
               <Button
                 onClick={saveChanges}

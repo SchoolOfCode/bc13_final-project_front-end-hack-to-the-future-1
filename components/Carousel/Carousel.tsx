@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { supabase } from "../../supabase";
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../../supabase';
 
-import DealCard from "../DealCard/DealCard";
-import { useLocation } from "../../hooks/useLocation";
-import { PostcodesFetch } from "../../types/fetch";
+import DealCard from '../DealCard/DealCard';
+import { useLocation } from '../../hooks/useLocation';
+import { PostcodesFetch } from '../../types/fetch';
 
 export interface Business {
   id: string;
@@ -60,25 +60,27 @@ export default function Carousel() {
       getAllLocalPostcodes();
     }
   }, [pos]);
-  console.log("Postcodes state", postcodes);
+  console.log('Postcodes state', postcodes);
 
   useEffect(() => {
-    const getAllLocalDeals = async () => {
-      const { data } = await supabase
-        .from("businesses")
-        .select("*, deals (*)")
-        .in("postcode", [postcodes]);
-      console.log("deals", data, postcodes);
-      if (data != null) {
-        setBusinesses(data);
-      }
-      console.log("hello", businesses);
-    };
-    getAllLocalDeals();
+    if (postcodes.length > 0) {
+      const getAllLocalDeals = async () => {
+        const { data } = await supabase
+          .from('businesses')
+          .select('*, deals (*)')
+          .in('postcode', [postcodes]);
+        console.log('deals', data, postcodes);
+        if (data != null) {
+          setBusinesses(data);
+        }
+        console.log('businesses', businesses);
+      };
+      getAllLocalDeals();
+    }
   }, [postcodes]);
 
   useEffect(() => {
-    console.log(businesses);
+    console.log('businesses2', businesses);
   }, [businesses]);
 
   // save the fetch object as variable (localPostcodes)
@@ -113,7 +115,7 @@ export default function Carousel() {
   // }, []);
 
   function getTimeRemaining(offerExpiry: string) {
-    let expiration_string = "";
+    let expiration_string = '';
     const current = new Date();
     const expiryDate = new Date(offerExpiry);
     const diff = expiryDate.getTime() - current.getTime();
@@ -129,18 +131,18 @@ export default function Carousel() {
     msec -= ss * 1000;
 
     if (dd >= 1) {
-      expiration_string = dd + " days : " + hh + " hrs";
+      expiration_string = dd + ' days : ' + hh + ' hrs';
     } else {
-      expiration_string = hh + " hrs : " + mm + " mins";
+      expiration_string = hh + ' hrs : ' + mm + ' mins';
     }
 
-    return "Offer Expires in " + expiration_string;
+    return 'Offer Expires in ' + expiration_string;
   }
   return (
-    <div className="flex flex-col justify-center z-10 w-screen h-full">
-      <ul
-        id="deal-carousel"
-        className="flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full"
+    <div className='flex flex-col justify-center z-10 w-screen h-full'>
+      <div
+        id='deal-carousel'
+        className='flex absolute bottom items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full p-3  bg-slate-900 bg-opacity-30'
       >
         {businesses ? (
           businesses.map((business) =>
@@ -156,7 +158,7 @@ export default function Carousel() {
         ) : (
           <h1>No businesses</h1>
         )}
-      </ul>
+      </div>
     </div>
   );
 }
