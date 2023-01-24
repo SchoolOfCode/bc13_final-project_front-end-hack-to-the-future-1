@@ -142,7 +142,7 @@ export default function Carousel() {
     <div className='flex flex-col justify-center z-10 w-screen h-full'>
       <div
         id='deal-carousel'
-        className='flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full p-3  bg-slate-500 bg-opacity-50'
+        className='flex absolute bottom items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full p-3  bg-slate-900 bg-opacity-30'
       >
         {businesses ? (
           businesses.map((business) =>

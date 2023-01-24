@@ -5,7 +5,7 @@ import Button from '../components/Button/Button';
 import { useUser } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import { useProfile } from '../hooks/useProfile';
-
+import React from 'react';
 import { useEffect } from 'react';
 import Carousel from '../components/Carousel/Carousel';
 
@@ -44,16 +44,18 @@ export default function Home() {
           crossOrigin=''
         />
       </Head>
-      <header className='flex justify-between items-center w-full z-10 absolute top-0 border-box p-4'>
+      <header className='flex justify-between items-center w-full z-10 absolute top-0  bg-slate-800  border-box p-4'>
         <Image
           src='/logo.svg'
           alt='logo'
-          width='100'
-          height='100'
-          className='rounded-lg'
+          width='60'
+          height='60'
+          className='rounded-lg '
         />
-        {user ? (
+        {user ? (<>
           <Button buttonText='SETTINGS' onClick={redirectToSettings} />
+          <Button buttonText='DEMO' onClick={redirectToSettings} />
+          </>
         ) : (
           <Button buttonText='LOG IN' onClick={redirectToLogIn} />
         )}
@@ -62,7 +64,7 @@ export default function Home() {
         <div className='z-0'>
           <Map />
         </div>
-        <div className='z-10 absolute bottom-5 w-screen h-60'>
+        <div className='z-10 absolute bottom-1 w-screen h-60'>
           <Carousel />
         </div>
       </main>
