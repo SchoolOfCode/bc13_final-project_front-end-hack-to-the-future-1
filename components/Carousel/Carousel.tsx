@@ -55,15 +55,16 @@ export default function Carousel({ businessData }: any) {
   console.log("Postcodes state", postcodes);
 
   useEffect(() => {
-    const getAllLocalDeals = async () => {
-      const { data } = await supabase
-        .from("businesses")
-        .select("*, deals (id,name,expiration_time, created_at)")
-        .in("postcode", [postcodes]);
-      console.log("deals", data, postcodes);
-      setOffers(data);
-    };
-    getAllLocalDeals();
+    const getAllLocalDeals= async()=>{
+  const { data } = await supabase
+  .from("businesses")
+  .select("*, deals (*)")
+  .in("postcode", [postcodes]);
+      console.log('deals', data, postcodes)
+      setOffers(data)
+      console.log("hello", offers)
+    }
+getAllLocalDeals()
   }, [postcodes]);
 
   useEffect(() => {
