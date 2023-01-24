@@ -9,41 +9,8 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      addresses: {
-        Row: {
-          address_line_1: string | null
-          address_line_2: string | null
-          city: string | null
-          county: string | null
-          id: string
-          post_code: string | null
-          street_number: number | null
-          unit_number: number | null
-        }
-        Insert: {
-          address_line_1?: string | null
-          address_line_2?: string | null
-          city?: string | null
-          county?: string | null
-          id?: string
-          post_code?: string | null
-          street_number?: number | null
-          unit_number?: number | null
-        }
-        Update: {
-          address_line_1?: string | null
-          address_line_2?: string | null
-          city?: string | null
-          county?: string | null
-          id?: string
-          post_code?: string | null
-          street_number?: number | null
-          unit_number?: number | null
-        }
-      }
       businesses: {
         Row: {
-          address_id: string | null
           address_line1: string | null
           business_type: string | null
           created_at: string | null
@@ -52,10 +19,10 @@ export interface Database {
           lon: number | null
           name: string | null
           postcode: string | null
+          user_id: string | null
           website: string | null
         }
         Insert: {
-          address_id?: string | null
           address_line1?: string | null
           business_type?: string | null
           created_at?: string | null
@@ -64,10 +31,10 @@ export interface Database {
           lon?: number | null
           name?: string | null
           postcode?: string | null
+          user_id?: string | null
           website?: string | null
         }
         Update: {
-          address_id?: string | null
           address_line1?: string | null
           business_type?: string | null
           created_at?: string | null
@@ -76,21 +43,8 @@ export interface Database {
           lon?: number | null
           name?: string | null
           postcode?: string | null
+          user_id?: string | null
           website?: string | null
-        }
-      }
-      consumers: {
-        Row: {
-          created_at: string | null
-          id: string
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
         }
       }
       deals: {
@@ -100,6 +54,7 @@ export interface Database {
           expiration_time: string | null
           id: string
           name: string | null
+          user_id: string | null
         }
         Insert: {
           business_id?: string | null
@@ -107,6 +62,7 @@ export interface Database {
           expiration_time?: string | null
           id?: string
           name?: string | null
+          user_id?: string | null
         }
         Update: {
           business_id?: string | null
@@ -114,31 +70,26 @@ export interface Database {
           expiration_time?: string | null
           id?: string
           name?: string | null
+          user_id?: string | null
         }
       }
       profiles: {
         Row: {
           business_id: string | null
-          consumer_id: string | null
           full_name: string | null
           id: string
-          updated_at: string | null
           user_type: string | null
         }
         Insert: {
           business_id?: string | null
-          consumer_id?: string | null
           full_name?: string | null
           id: string
-          updated_at?: string | null
           user_type?: string | null
         }
         Update: {
           business_id?: string | null
-          consumer_id?: string | null
           full_name?: string | null
           id?: string
-          updated_at?: string | null
           user_type?: string | null
         }
       }
