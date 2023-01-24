@@ -1,62 +1,108 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../supabase";
-import { GiSombrero } from "react-icons/gi";
-import { RiCake3Line } from "react-icons/ri";
-import { RiRestaurantFill } from "react-icons/ri";
+
 import { isTemplateExpression } from "typescript";
 import DealCard from "../DealCard/DealCard";
+import { useLocation } from "../../hooks/useLocation";
+import { PostcodesFetch } from "../../types/fetch";
 
 export interface Deals {
   id: string;
-  name: string;
   expiration_time: string;
   business_id: string;
   business_name: string;
+  address_id: string | null;
+  business_type: string | null;
+  created_at: string | null;
+  lat: number | null;
+  lon: number | null;
+  name: string;
+  website: string | null;
 }
 
 export default function Carousel({ businessData }: any) {
-  //   Storing the props object in a variable.
-
-  //Map through offers. Compare offers.business_id with businessData.business_id. If match replace offers.business_name with businessData.name. Update a mergedInfo state with the new array.
   const [offers, setOffers] = useState<Deals[]>([]);
-
-  // useEffect(() => {
-  //   let updatedOffers: any = [];
-  //   offers.forEach((item1) => {
-  //     businessData.forEach((item2: any) => {
-  //       if (item1.business_id === item2.business_id) {
-  //         item1.business_name = item2.name;
-  //         updatedOffers.push(item1);
-  //       }
-  //     });
-  //   });
-  //   setOffers(updatedOffers);
-  // }, [businessData]);
+  //todo type will be what ever is returned from fetch
+  const [postcodes, setPostcodes] = useState<PostcodesFetch[]>([]);
+  // long and lat from geolocation (useLocation())
+  const { pos } = useLocation();
+  const mappedPostcodes: any = [];
 
   useEffect(() => {
-    async function getDeals() {
-      const { data } = await supabase
-        .from("deals")
-        .select("*, businesses (name)");
-      console.log("Data from supabase", data);
+    if (pos) {
+      const getAllLocalPostcodes = async () => {
+        const response = await fetch(
+          `https://api.postcodes.io/postcodes?lon=${pos.lng}&lat=${pos.lat}&radius=1000`
+        );
+        const localPostcodes = await response.json();
+        //localPostcodes needs to be mapped into a new array which we use to update postcodes
+        if (localPostcodes) {
+          localPostcodes.result.map((item: any) => {
+            //! Create interface for item type
+            mappedPostcodes.push(item.postcode);
+          });
+          setPostcodes(mappedPostcodes);
+        }
 
-      const dealsData: any = data
-        ? data.map((item) => ({
-            id: item.id,
-            name: item.name,
-            business_id: item.business_id,
-            expiration_time: item.expiration_time,
-            business_name: Array.isArray(item.businesses)
-              ? item.businesses[0].name
-              : item.businesses?.name,
-          }))
-        : console.log("No data found");
-      setOffers(dealsData);
+        //supaBase fetch goes here :
+        // const {deals, error} = await supabase.from('businesses').select().in('postcode',postcodes);
+
+        // setOffers(deals);
+      };
+      getAllLocalPostcodes();
     }
-    getDeals();
-  }, []);
+  }, [pos]);
+  console.log("Postcodes state", postcodes);
 
-  function getTimeRemaining(offerExpiry:string) {
+  useEffect(() => {
+    const getAllLocalDeals= async()=>{
+  const { data } = await supabase
+  .from("businesses")
+  .select("*, deals (*)")
+  .in("postcode", [postcodes]);
+      console.log('deals', data, postcodes)
+      setOffers(data)
+      console.log("hello", offers)
+    }
+getAllLocalDeals()
+  }, [postcodes]);
+
+  useEffect(() => {
+    console.log(offers);
+  }, [offers]);
+
+  // save the fetch object as variable (localPostcodes)
+  // access the fetch object to find postcodes
+  //! map through the fetch result and push the postcodes into a new array stored in state
+  //? store the postcodes in their own states? Do we limit the number of returned postcodes to 5?
+  //! when fetching from supabase db setting the query to return:
+  // * deals WHERE postcode of business matches one of the stored postcode states
+  //? What is the dependency?
+  //! DO NOT let this send infinite requests!!
+
+  // useEffect(() => {
+  //   async function getDeals() {
+  //     const { data } = await supabase
+  //       .from('deals')
+  //       .select('*, businesses (name)');
+
+  //     const dealsData: any = data
+  //       ? data.map((item) => ({
+  //           id: item.id,
+  //           name: item.name,
+  //           business_id: item.business_id,
+  //           expiration_time: item.expiration_time,
+  //           business_name: Array.isArray(item.businesses)
+  //             ? item.businesses[0].name
+  //             : item.businesses?.name,
+  //         }))
+  //       : console.log('No data found');
+  //     setOffers(dealsData);
+  //   }
+  //   getDeals();
+  // }, []);
+
+  function getTimeRemaining(offerExpiry: string) {
     let expiration_string = "";
     const current = new Date();
     const expiryDate = new Date(offerExpiry);
@@ -86,14 +132,20 @@ export default function Carousel({ businessData }: any) {
         id="deal-carousel"
         className="flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full"
       >
-        {offers.map((offer) => (
-          <DealCard
-            key={offer.id}
-            businessName={offer.business_name}
-            dealText={offer.name}
-            dealHighlight={getTimeRemaining(offer.expiration_time)}
-          />
-        ))}
+        {offers ? (
+          offers.map((business) =>
+            business.deals.map((offer) => (
+              <DealCard
+                key={offer.id}
+                businessName={business.name}
+                dealText={offer.name}
+                dealHighlight={getTimeRemaining(offer.expiration_time)}
+              />
+            ))
+          )
+        ) : (
+          <h1>No Offers</h1>
+        )}
       </ul>
     </div>
   );
