@@ -17,3 +17,11 @@
   scrollbar-width: none;
   scrollbar-color: #d97706;
 }
+
+html {
+  background-color: rgb(30 41 59);
+}
+
+.supabase-ui-auth_ui-message {
+  color: white !important;
+}

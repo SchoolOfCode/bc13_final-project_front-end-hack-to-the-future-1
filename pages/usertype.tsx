@@ -17,27 +17,14 @@ export default function UserType() {
     "text-red-600 text-xs"
   );
 
-  // useEffect(() => {
-  //   if (profile?.user_type === "consumer") {
-  //     router.push("/");
-  //   } else if (profile?.user_type === "business") {
-  //     router.push("/businesshome");
-  //   }
-  // }, [profile]);
-
-  //remove typeof
   async function updateName() {
     if (typeof name === "string" && name.length > 0) {
       if (user) {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from("profiles")
           .update({ full_name: name })
           .eq("id", user.id)
           .select();
-        if (error) {
-          // throw error;
-          // console.log(error)
-        }
         if (data === null) {
           setNameWarning("Error: Please try again");
           setNameWarningColour("text-red-600 text-xs");
@@ -83,7 +70,6 @@ export default function UserType() {
           throw error;
         }
         router.push("/businesshome");
-
       }
     }
   }
@@ -133,4 +119,3 @@ export default function UserType() {
     </div>
   );
 }
-

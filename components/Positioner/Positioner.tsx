@@ -2,16 +2,14 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
-import { markAssetError } from "next/dist/client/route-loader";
-import Map from "../Map";
 
 export interface PositionerProps {
-  latlong: any;
+  latLon: any;
   updateBusinessPosition: ({ props }: any) => void;
 }
 
 export default function Positioner({
-  latlong,
+  latLon,
   updateBusinessPosition,
 }: PositionerProps) {
   const center = {
@@ -20,8 +18,8 @@ export default function Positioner({
   };
 
   let userIcon = L.icon({
-    iconUrl: "https://cdn.onlinewebfonts.com/svg/img_155117.png",
-    iconSize: [25, 25],
+    iconUrl: "https://cdn.onlinewebfonts.com/svg/img_465789.png",
+    iconSize: [25, 35],
   });
 
   function DraggableMarker() {
@@ -31,11 +29,11 @@ export default function Positioner({
     const map = useMap();
 
     useEffect(() => {
-      if (latlong) {
-        setPosition(latlong);
-        map.panTo(latlong);
+      if (latLon) {
+        setPosition(latLon);
+        map.panTo(latLon);
       }
-    }, [latlong]);
+    }, [latLon]);
 
     // This code handles events relating to the marker. Ie. When the marker has been dragged/repositioned.
     const eventHandlers = useMemo(
@@ -45,8 +43,8 @@ export default function Positioner({
           if (marker != null) {
             setPosition(marker.getLatLng());
             const markerLatLong = marker.getLatLng();
-            console.log(marker)
-            updateBusinessPosition([markerLatLong.lat,markerLatLong.lng]);
+            console.log(marker);
+            updateBusinessPosition([markerLatLong.lat, markerLatLong.lng]);
           }
         },
       }),

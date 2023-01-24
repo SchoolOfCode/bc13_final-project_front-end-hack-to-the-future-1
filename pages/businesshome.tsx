@@ -4,10 +4,8 @@ import DealCard from "../components/DealCard/DealCard";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { supabase } from "../supabase";
-import { Database } from "../types/supabase";
-import { useProfile } from "../hooks/useProfile";
+import { useBusiness } from "../hooks/useBusiness";
 
-//should be a type (interface is like a contract)
 interface Deals {
   name: string;
   expiration_time: string;
@@ -19,18 +17,16 @@ interface Deals {
 
 export default function BusinessAccountDetails() {
   const [offers, setOffers] = useState<Deals[]>([]);
-  const { profile } = useProfile();
- 
+
+  const { business } = useBusiness();
+
   useEffect(() => {
     async function getDeals() {
-      if (profile) {
-        console.log(profile.business_id);
+      if (business) {
         const { data } = await supabase
           .from("deals")
-          .select("*, businesses (id,name)")
-          .eq("business_id", profile.business_id);
-
-        console.log("Data from supabase", data);
+          .select("*, businesses (id, name)")
+          .eq("business_id", business.id);
 
         if (!data) {
           return
@@ -52,7 +48,8 @@ export default function BusinessAccountDetails() {
       }
     }
     getDeals();
-  }, [profile]);
+  }, [business]);
+
 
   const handleDeleteDeal = async (id:string) => {
     const { data, error } = await supabase
@@ -60,15 +57,7 @@ export default function BusinessAccountDetails() {
   .delete()
   .eq('id', id)
   };
-  // pull down business info and check business_id
-  // check that the business_id of the user matches the business_id stored within the currently selected deal
-  //query the DB and delete the selected deal from the DB
 
-  //from supabase api doc
-
-  
-
-  //we need to work out the filter + matching
 
   
 
@@ -124,6 +113,8 @@ export default function BusinessAccountDetails() {
       </div>
       {offers?(
       <div className="flex flex-col gap-5 justify-center items-center h-full pt-5">
+
+
         {offers.map((offer) => (
           <DealCard
             key={offer.id}
@@ -136,6 +127,7 @@ export default function BusinessAccountDetails() {
             id={offer.id}
           />
         ))}
+
       </div>
 
       ):( <div className="flex flex-col gap-5 justify-center items-center h-full pt-5">
