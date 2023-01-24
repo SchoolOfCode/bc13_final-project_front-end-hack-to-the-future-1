@@ -1,5 +1,5 @@
 import { twMerge } from "tailwind-merge";
-
+import React from "react";
 export interface ButtonProps {
   buttonText: string;
   onClick: (event: any) => void;
@@ -25,6 +25,9 @@ export default function Button({
     font-Open
     font-semibold
     z-10
+    hover:bg-indigo-300 
+    hover:border-indigo-300
+    hover:text-slate-900 
     ${className ?? ""}
   `);
   return (

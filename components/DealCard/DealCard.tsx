@@ -26,7 +26,7 @@ function DealCard({
 }: DealProps) {
   const classes = twMerge(`
 
-  flex flex-none flex-col justify-center w-10/12 h-full p-10 border-box overflow-y-hidden bg-slate-700 rounded-3xl text-white text-center
+  flex flex-none flex-col justify-center w-10/12 h-full p-10 border-box overflow-y-hidden bg-slate-700 rounded-3xl text-white text-center shadow-md shadow-slate-900
     ${className ?? ""}
 
   `);
@@ -49,7 +49,7 @@ function DealCard({
 
       <div
         id="Business-Icon"
-        className="flex justify-center pb-5 text-4xl text-slate-50"
+        className="flex justify-center py-5 text-4xl text-slate-50"
       >
         <RiRestaurantFill />
       </div>

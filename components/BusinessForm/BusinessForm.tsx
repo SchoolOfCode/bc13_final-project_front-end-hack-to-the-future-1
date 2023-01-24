@@ -163,7 +163,7 @@ export default function BusinessForm() {
         <select
           name="business_type"
           value={businessInfo.business_type}
-          className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2"
+          className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2 md:mx-full md:my-full"
           onChange={handleChange}
         >
           {options.map((option) => (
