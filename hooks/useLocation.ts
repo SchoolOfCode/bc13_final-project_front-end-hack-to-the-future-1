@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 //Type for pos state
 export interface position {
@@ -15,7 +15,7 @@ export function useLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(setPosition, showError);
     } else {
-      console.log('Geolocation is not supported by this browser.');
+      console.log("Geolocation is not supported by this browser.");
     }
 
     //Recives lat & lng from geolocal and assigns to state.
@@ -27,23 +27,23 @@ export function useLocation() {
     async function showError(error: any) {
       switch (error.code) {
         case error.PERMISSION_DENIED:
-          setErr('User denied the request for Geolocation.');
+          setErr("User denied the request for Geolocation.");
           console.log(err);
           break;
         case error.POSITION_UNAVAILABLE:
-          setErr('Location information is unavailable.');
+          setErr("Location information is unavailable.");
           console.log(err);
           break;
         case error.TIMEOUT:
-          setErr('The request to get user location timed out.');
+          setErr("The request to get user location timed out.");
           console.log(err);
           break;
         case error.UNKNOWN_ERROR:
-          setErr('An unknown error occurred.');
+          setErr("An unknown error occurred.");
           console.log(err);
           break;
         default:
-          setErr('An unknown error occurred.');
+          setErr("An unknown error occurred.");
           console.log(err);
       }
     }
