@@ -9,43 +9,43 @@ import React from 'react';
 import { useEffect } from 'react';
 import Carousel from '../components/Carousel/Carousel';
 
+
 export default function Home() {
   const user = useUser();
   const { profile } = useProfile();
   const router = useRouter();
 
   useEffect(() => {
-    if (profile?.user_type === 'business') {
-      router.push('/businesshome');
-    } else if (profile?.user_type === '') {
-      router.push('/usertype');
+    if (profile?.user_type === "business") {
+      router.push("/businesshome");
+    } else if (profile?.user_type === "") {
+      router.push("/usertype");
     }
   }, [profile]);
 
   function redirectToSettings() {
-    router.push('/usersettings');
+    router.push("/usersettings");
   }
 
   function redirectToLogIn() {
-    router.push('/login');
+    router.push("/login");
   }
 
   return (
     <>
       <Head>
         <title>IndyGo</title>
-        <meta name='description' content='Support local businesses!' />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='icon' href='/favicon.ico' />
+        <meta name="description" content="Support local businesses!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
         <link
-          rel='stylesheet'
-          href='https://unpkg.com/leaflet@1.9.3/dist/leaflet.css'
-          integrity='sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI='
-          crossOrigin=''
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossOrigin=""
         />
       </Head>
-      {/* <header className='flex justify-between items-center w-full z-10 absolute top-0  bg-slate-800  border-box p-4'> */}
-      <Image
+            <Image
         src='/logo.svg'
         alt='logo'
         width='100'
@@ -72,7 +72,7 @@ export default function Home() {
           onClick={redirectToLogIn}
         />
       )}
-      {/* </header> */}
+      
       <main className='w-screen'>
         <div className='z-0'>
           <Map />

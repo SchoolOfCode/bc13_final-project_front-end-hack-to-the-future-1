@@ -49,3 +49,26 @@ export interface Codes {
   lau2: string;
   pfa: string;
 }
+
+export interface Business {
+  id: string;
+  name: string;
+  business_type: string | null;
+  website: string | null;
+  user_id: string | null;
+  deals: Deal[];
+  created_at: string | null;
+  lat: number | null;
+  lon: number | null;
+  address_line1: string | null;
+  postcode: string | null;
+}
+
+export interface Deal {
+  id: string;
+  name: string;
+  created_at: string | null;
+  expiration_time: string;
+  business_id: string;
+  user_id: string;
+}
