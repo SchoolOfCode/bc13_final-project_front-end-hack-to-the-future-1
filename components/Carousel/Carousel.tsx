@@ -138,9 +138,9 @@ export default function Carousel() {
   }
   return (
     <div className="flex flex-col justify-center z-10 w-screen h-full">
-      <ul
+      <div
         id="deal-carousel"
-        className="flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full"
+        className="flex absolute bottom-5 items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full p-3  bg-slate-500"
       >
         {businesses ? (
           businesses.map((business) =>
@@ -156,7 +156,7 @@ export default function Carousel() {
         ) : (
           <h1>No businesses</h1>
         )}
-      </ul>
+      </div>
     </div>
   );
 }
