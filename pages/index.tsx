@@ -44,22 +44,35 @@ export default function Home() {
           crossOrigin=''
         />
       </Head>
-      <header className='flex justify-between items-center w-full z-10 absolute top-0  bg-slate-800  border-box p-4'>
-        <Image
-          src='/logo.svg'
-          alt='logo'
-          width='60'
-          height='60'
-          className='rounded-lg '
+      {/* <header className='flex justify-between items-center w-full z-10 absolute top-0  bg-slate-800  border-box p-4'> */}
+      <Image
+        src='/logo.svg'
+        alt='logo'
+        width='100'
+        height='100'
+        className='rounded-lg absolute top-2 left-2 z-10'
+      />
+      {user ? (
+        <>
+          <Button
+            className='absolute top-9 right-2 z-10'
+            buttonText='SETTINGS'
+            onClick={redirectToSettings}
+          />
+          <Button
+            className='absolute top-18 right-2 z-10'
+            buttonText='DEMO'
+            onClick={redirectToSettings}
+          />
+        </>
+      ) : (
+        <Button
+          className='absolute top-9 right-2 z-10'
+          buttonText='LOG IN'
+          onClick={redirectToLogIn}
         />
-        {user ? (<>
-          <Button buttonText='SETTINGS' onClick={redirectToSettings} />
-          <Button buttonText='DEMO' onClick={redirectToSettings} />
-          </>
-        ) : (
-          <Button buttonText='LOG IN' onClick={redirectToLogIn} />
-        )}
-      </header>
+      )}
+      {/* </header> */}
       <main className='w-screen'>
         <div className='z-0'>
           <Map />
