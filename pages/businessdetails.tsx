@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useProfile } from "../hooks/useProfile";
 import { useBusiness } from "../hooks/useBusiness";
 import BusinessForm from "../components/BusinessForm/BusinessForm";
-
+import React from "react";
 export default function BusinessDetails() {
   const { profile } = useProfile();
   const { business, loading } = useBusiness();
