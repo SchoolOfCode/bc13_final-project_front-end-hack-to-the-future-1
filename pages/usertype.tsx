@@ -33,7 +33,7 @@ export default function UserType() {
           setNameWarning("Name updated");
           setNameWarningColour("text-lime-400 text-xs");
           return true;
-        }
+        } else {return true;} //THIS WAS ADDED AFTER BUG REVEALED DURING E2E TESTING
       }
     } else {
       setNameWarning("Please add your name to continue");
@@ -103,6 +103,7 @@ export default function UserType() {
           onChange={(e) => {
             setName(e.target.value);
           }}
+          data-cy="name-field"
         />
         <p className={nameWarningColour}>{nameWarning}</p>
         <Button
@@ -114,6 +115,7 @@ export default function UserType() {
           onClick={redirectBusiness}
           buttonText="CONTINUE AS BUSINESS"
           className="w-5/6 h-14 border-indigo-400 bg-opacity-0 text-indigo-400 "
+          
         />
       </div>
     </div>

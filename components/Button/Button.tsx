@@ -28,7 +28,7 @@ export default function Button({
     ${className ?? ""}
   `);
   return (
-    <button onClick={onClick} className={classes}>
+    <button onClick={onClick} className={classes} data-cy={buttonText}>
       {buttonText}
     </button>
   );
