@@ -38,16 +38,18 @@ export default function ConsumerDeal({
     <div id="card-container" className={classes}>
       <div
         id="Business-Icon"
-        className="flex justify-center py-2 mt-2 text-3xl md:text-4xl text-slate-50"
+        className="flex justify-center py-2 mt-2 text-2xl md:text-4xl text-slate-50"
       >
         <RiRestaurantFill />
       </div>
       <div className="flex flex-col justify-center items-center text-center ">
-        <h1 className="font-Open font-bold text-slate-50 text-lg md:text-2xl">
+        <h1 className="font-Open font-bold text-slate-50 text-md md:text-2xl">
           {businessName}
         </h1>
-        <h2 className="font-Open text-indigo-200 text-md md:text-xl mb-2">{dealText}</h2>
-        <hr className="border-1 w-4/5 border-slate-800 py-2"></hr>
+        <h2 className="font-Open text-indigo-200 text-sm md:text-xl mb-2">
+          {dealText}
+        </h2>
+        <hr className="border-1 w-4/5 border-slate-800 py-1"></hr>
         <h3 className="font-Open font-semibold text-amber-500 text-sm md:text-lg">
           {dealHighlight}
         </h3>

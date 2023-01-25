@@ -12,30 +12,48 @@ export default function Newdeal() {
   const user = useUser();
   const router = useRouter();
   const { business } = useBusiness();
-  const [offerText, setOfferText] = useState<any>();
+  const [dealText, setDealText] = useState<any>();
   const [startDate, setStartDate] = useState<any>();
   const [endDate, setEndDate] = useState<any>();
+  const [fieldColor, setFieldColor] = useState("bg-slate-300");
+  const [nameWarning, setNameWarning] = useState("");
 
   /* function to return to businesshome  */
-
   const tobusinesshome = () => {
     router.push("/businesshome");
   };
 
-  /* submits the newly created offer to the deals table in database */
+  useEffect(() => {
+    if (dealText?.length > 60) {
+      setFieldColor("bg-red-200");
+      setNameWarning("All Deals Need To Be Less Than 60 Characters");
+    } else {
+      setFieldColor("bg-slate-300");
+      setNameWarning("");
+    }
+  }, [dealText]);
+
+  /* submits the newly created deal to the deals table in database */
   const handleSubmit = async () => {
-    const response = await supabase
-      .from("deals")
-      .insert({
-        name: offerText,
-        created_at: startDate,
-        expiration_time: endDate,
-        business_id: business?.id,
-        user_id: user?.id,
-      })
-      .select()
-      .single();
-    router.push("/businesshome");
+    if (dealText?.length > 60) {
+      return;
+    }
+    if (dealText?.length > 0 && startDate && endDate) {
+      const response = await supabase
+        .from("deals")
+        .insert({
+          name: dealText,
+          created_at: startDate,
+          expiration_time: endDate,
+          business_id: business?.id,
+          user_id: user?.id,
+        })
+        .select()
+        .single();
+      router.push("/businesshome");
+    } else {
+      console.log("error");
+    }
   };
 
   return (
@@ -48,31 +66,32 @@ export default function Newdeal() {
       </div>
       <div className="flex flex-col justify-start items-center pb-10">
         <h1 className="font-Open font-bold text-xl text-slate-50 pb-10">
-          Create New Offer
+          Create New Deal
         </h1>
         <form className="flex flex-col justify-start gap-4 items-center text-center h-5/6 w-5/6 max-w-md bg-slate-800">
-          {/* Offer Details text */}
+          {/* Deal Details text */}
           <label
-            htmlFor="offerName"
+            htmlFor="dealName"
             className="font-Open text-sm text-amber-500 font-bold w-full text-left"
           >
-            What are you offering?
+            What Are You Offering?
           </label>
           <input
-            className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2 focus:ring-indigo-400 focus:ring-4"
-            id="offerName"
-            name="offerName"
-            value={offerText}
+            className={`w-full h-14  text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2 focus:ring-indigo-400 focus:ring-4 ${fieldColor}`}
+            id="dealName"
+            name="dealName"
+            value={dealText}
             onChange={(e) => {
-              setOfferText(e.target.value);
+              setDealText(e.target.value);
             }}
           />
+          <p className="text-red-600">{nameWarning}</p>
           {/* Start Date/Time */}
           <label
             htmlFor="start"
             className="font-Open text-sm font-bold text-amber-500 w-full text-left"
           >
-            Offer Start:
+            Deal Start:
           </label>
           <input
             className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2 focus:ring-indigo-400 focus:ring-4"
@@ -89,7 +108,7 @@ export default function Newdeal() {
             htmlFor="End"
             className="font-Open text-sm first-line:font-bold text-amber-500 w-full text-left"
           >
-            Offer End:
+            Deal End:
           </label>
           <input
             className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2 focus:ring-indigo-400 focus:ring-4"
@@ -107,11 +126,7 @@ export default function Newdeal() {
         id="Card, Preview & Button"
         className="flex flex-col justify-center items-center w-full h-85"
       >
-        <Button
-          onClick={handleSubmit}
-          buttonText="ADD OFFER"
-          className="mb-6"
-        />
+        <Button onClick={handleSubmit} buttonText="ADD DEAL" className="mb-6" />
         <h1 className="font-Open text-sm font-bold text-amber-500 w-full text-center">
           PREVIEW
         </h1>
@@ -124,7 +139,7 @@ export default function Newdeal() {
             <BusinessDeal
               id={business.id}
               businessName={business.name}
-              dealText={offerText ? offerText : "Your Offer Here"}
+              dealText={dealText ? dealText : "Your Deal Here"}
               dealHighlight={
                 endDate ? getTimeRemaining(endDate) : "Time Remaining"
               }
