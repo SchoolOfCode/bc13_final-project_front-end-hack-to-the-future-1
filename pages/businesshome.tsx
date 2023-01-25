@@ -15,7 +15,7 @@ interface Deals {
   id: string;
 }
 
-export default function BusinessAccountDetails() {
+export default function BusinessHome() {
   const [offers, setOffers] = useState<Deals[]>([]);
   const { business } = useBusiness();
 
@@ -49,6 +49,7 @@ export default function BusinessAccountDetails() {
 
   const handleDeleteDeal = async (id: string) => {
     const { data, error } = await supabase.from("deals").delete().eq("id", id);
+    router.reload();
   };
 
   const router = useRouter();
@@ -58,9 +59,6 @@ export default function BusinessAccountDetails() {
   function redirectToNewDeal() {
     router.push("/newdeal");
   }
-  //conditional logic
-  //if there is an offer and its not empty map through everything
-  //else render only the buttons
 
   return (
     <div className="bg-slate-800 h-full w-full p-1">
@@ -75,7 +73,7 @@ export default function BusinessAccountDetails() {
           className="w-5/6 md:w-128 h-14 border-indigo-400  "
         />
       </div>
-      {offers ? (
+      {offers.length > 0 ? (
         <div className="flex flex-wrap w-full h-full justify-center items-center gap-5 pt-5">
           {offers.map((offer) => (
             <BusinessDeal
@@ -94,26 +92,10 @@ export default function BusinessAccountDetails() {
           <BusinessDeal
             id={"1"}
             key={1}
-            dealText={"No Deals Active"}
-            businessName={""}
+            businessName="No Active Deals"
+            dealText=""
             dealTime=""
-            dealHighlight=""
-          />
-          <BusinessDeal
-            id={"2"}
-            key={2}
-            dealText={"No Deals Active"}
-            businessName={""}
-            dealTime=""
-            dealHighlight=""
-          />
-          <BusinessDeal
-            id={"3"}
-            key={3}
-            dealText={"No Deals Active"}
-            businessName={""}
-            dealTime=""
-            dealHighlight=""
+            dealHighlight="Select 'New Deal' above to add a deal for your business!"
           />
         </div>
       )}

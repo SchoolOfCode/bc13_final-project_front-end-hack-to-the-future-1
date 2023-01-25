@@ -107,7 +107,11 @@ export default function Newdeal() {
         id="Card, Preview & Button"
         className="flex flex-col justify-center items-center w-full h-85"
       >
-        <Button onClick={handleSubmit} buttonText="ADD OFFER" className="mb-6"/>
+        <Button
+          onClick={handleSubmit}
+          buttonText="ADD OFFER"
+          className="mb-6"
+        />
         <h1 className="font-Open text-sm font-bold text-amber-500 w-full text-center">
           PREVIEW
         </h1>
@@ -118,21 +122,22 @@ export default function Newdeal() {
         >
           {business ? (
             <BusinessDeal
-            id={business.id}
-            businessName={business.name}
-            dealText={offerText ? offerText : "Your Offer Here"}
-            dealHighlight={
-              endDate ? getTimeRemaining(endDate) : "Time Remaining"
-            }
-            dealTime={
-              endDate ? new Date(endDate).toLocaleString() : "Deal End Date"
-            }
+              id={business.id}
+              businessName={business.name}
+              dealText={offerText ? offerText : "Your Offer Here"}
+              dealHighlight={
+                endDate ? getTimeRemaining(endDate) : "Time Remaining"
+              }
+              dealTime={
+                endDate ? new Date(endDate).toLocaleString() : "Deal End Date"
+              }
+              page="newdeal"
             />
-            ) : (
-              <></>
-              )}
-              </div>
-            </div>
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
