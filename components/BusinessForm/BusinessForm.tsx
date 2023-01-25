@@ -38,10 +38,15 @@ export default function BusinessForm() {
     { value: "Retail", label: "Retail" },
   ];
 
-  // State to hold Lat/Long which is updated on click event of 'Set Position' button.
+  /** 
+   * State to hold Lat/Long which is updated on click event of 'Set Position' button.
+  */
   const [latLon, setLatLon] = useState<[number, number]>();
   const [formMessage, setFormMessage] = useState("");
 
+  /** 
+   * State to hold postcode error message if response "404" from fetch request to postcodes.io. Indicates invalid postcode. 
+   */
   const [postCodeError, setPostCodeError]= useState("")
 
   /**
@@ -122,7 +127,6 @@ export default function BusinessForm() {
         `https://api.postcodes.io/postcodes/${businessInfo.postcode}`
       );
       const data = await response.json();
-      console.log(data.status)
         if (data.status=="404"){setPostCodeError("Invalid PostCode, please re-enter")}
         else {  
       setPostCodeError("")
