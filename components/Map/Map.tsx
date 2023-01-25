@@ -13,28 +13,23 @@ import Button from "../Button/Button";
 export default function Map() {
   const [userLat, setUserLat] = useState<number>(52.598229);
   const [userLng, setUserLng] = useState<number>(-1.353992);
- 
 
-  const { pos, demoMode } = useLocation();
+  const { pos } = useLocation();
   const { businesses } = useLocalBusinesses();
 
   function RecenterMap() {
     const map = useMap();
     useEffect(() => {
-        if (pos?.lat) {
-          map.flyTo([pos?.lat, pos?.lng], 16);
-        }
-      
+      if (pos?.lat) {
+        map.flyTo([pos?.lat, pos?.lng], 16);
+      }
     }, [pos]);
     return <p>Success</p>;
   }
 
   useEffect(() => {
-    
     setUserLat(pos?.lat ? pos?.lat : 53.367459);
     setUserLng(pos?.lng ? pos?.lng : -1.501914);
-    console.log("setting with Pos")
-    
   }, [pos]);
 
   // Custom icon for users position
@@ -43,11 +38,6 @@ export default function Map() {
     iconUrl: "https://cdn.onlinewebfonts.com/svg/img_155117.png",
     iconSize: [25, 25],
   });
-
-  // function demoMode() {
-  //   setDemoModeActive(!demoModeActive)
-  //   console.log(demoModeActive)
-  // }
 
   return (
     <MapContainer
@@ -81,11 +71,6 @@ export default function Map() {
           <Popup>You are here!</Popup>
         </Marker>
       </div>
-      <Button
-            className='absolute top-0 right-2 z-5'
-            buttonText='DEMO'
-            onClick={demoMode}
-          />
     </MapContainer>
   );
 }
