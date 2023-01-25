@@ -59,11 +59,6 @@ export default function Home() {
             buttonText='SETTINGS'
             onClick={redirectToSettings}
           />
-          <Button
-            className='absolute top-18 right-2 z-10'
-            buttonText='DEMO'
-            onClick={redirectToSettings}
-          />
         </>
       ) : (
         <Button
