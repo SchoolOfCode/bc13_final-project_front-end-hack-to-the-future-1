@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import React from "react";
 import { useLocation } from "../../hooks/useLocation";
 import { useLocalBusinesses } from "../../hooks/useLocalBusinesses";
@@ -17,6 +17,16 @@ export default function Map() {
   const [userLng, setUserLng] = useState<number>(-1.353992);
   const { pos } = useLocation();
   const { businesses } = useLocalBusinesses();
+
+  /**
+   * We needed the carousel to be rendered inside the map component to be able to have clickable deal cards.
+   * However this had the knock on effect of preventing scroll within the carousel container.
+   * This code fixes this issue, enabling the user to still scroll through deals in the container.
+   */
+  let carouselContainer = document.getElementById("carousel-container");
+  if (carouselContainer) {
+    L.DomEvent.disableScrollPropagation(carouselContainer as HTMLElement);
+  }
 
   function RecenterMap() {
     const map = useMap();
@@ -86,7 +96,10 @@ export default function Map() {
           <Popup>You are here!</Popup>
         </Marker>
       </div>
-      <div className="z-10 absolute bottom-0 w-screen h-60 md:h-80">
+      <div
+        id="carousel-container"
+        className="z-10 absolute bottom-0 w-screen h-60 md:h-80"
+      >
         <Carousel />
       </div>
     </MapContainer>

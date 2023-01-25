@@ -1,10 +1,11 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import { RiRestaurantFill } from "react-icons/ri";
 import L from "leaflet";
+import BusinessIcon from "../BusinessIcon/BusinessIcon";
 
 export interface ConsumerDealProps {
   businessName?: string;
+  businessType?: string;
   dealText: string;
   dealHighlight: String;
   className?: string;
@@ -13,6 +14,7 @@ export interface ConsumerDealProps {
 
 export default function ConsumerDeal({
   businessName,
+  businessType,
   dealText,
   dealHighlight,
   className,
@@ -27,6 +29,7 @@ export default function ConsumerDeal({
     md:w-80
     h-full
     p-10
+    gap-3
     border-box
     overflow-y-hidden
     bg-slate-700
@@ -43,12 +46,7 @@ export default function ConsumerDeal({
 
   return (
     <div id="card-container" className={classes} onClick={onClick}>
-      <div
-        id="Business-Icon"
-        className="flex justify-center py-2 mt-2 text-2xl md:text-4xl text-slate-50"
-      >
-        <RiRestaurantFill />
-      </div>
+      <BusinessIcon businessType={businessType} />
       <div className="flex flex-col justify-center items-center text-center ">
         <h1 className="font-Open font-bold text-slate-50 text-md md:text-2xl">
           {businessName}

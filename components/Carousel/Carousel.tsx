@@ -19,10 +19,13 @@ export default function Carousel() {
   }
 
   return (
-    <div className="flex flex-col justify-center z-10 w-screen h-full">
+    <div
+      className="flex flex-col justify-center z-10 w-screen h-full"
+      id="carousel"
+    >
       <div
         id="deal-carousel"
-        className="flex absolute bottom items-end px-5 gap-5 overflow-y-auto z-10 w-screen h-full p-3  bg-slate-900 bg-opacity-30"
+        className="flex absolute bottom items-end px-5 gap-5 overflow-y-auto overflow-x-auto z-12 w-screen h-full p-3  bg-slate-900 bg-opacity-30"
       >
         {businesses ? (
           businesses.map((business) =>
@@ -30,6 +33,7 @@ export default function Carousel() {
               <ConsumerDeal
                 key={offer.id}
                 businessName={business.name}
+                businessType={business.business_type}
                 dealText={offer.name}
                 dealHighlight={getTimeRemaining(offer.expiration_time)}
                 onClick={() => flyToBusiness(business.lat, business.lon)}
