@@ -47,7 +47,7 @@ export default function Newdeal() {
         </header>
       </div>
       <div className="flex flex-col justify-start items-center pb-10">
-        <h1 className="font-Open font-bold text-xl text-slate-50">
+        <h1 className="font-Open font-bold text-xl text-slate-50 pb-10">
           Create New Offer
         </h1>
         <form className="flex flex-col justify-start gap-4 items-center text-center h-5/6 w-5/6 max-w-md bg-slate-800">
@@ -105,8 +105,9 @@ export default function Newdeal() {
       </div>
       <div
         id="Card, Preview & Button"
-        className="flex flex-col justify-center items-center w-full h-85 p-4"
+        className="flex flex-col justify-center items-center w-full h-85"
       >
+        <Button onClick={handleSubmit} buttonText="ADD OFFER" className="mb-6"/>
         <h1 className="font-Open text-sm font-bold text-amber-500 w-full text-center">
           PREVIEW
         </h1>
@@ -117,22 +118,21 @@ export default function Newdeal() {
         >
           {business ? (
             <BusinessDeal
-              id={business.id}
-              businessName={business.name}
-              dealText={offerText ? offerText : "Your Offer Here"}
-              dealHighlight={
-                endDate ? getTimeRemaining(endDate) : "Time Remaining"
-              }
-              dealTime={
-                endDate ? new Date(endDate).toLocaleString() : "Deal End Date"
-              }
+            id={business.id}
+            businessName={business.name}
+            dealText={offerText ? offerText : "Your Offer Here"}
+            dealHighlight={
+              endDate ? getTimeRemaining(endDate) : "Time Remaining"
+            }
+            dealTime={
+              endDate ? new Date(endDate).toLocaleString() : "Deal End Date"
+            }
             />
-          ) : (
-            <div></div>
-          )}
-        </div>
-        <Button onClick={handleSubmit} buttonText="ADD OFFER" />
-      </div>
+            ) : (
+              <></>
+              )}
+              </div>
+            </div>
     </div>
   );
 }

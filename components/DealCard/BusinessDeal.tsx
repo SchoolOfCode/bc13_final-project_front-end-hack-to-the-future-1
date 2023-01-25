@@ -29,13 +29,17 @@ export default function BusinessDeal({
     flex-col
     justify-center
     w-80
+    md:w-120
+    xl:w-124
     h-80
+    md:h-120
+    xl:h-124
     p-10
     border-box
     overflow-y-hidden
     bg-slate-700
     rounded-3xl
-    text-white
+    text-slate-50
     text-center
     shadow-md
     shadow-slate-900
@@ -47,7 +51,7 @@ export default function BusinessDeal({
       <div className="flex justify-between items-center">
         <div
           id="Business-Icon"
-          className="flex justify-center py-5 text-4xl text-slate-50"
+          className="flex justify-center  py-5 text-4xl xl:text-5xl  text-slate-50"
         >
           <RiRestaurantFill />
         </div>
@@ -57,7 +61,7 @@ export default function BusinessDeal({
               onClick={() => {
                 onClick(id);
               }}
-              className="text-3xl text-slate-50 cursor-pointer"
+              className="text-3xl xl:text-5xl text-slate-50 cursor-pointer"
             />
           ) : (
             <></>
@@ -65,16 +69,16 @@ export default function BusinessDeal({
         </div>
       </div>
       <div className="flex flex-col justify-center items-center text-center mb-8">
-        <h1 className="font-Open font-bold text-slate-50 text-2xl">
+        <h1 className="font-Open font-bold text-slate-50 text-2xl xl:text-3xl">
           {businessName}
         </h1>
-        <h2 className="font-Open text-indigo-200 text-xl mb-2">{dealText}</h2>
+        <h2 className="font-Open text-indigo-200 text-xl xl:text-2xl mb-2 break-normal">{dealText}</h2>
         <hr className="border-1 w-4/5 border-slate-800 py-2"></hr>
-        <h3 className="font-Open font-semibold text-amber-500 text-md">
-          {dealHighlight}
-        </h3>
-        <h3 className="font-Open font-semibold text-amber-500 text-md">
+        <h3 className="font-Open font-semibold text-slate-200 text-md xl:text-xl">
           {dealTime}
+        </h3>
+        <h3 className="font-Open font-semibold text-amber-500 text-md xl:text-xl">
+          {dealHighlight}
         </h3>
       </div>
     </div>
