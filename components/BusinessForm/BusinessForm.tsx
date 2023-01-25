@@ -155,7 +155,7 @@ export default function BusinessForm() {
         />
 
         <label
-          htmlFor="business-type"
+          htmlFor="business_type"
           className="font-Open text-sm text-amber-500 font-bold w-full text-left"
         >
           Business Type
