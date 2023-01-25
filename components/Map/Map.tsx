@@ -1,9 +1,10 @@
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import { useState, useEffect } from 'react';
-import React from 'react';
-import { useLocation } from '../../hooks/useLocation';
-import { useLocalBusinesses } from '../../hooks/useLocalBusinesses';
+import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import { useState, useEffect } from "react";
+import React from "react";
+import { useLocation } from "../../hooks/useLocation";
+import { useLocalBusinesses } from "../../hooks/useLocalBusinesses";
+import Button from "../Button/Button";
 
 /**
  * This map component displays a map for users on the website's home page.
@@ -21,15 +22,15 @@ export default function Map() {
     const map = useMap();
     useEffect(() => {
       if (pos?.lat) {
-        map.flyTo([pos?.lat, pos?.lng], 14);
+        map.flyTo([pos?.lat, pos?.lng], 16);
       }
     }, [pos]);
     return <p>Success</p>;
   }
 
   useEffect(() => {
-    setUserLat(pos?.lat ? pos?.lat : 52.598229);
-    setUserLng(pos?.lng ? pos?.lng : -1.353992);
+    setUserLat(pos?.lat ? pos?.lat : 53.367459);
+    setUserLng(pos?.lng ? pos?.lng : -1.501914);
   }, [pos]);
 
   // Custom icon for users position

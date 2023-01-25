@@ -1,10 +1,13 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useBusiness } from '../../hooks/useBusiness';
-import Positioner from '../Positioner';
-import Button from '../Button/Button';
+
+import React from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useBusiness } from "../../hooks/useBusiness";
+import Positioner from "../Positioner";
+import Button from "../Button/Button";
+import { InvalidatedProjectKind } from "typescript";
+
 
 /**
  * The form component for use on the business details page, taking in the businesses name, type, website and address
@@ -40,11 +43,18 @@ export default function BusinessForm() {
     { value: 'Retail', label: 'Retail' },
   ];
 
-  /**
+
+  /** 
    * State to hold Lat/Long which is updated on click event of 'Set Position' button.
-   */
+  */
+
   const [latLon, setLatLon] = useState<[number, number]>();
   const [formMessage, setFormMessage] = useState('');
+
+  /** 
+   * State to hold postcode error message if response "404" from fetch request to postcodes.io. Indicates invalid postcode. 
+   */
+  const [postCodeError, setPostCodeError]= useState("")
 
   /**
    * If the user already has set up a business, the existing business information will be added to the form input fields.
@@ -124,12 +134,16 @@ export default function BusinessForm() {
         `https://api.postcodes.io/postcodes/${businessInfo.postcode}`
       );
       const data = await response.json();
+        if (data.status=="404"){setPostCodeError("Invalid PostCode, please re-enter")}
+        else {  
+      setPostCodeError("")
       setLatLon([data.result.latitude, data.result.longitude]);
       setBusinessInfo({
         ...businessInfo,
         lat: data.result.latitude,
         lon: data.result.longitude,
       });
+      }
     }
   };
 
@@ -160,15 +174,19 @@ export default function BusinessForm() {
         />
 
         <label
-          htmlFor='business-type'
-          className='font-Open text-sm text-amber-500 font-bold w-full text-left'
+
+          htmlFor="business_type"
+          className="font-Open text-sm text-amber-500 font-bold w-full text-left"
+
         >
           Business Type
         </label>
         <select
           name='business_type'
           value={businessInfo.business_type}
-          className='w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2 md:mx-full md:my-full'
+
+          className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600 border-2 rounded-md font-Open text-sm px-2 md:mx-full md:my-full focus:ring-indigo-400 focus:ring-4"
+
           onChange={handleChange}
         >
           {options.map((option) => (
@@ -230,7 +248,9 @@ export default function BusinessForm() {
           />
         </div>
 
-        <p className='text-slate-50 text-sm px-5'>
+        {postCodeError ? <p className="text-red-500">{postCodeError}</p> : null}
+        <p className="text-slate-50 text-sm px-5">
+
           Pressing Set Location after entering your postcode will place an
           estimated position for your business on the map below.
         </p>
