@@ -1,3 +1,8 @@
+/**
+ * A helper function that calculates the time remaining for an offer, and formats it into a string format for use on cards
+ * @param offerExpiry string
+ * @returns string, "Offer Expires in ** days : ** hrs"
+ */
 export default function getTimeRemaining(offerExpiry: string) {
   let expiration_string = "";
   const current = new Date();

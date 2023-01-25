@@ -23,6 +23,7 @@
     "@types/supertest": "^2.0.12",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.1",
+    "jsdoc": "^4.0.0",
     "leaflet": "^1.9.3",
     "next": "13.1.1",
     "react": "^18.2.0",

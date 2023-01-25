@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Button from "../components/Button/Button";
 import Image from "next/image";
@@ -7,6 +8,7 @@ import { useBusiness } from "../hooks/useBusiness";
 import BusinessDeal from "../components/DealCard/BusinessDeal";
 import getTimeRemaining from "../helperFunctions/getTimeRemaining";
 
+
 interface Deals {
   name: string;
   expiration_time: string;
@@ -15,7 +17,13 @@ interface Deals {
   id: string;
 }
 
+
+/**
+ * The home page for a business account, where the user can see their current active deals, delete deals or add a new deal. Also includes a path to user settings page.
+ */
+
 export default function BusinessHome() {
+
   const [offers, setOffers] = useState<Deals[]>([]);
   const { business } = useBusiness();
 
@@ -23,9 +31,9 @@ export default function BusinessHome() {
     async function getDeals() {
       if (business) {
         const { data } = await supabase
-          .from("deals")
-          .select("*, businesses (id, name)")
-          .eq("business_id", business.id);
+          .from('deals')
+          .select('*, businesses (id, name)')
+          .eq('business_id', business.id);
 
         if (!data) {
           return;
@@ -39,8 +47,6 @@ export default function BusinessHome() {
             ? item.businesses[0].name
             : item.businesses?.name,
         }));
-        console.log("No data found");
-        console.log("this is deals data", dealsData);
         setOffers(dealsData);
       }
     }
@@ -48,27 +54,30 @@ export default function BusinessHome() {
   }, [business]);
 
   const handleDeleteDeal = async (id: string) => {
+
     const { data, error } = await supabase.from("deals").delete().eq("id", id);
     router.reload();
   };
 
+
   const router = useRouter();
   function redirectToSettings() {
-    router.push("/businessdetails");
+    router.push('/businessdetails');
   }
   function redirectToNewDeal() {
-    router.push("/newdeal");
+    router.push('/newdeal');
   }
 
   return (
-    <div className="bg-slate-800 h-full w-full p-1">
-      <header className="flex justify-between items-center border-box pr-4 pl-4 mt-5">
-        <Image src="/logo.svg" alt="logo" width="100" height="100" />
-        <Button onClick={redirectToSettings} buttonText="SETTINGS" />
+    <div className='bg-slate-800 h-full w-full p-1'>
+      <header className='flex justify-between items-center border-box pr-4 pl-4 mt-5'>
+        <Image src='/logo.svg' alt='logo' width='100' height='100' />
+        <Button onClick={redirectToSettings} buttonText='SETTINGS' />
       </header>
-      <div className="flex flex-col justify-center items-center p-3">
+      <div className='flex flex-col justify-center items-center p-3'>
         <Button
           onClick={redirectToNewDeal}
+
           buttonText="NEW DEAL"
           className="w-5/6 md:w-128 h-14 border-indigo-400  "
         />
