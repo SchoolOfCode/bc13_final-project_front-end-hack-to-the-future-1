@@ -1,10 +1,10 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import React from "react";
 import { useLocation } from "../../hooks/useLocation";
 import { useLocalBusinesses } from "../../hooks/useLocalBusinesses";
-import Button from "../Button/Button";
+import Carousel from "../Carousel/Carousel";
 
 /**
  * This map component displays a map for users on the website's home page.
@@ -14,7 +14,6 @@ import Button from "../Button/Button";
 export default function Map() {
   const [userLat, setUserLat] = useState<number>(52.598229);
   const [userLng, setUserLng] = useState<number>(-1.353992);
-
   const { pos } = useLocation();
   const { businesses } = useLocalBusinesses();
 
@@ -36,13 +35,13 @@ export default function Map() {
   // Custom icon for users position
   // iconUrl: '../Icons.tsx', <-- Exploring the possibilites of using tailwind to style the users icon.
   let userIcon = L.icon({
-    iconUrl: 'https://cdn.onlinewebfonts.com/svg/img_155117.png',
+    iconUrl: "https://cdn.onlinewebfonts.com/svg/img_155117.png",
     iconSize: [25, 25],
   });
 
   return (
     <MapContainer
-      className='h-screen w-screen'
+      className="h-screen w-screen"
       center={[userLat, userLng]}
       zoom={5}
       zoomControl={false}
@@ -50,7 +49,7 @@ export default function Map() {
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <RecenterMap />
       {/* REF:MARKERv2. This code is rendering a list of markers on a map, where each marker corresponds to a location in the businessLocations array which is stored as state. */}
@@ -71,6 +70,9 @@ export default function Map() {
         >
           <Popup>You are here!</Popup>
         </Marker>
+      </div>
+      <div className="z-10 absolute bottom-0 w-screen h-60 md:h-80">
+        <Carousel />
       </div>
     </MapContainer>
   );

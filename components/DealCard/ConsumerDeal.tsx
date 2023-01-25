@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import { RiRestaurantFill } from "react-icons/ri";
+import { useMap } from "react-leaflet";
 
 export interface ConsumerDealProps {
   businessName?: string;
   dealText: string;
   dealHighlight: String;
   className?: string;
+  onClick: () => void;
 }
 
 export default function ConsumerDeal({
@@ -14,6 +16,7 @@ export default function ConsumerDeal({
   dealText,
   dealHighlight,
   className,
+  onClick,
 }: ConsumerDealProps) {
   const classes = twMerge(`
     flex
@@ -34,8 +37,9 @@ export default function ConsumerDeal({
     shadow-slate-900
     ${className ?? ""}
   `);
+
   return (
-    <div id="card-container" className={classes}>
+    <div id="card-container" className={classes} onClick={onClick}>
       <div
         id="Business-Icon"
         className="flex justify-center py-2 mt-2 text-2xl md:text-4xl text-slate-50"

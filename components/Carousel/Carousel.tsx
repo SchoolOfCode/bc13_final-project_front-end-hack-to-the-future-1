@@ -1,4 +1,5 @@
 import React from "react";
+import { useMap } from "react-leaflet";
 import { useLocalBusinesses } from "../../hooks/useLocalBusinesses";
 import getTimeRemaining from "../../helperFunctions/getTimeRemaining";
 import ConsumerDeal from "../DealCard/ConsumerDeal";
@@ -9,6 +10,13 @@ import ConsumerDeal from "../DealCard/ConsumerDeal";
  */
 export default function Carousel() {
   const { businesses } = useLocalBusinesses();
+  const map = useMap();
+
+  function flyToBusiness(lat: number, lon: number) {
+    if (map) {
+      map.flyTo([lat, lon], 18);
+    }
+  }
 
   return (
     <div className="flex flex-col justify-center z-10 w-screen h-full">
@@ -24,6 +32,7 @@ export default function Carousel() {
                 businessName={business.name}
                 dealText={offer.name}
                 dealHighlight={getTimeRemaining(offer.expiration_time)}
+                onClick={() => flyToBusiness(business.lat, business.lon)}
               />
             ))
           )
