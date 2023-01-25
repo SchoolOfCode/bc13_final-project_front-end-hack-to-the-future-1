@@ -1,9 +1,12 @@
+import React from 'react';
+import DealCard from '../DealCard/DealCard';
+import { useLocalBusinesses } from '../../hooks/useLocalBusinesses';
+import getTimeRemaining from '../../helperFunctions/getTimeRemaining';
 
-import React from "react";
-import DealCard from "../DealCard/DealCard";
-import { useLocalBusinesses } from "../../hooks/useLocalBusinesses";
-import getTimeRemaining from "../../helperFunctions/getTimeRemaining";
-
+/**
+ * The card carousel component, which maps the available offers to show as individual, scrollable cards
+ * @returns A React component, a scrollable card carousel
+ */
 export default function Carousel() {
   const { businesses } = useLocalBusinesses();
 

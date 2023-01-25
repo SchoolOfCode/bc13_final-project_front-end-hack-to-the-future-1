@@ -9,43 +9,51 @@ import React from 'react';
 import { useEffect } from 'react';
 import Carousel from '../components/Carousel/Carousel';
 
-
+/**
+ * The landing page for new, not logged in users, and the home page for the consumer account.
+ */
 export default function Home() {
   const user = useUser();
   const { profile } = useProfile();
   const router = useRouter();
 
   useEffect(() => {
-    if (profile?.user_type === "business") {
-      router.push("/businesshome");
-    } else if (profile?.user_type === "") {
-      router.push("/usertype");
+    if (profile?.user_type === 'business') {
+      router.push('/businesshome');
+    } else if (profile?.user_type === '') {
+      router.push('/usertype');
     }
   }, [profile]);
 
+  /**
+   * Function that redirects the user to the user settings page
+   */
   function redirectToSettings() {
-    router.push("/usersettings");
+    router.push('/usersettings');
   }
 
+  /**
+   * Function that redirects the user to the login page
+   */
   function redirectToLogIn() {
-    router.push("/login");
+    router.push('/login');
   }
 
   return (
     <>
       <Head>
         <title>IndyGo</title>
-        <meta name="description" content="Support local businesses!" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='Support local businesses!' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link rel='icon' href='/favicon.ico' />
         <link
-          rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
-          crossOrigin=""
+          rel='stylesheet'
+          href='https://unpkg.com/leaflet@1.9.3/dist/leaflet.css'
+          integrity='sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI='
+          crossOrigin=''
         />
       </Head>
-            <Image
+      <Image
         src='/logo.svg'
         alt='logo'
         width='100'
@@ -72,7 +80,7 @@ export default function Home() {
           onClick={redirectToLogIn}
         />
       )}
-      
+
       <main className='w-screen'>
         <div className='z-0'>
           <Map />

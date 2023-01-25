@@ -1,12 +1,11 @@
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
-import React, { useState, useEffect } from "react";
-import { useLocation } from "./useLocation";
-import { PostcodesFetch, Business, Deal } from "../types/fetch";
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from './useLocation';
+import { PostcodesFetch, Business, Deal } from '../types/fetch';
 
 /**
- * Custom hook that be called from anywhere else in the application to retrieve details of the business associated with a user, if one exists.
- * Works by checking the active session and user, and if one exists, queries the businesses table in supabase using the userid obtained from the useUser helper function.
- * @returns
+ *
+ * @returns loading, error, businesses
  */
 export function useLocalBusinesses() {
   const supabase = useSupabaseClient();
@@ -41,9 +40,9 @@ export function useLocalBusinesses() {
     if (postcodes.length > 0) {
       const getAllLocalBusinesses = async () => {
         const { data } = await supabase
-          .from("businesses")
-          .select("*, deals (*)")
-          .in("postcode", [postcodes]);
+          .from('businesses')
+          .select('*, deals (*)')
+          .in('postcode', [postcodes]);
         if (data != null) {
           setBusinesses(data);
         }
