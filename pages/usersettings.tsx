@@ -27,6 +27,8 @@ export default function UserSettings() {
     "text-red-600 text-xs"
   );
 
+  const emailFormat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
   useEffect(() => {
     if (profile) {
       setName(profile.full_name);
@@ -43,17 +45,23 @@ export default function UserSettings() {
   }, [profile]);
 
   const saveChanges = async () => {
-    if (user) {
-      const { data } = await supabase.auth.updateUser({
-        email: email,
-      });
-      if (data.user === null) {
-        setEmailWarning("Error: The email address may already be in use");
-        setEmailWarningColour("text-red-600 text-xs");
-      } else if (user.email != email) {
-        setEmailWarning("Please check email to confirm the change");
-        setEmailWarningColour("text-lime-400 text-xs");
+    if (email?.match(emailFormat)) {
+      if (user) {
+        const { data } = await supabase.auth.updateUser({
+          email: email,
+        });
+        if (data.user === null) {
+          setEmailWarning("Error: The email address may already be in use");
+          setEmailWarningColour("text-red-600 text-xs");
+        } else if (user.email != email) {
+          setEmailWarning("Please check email to confirm the change");
+          setEmailWarningColour("text-lime-400 text-xs");
+        }
       }
+      
+    } else {
+      setEmailWarning("Invalid email address");
+      setEmailWarningColour("text-red-600 text-xs")
     }
 
     if (user) {
