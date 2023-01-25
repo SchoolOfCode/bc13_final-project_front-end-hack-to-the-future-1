@@ -6,10 +6,13 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily:{
-        "Open": "Open Sans"
-      }
+      fontFamily: {
+        Open: "Open Sans",
+      },
+      width: {
+        128: "32rem",
+      },
     },
   },
   plugins: [],
-}
+};

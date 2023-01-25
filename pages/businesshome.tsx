@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Button from "../components/Button/Button";
-import DealCard from "../components/DealCard/DealCard";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { supabase } from "../supabase";
 import { useBusiness } from "../hooks/useBusiness";
+import BusinessDeal from "../components/DealCard/BusinessDeal";
+import getTimeRemaining from "../helperFunctions/getTimeRemaining";
 
 interface Deals {
   name: string;
@@ -14,10 +15,8 @@ interface Deals {
   id: string;
 }
 
-
 export default function BusinessAccountDetails() {
   const [offers, setOffers] = useState<Deals[]>([]);
-
   const { business } = useBusiness();
 
   useEffect(() => {
@@ -29,63 +28,28 @@ export default function BusinessAccountDetails() {
           .eq("business_id", business.id);
 
         if (!data) {
-          return
+          return;
         }
-        const dealsData:any =
-           data.map((item) => ({
-              id: item.id,
-              name: item.name,
-              business_id: item.business_id,
-              expiration_time: item.expiration_time,
-              business_name: Array.isArray(item.businesses)
-                ? item.businesses[0].name
-                : item.businesses?.name,
-            }))
-           console.log("No data found");
-          console.log("this is deals data",dealsData)
+        const dealsData: any = data.map((item) => ({
+          id: item.id,
+          name: item.name,
+          business_id: item.business_id,
+          expiration_time: item.expiration_time,
+          business_name: Array.isArray(item.businesses)
+            ? item.businesses[0].name
+            : item.businesses?.name,
+        }));
+        console.log("No data found");
+        console.log("this is deals data", dealsData);
         setOffers(dealsData);
-        
       }
     }
     getDeals();
   }, [business]);
 
-
-  const handleDeleteDeal = async (id:string) => {
-    const { data, error } = await supabase
-  .from('deals')
-  .delete()
-  .eq('id', id)
+  const handleDeleteDeal = async (id: string) => {
+    const { data, error } = await supabase.from("deals").delete().eq("id", id);
   };
-
-
-  
-
-  function getTimeRemaining (offerExpiry:string) {
-      let expiration_string = '';
-      const current = new Date();
-      const expiryDate = new Date(offerExpiry)
-      const diff = expiryDate.getTime() - current.getTime();
-      
-      let msec = diff;
-      let dd = Math.floor(msec / 1000 / 60 / 60 / 24);
-      msec -= dd * 1000 * 60 * 60 * 24;
-      let hh = Math.floor(msec / 1000 / 60 / 60);
-      msec -= hh * 1000 * 60 * 60;
-      let mm = Math.floor(msec / 1000 / 60);
-      msec -= mm * 1000 * 60;
-      let ss = Math.floor(msec / 1000);
-      msec -= ss * 1000;
-      
-      if (dd >= 1) {
-        expiration_string = dd + ' days : ' + hh + ' hrs';
-      } else {
-        expiration_string = hh + ' hrs : ' + mm + ' mins';
-      }
-      
-      return "Offer Expires in " + expiration_string;
-  }
-  
 
   const router = useRouter();
   function redirectToSettings() {
@@ -94,9 +58,9 @@ export default function BusinessAccountDetails() {
   function redirectToNewDeal() {
     router.push("/newdeal");
   }
-//conditional logic
-//if there is an offer and its not empty map through everything
-//else render only the buttons
+  //conditional logic
+  //if there is an offer and its not empty map through everything
+  //else render only the buttons
 
   return (
     <div className="bg-slate-800 h-full w-full p-1">
@@ -108,55 +72,50 @@ export default function BusinessAccountDetails() {
         <Button
           onClick={redirectToNewDeal}
           buttonText="NEW DEAL"
-          className="w-5/6 h-14 border-indigo-400  "
+          className="w-5/6 md:w-128 h-14 border-indigo-400  "
         />
       </div>
-      {offers?(
-      <div className="flex flex-col gap-5 justify-center items-center h-full pt-5">
-
-
-        {offers.map((offer) => (
-          <DealCard
-            key={offer.id}
-            businessName={offer.business_name}
-            dealText={offer.name}
-            dealTime={new Date(offer.expiration_time).toLocaleString()}
-            dealHighlight={getTimeRemaining(offer.expiration_time)}
-            onClick={handleDeleteDeal}
-            className="h-80"
-            id={offer.id}
+      {offers ? (
+        <div className="flex flex-wrap w-full h-full justify-center items-center gap-5 pt-5">
+          {offers.map((offer) => (
+            <BusinessDeal
+              key={offer.id}
+              dealText={offer.name}
+              businessName={offer.business_name}
+              dealTime={new Date(offer.expiration_time).toLocaleString()}
+              dealHighlight={getTimeRemaining(offer.expiration_time)}
+              onClick={handleDeleteDeal}
+              id={offer.id}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-5 justify-center items-center h-full pt-5">
+          <BusinessDeal
+            id={"1"}
+            key={1}
+            dealText={"No Deals Active"}
+            businessName={""}
+            dealTime=""
+            dealHighlight=""
           />
-        ))}
-
-      </div>
-
-      ):( <div className="flex flex-col gap-5 justify-center items-center h-full pt-5">
-      <DealCard 
-        businessName="My Business"
-        dealText="Example deal"
-        dealTime="Offer valid until: "
-        dealHighlight="ENDING SOON"
-        onClick={handleDeleteDeal}
-        className="h-80"
-      />
-       <DealCard 
-        businessName="My Business"
-        dealText="Example deal"
-        dealTime="Offer valid until: "
-        dealHighlight="ENDING SOON"
-        onClick={handleDeleteDeal}
-        className="h-80"
-      />
-       <DealCard 
-        businessName="My Business"
-        dealText="Example deal"
-        dealTime="Offer valid until: "
-        dealHighlight="ENDING SOON"
-        onClick={handleDeleteDeal}
-        className="h-80"
-      />
-      </div>
-
+          <BusinessDeal
+            id={"2"}
+            key={2}
+            dealText={"No Deals Active"}
+            businessName={""}
+            dealTime=""
+            dealHighlight=""
+          />
+          <BusinessDeal
+            id={"3"}
+            key={3}
+            dealText={"No Deals Active"}
+            businessName={""}
+            dealTime=""
+            dealHighlight=""
+          />
+        </div>
       )}
     </div>
   );
