@@ -1,10 +1,11 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import { useLocation } from "../../hooks/useLocation";
 import { useLocalBusinesses } from "../../hooks/useLocalBusinesses";
 import Carousel from "../Carousel/Carousel";
+import { RiRestaurantFill } from "react-icons/ri";
 
 /**
  * This map component displays a map for users on the website's home page.
@@ -56,8 +57,22 @@ export default function Map() {
       <div>
         {businesses.map((business: any) => (
           <Marker key={business.id} position={[business.lat, business.lon]}>
-            <Popup>
-              {business.name} <br /> {business.business_type}
+            <Popup minWidth={90}>
+              <div className="bg-slate-700">
+                <div
+                  id="Business-Icon"
+                  className="flex justify-center py-2 mt-2 text-2xl md:text-4xl text-slate-50"
+                >
+                  <RiRestaurantFill />
+                </div>
+                <div>
+                  <span className="text-slate-50 text-lg">{business.name}</span>
+                  <br />
+                  <span className="text-slate-50">
+                    {business.business_type}
+                  </span>
+                </div>
+              </div>
             </Popup>
           </Marker>
         ))}

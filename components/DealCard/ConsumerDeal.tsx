@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { twMerge } from "tailwind-merge";
 import { RiRestaurantFill } from "react-icons/ri";
-import { useMap } from "react-leaflet";
+import L from "leaflet";
 
 export interface ConsumerDealProps {
   businessName?: string;
@@ -35,6 +35,9 @@ export default function ConsumerDeal({
     text-center
     shadow-md
     shadow-slate-900
+    hover:ring-4
+    hover:ring-indigo-400
+    hover:bg-slate-600
     ${className ?? ""}
   `);
 

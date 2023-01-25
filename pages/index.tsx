@@ -8,7 +8,6 @@ import { useProfile } from "../hooks/useProfile";
 
 import React, { useState } from "react";
 import { useEffect, useContext } from "react";
-import Carousel from "../components/Carousel/Carousel";
 import DemoModeContext from "../contexts/demoMode";
 
 /**
@@ -31,9 +30,9 @@ export default function Home() {
 
   useEffect(() => {
     if (demoModeActive) {
-      setDemoButtonText("DEMO MODE OFF");
-    } else {
       setDemoButtonText("DEMO MODE ON");
+    } else {
+      setDemoButtonText("DEMO MODE OFF");
     }
   }, [demoModeActive]);
 
