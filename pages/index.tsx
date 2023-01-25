@@ -5,10 +5,12 @@ import Button from "../components/Button/Button";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useProfile } from "../hooks/useProfile";
+
 import React, { useState } from "react";
 import { useEffect, useContext } from "react";
 import Carousel from "../components/Carousel/Carousel";
 import DemoModeContext from "../contexts/demoMode";
+
 
 export default function Home() {
   const user = useUser();
@@ -65,29 +67,37 @@ export default function Home() {
       {user ? (
         <>
           <Button
+
             className="absolute top-20 right-2 z-10"
             buttonText="SETTINGS"
+
             onClick={redirectToSettings}
           />
         </>
       ) : (
         <Button
+
           className="absolute top-20 right-2 z-10"
+
           buttonText="LOG IN"
           onClick={redirectToLogIn}
         />
       )}
+
       <Button
         className="absolute top-2 right-2 z-10 h-18"
         buttonText={demoButtonText}
         onClick={() => setDemoModeActive(!demoModeActive)}
       />
 
+
       <main className="w-screen">
         <div className="z-0">
           <Map />
         </div>
-        <div className="z-10 absolute bottom-1 w-screen h-60">
+
+        <div className="z-10 absolute bottom-0 w-screen h-60 md:h-80">
+
           <Carousel />
         </div>
       </main>

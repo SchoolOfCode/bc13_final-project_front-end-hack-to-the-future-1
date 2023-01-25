@@ -59,12 +59,3 @@ export default function BusinessDetails() {
     </div>
   );
 }
-
-//latitude and get longitude 
-
-// 'POINT(-73.94581 40.807475)'
-
-// function convertToPoint (lat,long){
-// const point = `POINT(${lat} ${long)}`
-//return point
-// 
