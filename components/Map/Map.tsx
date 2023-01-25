@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, useMap, Marker, Popup, Circle } from "react-leaflet";
 import L from "leaflet";
 import { useState, useEffect } from "react";
 import React from "react";
@@ -69,6 +69,7 @@ export default function Map() {
           icon={userIcon}
           position={[userLat ? userLat : 0, userLng ? userLng : 0]}
         >
+          <Circle center={[userLat, userLng]} radius={500} color='black' opacity={0.1}/>
           <Popup>You are here!</Popup>
         </Marker>
       </div>
