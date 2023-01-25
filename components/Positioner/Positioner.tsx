@@ -1,13 +1,18 @@
-import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import 'leaflet/dist/leaflet.css';
 
 export interface PositionerProps {
   latLon: any;
   updateBusinessPosition: ({ props }: any) => void;
 }
 
+/**
+ * The positioner
+ * @param param0
+ * @returns
+ */
 export default function Positioner({
   latLon,
   updateBusinessPosition,
@@ -18,7 +23,7 @@ export default function Positioner({
   };
 
   let userIcon = L.icon({
-    iconUrl: "https://cdn.onlinewebfonts.com/svg/img_465789.png",
+    iconUrl: 'https://cdn.onlinewebfonts.com/svg/img_465789.png',
     iconSize: [25, 35],
   });
 
@@ -65,8 +70,8 @@ export default function Positioner({
         <Popup minWidth={90}>
           <span onClick={toggleDraggable}>
             {draggable
-              ? "Marker is draggable"
-              : "Tap and then drag the icon to change business location"}
+              ? 'Marker is draggable'
+              : 'Tap and then drag the icon to change business location'}
           </span>
         </Popup>
       </Marker>
@@ -75,7 +80,7 @@ export default function Positioner({
 
   return (
     <MapContainer
-      className="h-80 w-full"
+      className='h-80 w-full'
       center={center}
       zoom={20}
       zoomControl={false}
@@ -83,7 +88,7 @@ export default function Positioner({
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
       <div>
         <DraggableMarker />

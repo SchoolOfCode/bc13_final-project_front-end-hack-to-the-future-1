@@ -1,11 +1,18 @@
-import { twMerge } from "tailwind-merge";
-import React from "react";
+import { twMerge } from 'tailwind-merge';
+import React from 'react';
 export interface ButtonProps {
   buttonText: string;
   onClick: (event: any) => void;
   className?: string;
 }
 
+/**
+ * A universal button component that acts based on a given onClick parameter
+ * @param function onClick - The functionality desired from the button.
+ * @param string className - The TailwindCSS used to style the component
+ * @param string buttonText - The text displayed on the button
+ * @returns A React component, a clickable button
+ */
 export default function Button({
   buttonText,
   onClick,
@@ -28,7 +35,7 @@ export default function Button({
     hover:bg-indigo-300 
     hover:border-indigo-300
     hover:text-slate-900 
-    ${className ?? ""}
+    ${className ?? ''}
   `);
   return (
     <button onClick={onClick} className={classes} data-cy={buttonText}>

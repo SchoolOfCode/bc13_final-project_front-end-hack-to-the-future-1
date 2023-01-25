@@ -18,7 +18,7 @@ export interface Profile {
 /**
  * Custom hook that be called from anywhere else in the application to retrieve a user's profile details.
  * Works by checking the active session and user, and if one exists, queries the profiles table in supabase using the userid obtained from the useUser helper function.
- * @returns
+ * @returns loading, error, profile
  */
 export function useProfile() {
   const session = useSession();
