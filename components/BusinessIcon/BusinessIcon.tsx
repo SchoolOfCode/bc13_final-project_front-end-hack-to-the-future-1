@@ -5,7 +5,7 @@ import { AiFillShopping } from "react-icons/ai";
 import { RiRestaurantFill } from "react-icons/ri";
 import { IoIosHappy } from "react-icons/io";
 
-export interface ButtonProps {
+export interface BusinessIconProps {
   businessType: string | undefined;
   className?: string;
 }
@@ -16,7 +16,10 @@ export interface ButtonProps {
  * @param string businessType - The type of the business. used to determine which icon to render
  * @returns A React component, a clickable button
  */
-export default function BusinessIcon({ businessType, className }: ButtonProps) {
+export default function BusinessIcon({
+  businessType,
+  className,
+}: BusinessIconProps) {
   const classes = twMerge(`
   flex justify-center py-2 mt-2 text-2xl md:text-4xl text-slate-50
     ${className ?? ""}
@@ -36,7 +39,7 @@ export default function BusinessIcon({ businessType, className }: ButtonProps) {
         businessIconRef.current = <IoIosHappy />;
         break;
       default:
-      // code block
+        businessIconRef.current = <IoStorefront />;
     }
   }, [businessType]);
 

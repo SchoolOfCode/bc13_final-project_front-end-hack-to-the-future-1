@@ -1,11 +1,12 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
+import "leaflet.awesome-markers";
 import { useState, useEffect, useRef } from "react";
 import React from "react";
 import { useLocation } from "../../hooks/useLocation";
 import { useLocalBusinesses } from "../../hooks/useLocalBusinesses";
 import Carousel from "../Carousel/Carousel";
-import { RiRestaurantFill } from "react-icons/ri";
+import BusinessIcon from "../BusinessIcon/BusinessIcon";
 
 /**
  * This map component displays a map for users on the website's home page.
@@ -28,11 +29,47 @@ export default function Map() {
     L.DomEvent.disableScrollPropagation(carouselContainer as HTMLElement);
   }
 
+  useEffect(() => {
+    L.AwesomeMarkers.Icon.prototype.options.prefix = "fa";
+  }, []);
+
+  function getBusinessMarkerIcon(businessType: string) {
+    switch (businessType) {
+      case "Food/Drink":
+        return L.AwesomeMarkers.icon({
+          icon: "coffee",
+          markerColor: "red",
+        });
+      case "Retail":
+        return L.AwesomeMarkers.icon({
+          icon: "shopping-bag",
+          markerColor: "purple",
+        });
+      case "Entertainment":
+        return L.AwesomeMarkers.icon({
+          icon: "star",
+          markerColor: "orange",
+        });
+      default:
+        return L.AwesomeMarkers.icon({
+          icon: "coffee",
+          markerColor: "red",
+        });
+    }
+  }
+
+  let userIcon = L.AwesomeMarkers.icon({
+    icon: "user",
+    markerColor: "blue",
+  });
+
   function RecenterMap() {
     const map = useMap();
     useEffect(() => {
       if (pos?.lat) {
-        map.flyTo([pos?.lat, pos?.lng], 16);
+        map.flyTo([pos?.lat, pos?.lng], 17, {
+          duration: 0.75,
+        });
       }
     }, [pos]);
     return <p>Success</p>;
@@ -42,13 +79,6 @@ export default function Map() {
     setUserLat(pos?.lat ? pos?.lat : 53.367459);
     setUserLng(pos?.lng ? pos?.lng : -1.501914);
   }, [pos]);
-
-  // Custom icon for users position
-  // iconUrl: '../Icons.tsx', <-- Exploring the possibilites of using tailwind to style the users icon.
-  let userIcon = L.icon({
-    iconUrl: "https://cdn.onlinewebfonts.com/svg/img_155117.png",
-    iconSize: [25, 25],
-  });
 
   return (
     <MapContainer
@@ -66,15 +96,14 @@ export default function Map() {
       {/* REF:MARKERv2. This code is rendering a list of markers on a map, where each marker corresponds to a location in the businessLocations array which is stored as state. */}
       <div>
         {businesses.map((business: any) => (
-          <Marker key={business.id} position={[business.lat, business.lon]}>
+          <Marker
+            key={business.id}
+            position={[business.lat, business.lon]}
+            icon={getBusinessMarkerIcon(business.business_type)}
+          >
             <Popup minWidth={90}>
               <div className="bg-slate-700">
-                <div
-                  id="Business-Icon"
-                  className="flex justify-center py-2 mt-2 text-2xl md:text-4xl text-slate-50"
-                >
-                  <RiRestaurantFill />
-                </div>
+                <BusinessIcon businessType={business.business_type} />
                 <div>
                   <span className="text-slate-50 text-lg">{business.name}</span>
                   <br />
@@ -93,7 +122,9 @@ export default function Map() {
           icon={userIcon}
           position={[userLat ? userLat : 0, userLng ? userLng : 0]}
         >
-          <Popup>You are here!</Popup>
+          <Popup>
+            <span className="text-slate-50">You are here!</span>
+          </Popup>
         </Marker>
       </div>
       <div
