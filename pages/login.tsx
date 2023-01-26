@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useProfile } from '../hooks/useProfile';
 import Image from 'next/image';
+import React from 'react';
 
 /**
  * The login page that houses the AuthUI component. Users can create an account and are then pathed to the landing page or business home respectively.

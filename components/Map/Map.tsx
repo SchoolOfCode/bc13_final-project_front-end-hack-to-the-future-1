@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, useMap, Marker, Popup, Circle } from "react-leaflet";
+import { MapContainer, TileLayer, useMap, Marker, Popup, Circle, ZoomControl } from "react-leaflet";
 import L from "leaflet";
 import { useState, useEffect } from "react";
 import React from "react";
@@ -73,6 +73,6 @@ export default function Map() {
           <Popup>You are here!</Popup>
         </Marker>
       </div>
-    </MapContainer>
+     </MapContainer>
   );
 }

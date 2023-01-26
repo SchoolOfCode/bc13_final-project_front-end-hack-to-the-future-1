@@ -1,5 +1,6 @@
 
 import { useEffect, useState, useContext } from "react";
+import React from "react";
 import DemoModeContext from "../contexts/demoMode";
 
 

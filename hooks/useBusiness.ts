@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import React from 'react';
 
 /**
  * Creating TypeScript for the values that we are going to retrive from the profiles table in Supabase.
