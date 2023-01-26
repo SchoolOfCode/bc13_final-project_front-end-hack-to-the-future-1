@@ -27,13 +27,18 @@ html {
 }
 
 .leaflet-popup-content-wrapper {
-  background-color: #334155;
+  background-color: #334155 !important;
 }
 
 .leaflet-popup-content-wrapper .leaflet-popup-content {
   background-color: #334155;
 }
 
+.leaflet-popup-tip {
+  background-color: #334155 !important;
+}
+
+.leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   background-color: #334155;
 }

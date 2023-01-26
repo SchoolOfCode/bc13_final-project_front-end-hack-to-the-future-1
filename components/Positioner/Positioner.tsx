@@ -1,7 +1,14 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import "leaflet/dist/leaflet.css";
+import "leaflet.awesome-markers";
 
 export interface PositionerProps {
   latLon: any;
@@ -22,9 +29,13 @@ export default function Positioner({
     lng: -1.501612,
   };
 
-  let userIcon = L.icon({
-    iconUrl: "https://cdn.onlinewebfonts.com/svg/img_465789.png",
-    iconSize: [25, 35],
+  useEffect(() => {
+    L.AwesomeMarkers.Icon.prototype.options.prefix = "fa";
+  }, []);
+
+  let userIcon = L.AwesomeMarkers.icon({
+    icon: "shopping-bag",
+    markerColor: "blue",
   });
 
   function DraggableMarker() {
@@ -68,7 +79,7 @@ export default function Positioner({
         icon={userIcon}
       >
         <Popup minWidth={90}>
-          <span onClick={toggleDraggable}>
+          <span onClick={toggleDraggable} className="text-slate-50">
             {draggable
               ? "Marker is draggable"
               : "Tap This Popup Message To Be Able To Drag Your Business Icon Location Around The Map"}
