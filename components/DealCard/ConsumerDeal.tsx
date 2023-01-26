@@ -1,6 +1,5 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import L from "leaflet";
 import BusinessIcon from "../BusinessIcon/BusinessIcon";
 
 export interface ConsumerDealProps {
@@ -9,7 +8,6 @@ export interface ConsumerDealProps {
   dealText: string;
   dealHighlight: String;
   className?: string;
-  onClick: () => void;
 }
 
 export default function ConsumerDeal({
@@ -18,7 +16,6 @@ export default function ConsumerDeal({
   dealText,
   dealHighlight,
   className,
-  onClick,
 }: ConsumerDealProps) {
   const classes = twMerge(`
     flex
@@ -38,14 +35,11 @@ export default function ConsumerDeal({
     text-center
     shadow-md
     shadow-slate-900
-    hover:ring-4
-    hover:ring-indigo-400
-    hover:bg-slate-600
     ${className ?? ""}
   `);
 
   return (
-    <div id="card-container" className={classes} onClick={onClick}>
+    <div id="card-container" className={classes}>
       <BusinessIcon businessType={businessType} />
       <div className="flex flex-col justify-center items-center text-center ">
         <h1 className="font-Open font-bold text-slate-50 text-md md:text-2xl">
