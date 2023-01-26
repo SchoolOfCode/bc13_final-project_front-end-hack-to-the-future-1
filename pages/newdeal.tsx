@@ -18,7 +18,7 @@ export default function Newdeal() {
   const [endDate, setEndDate] = useState<any>();
   const [fieldColor, setFieldColor] = useState("bg-slate-300");
   const [nameWarning, setNameWarning] = useState("");
-  const {profile} = useProfile()
+  const {profile,loading} = useProfile()
 
 
   /* function to return to businesshome  */
@@ -27,13 +27,13 @@ export default function Newdeal() {
   };
 
   useEffect(() => {
-    if (!profile){
+    if (profile === null && loading===false ){
       router.push('/')
     }
     if (profile?.user_type === 'consumer') {
       router.push('/');   
     }
-  }, []);
+  }, [profile,loading]);
 
   useEffect(() => {
     if (dealText?.length > 60) {
