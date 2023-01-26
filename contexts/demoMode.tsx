@@ -1,5 +1,5 @@
-import { createContext } from "react";
-import React, { useState } from "react";
+import { createContext } from 'react';
+import React, { useState } from 'react';
 
 const DemoModeContext = createContext<IDemoModeContext>({} as IDemoModeContext);
 
@@ -8,6 +8,9 @@ interface IDemoModeContext {
   setDemoModeActive: (value: boolean) => void;
 }
 
+/**
+ * Context for a demo mode, where user location is overwritten with a preset values
+ */
 export const DemoModeProvider = ({ children }: any) => {
   const [demoModeActive, setDemoModeActive] = useState(true);
 

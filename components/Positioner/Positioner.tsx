@@ -1,14 +1,14 @@
-import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
 import React, {
   useState,
   useEffect,
   useRef,
   useMemo,
   useCallback,
-} from "react";
-import "leaflet/dist/leaflet.css";
-import "leaflet.awesome-markers";
+} from 'react';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet.awesome-markers';
 
 export interface PositionerProps {
   latLon: any;
@@ -16,8 +16,9 @@ export interface PositionerProps {
 }
 
 /**
- * The positioner
- * @param param0
+ * The positioner component is used on the business details page, where the business can set their location with a draggable marker.
+ * @param latLon String - Provided by BusinessForm component
+ * @param updateBusinessPosition Function - Combines the latitude and longitude as one variable to save in state. Provided by BusinessForm component
  * @returns
  */
 export default function Positioner({
@@ -30,12 +31,12 @@ export default function Positioner({
   };
 
   useEffect(() => {
-    L.AwesomeMarkers.Icon.prototype.options.prefix = "fa";
+    L.AwesomeMarkers.Icon.prototype.options.prefix = 'fa';
   }, []);
 
   let userIcon = L.AwesomeMarkers.icon({
-    icon: "shopping-bag",
-    markerColor: "blue",
+    icon: 'shopping-bag',
+    markerColor: 'blue',
   });
 
   function DraggableMarker() {
@@ -79,10 +80,10 @@ export default function Positioner({
         icon={userIcon}
       >
         <Popup minWidth={90}>
-          <span onClick={toggleDraggable} className="text-slate-50">
+          <span onClick={toggleDraggable} className='text-slate-50'>
             {draggable
-              ? "Marker is draggable"
-              : "Tap This Popup Message To Be Able To Drag Your Business Icon Location Around The Map"}
+              ? 'Marker is draggable'
+              : 'Tap This Popup Message To Be Able To Drag Your Business Icon Location Around The Map'}
           </span>
         </Popup>
       </Marker>
@@ -91,7 +92,7 @@ export default function Positioner({
 
   return (
     <MapContainer
-      className="h-80 w-full"
+      className='h-80 w-full'
       center={center}
       zoom={20}
       zoomControl={false}
@@ -99,7 +100,7 @@ export default function Positioner({
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
       <div>
         <DraggableMarker />

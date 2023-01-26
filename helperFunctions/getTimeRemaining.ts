@@ -1,10 +1,10 @@
 /**
  * A helper function that calculates the time remaining for an offer, and formats it into a string format for use on cards
- * @param offerExpiry string
+ * @param offerExpiry String - Provided by New Deal page
  * @returns string, "Offer Expires in ** days : ** hrs"
  */
 export default function getTimeRemaining(offerExpiry: string) {
-  let expiration_string = "";
+  let expiration_string = '';
   const current = new Date();
   const expiryDate = new Date(offerExpiry);
   const diff = expiryDate.getTime() - current.getTime();
@@ -20,10 +20,10 @@ export default function getTimeRemaining(offerExpiry: string) {
   msec -= ss * 1000;
 
   if (dd >= 1) {
-    expiration_string = dd + " days : " + hh + " hrs";
+    expiration_string = dd + ' days : ' + hh + ' hrs';
   } else {
-    expiration_string = hh + " hrs : " + mm + " mins";
+    expiration_string = hh + ' hrs : ' + mm + ' mins';
   }
 
-  return "Offer Expires in " + expiration_string;
+  return 'Offer Expires in ' + expiration_string;
 }
