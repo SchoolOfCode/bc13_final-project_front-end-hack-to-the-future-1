@@ -5,13 +5,13 @@ import {
   Marker,
   Popup,
   Circle,
-} from "react-leaflet";
-import L from "leaflet";
-import "leaflet.awesome-markers";
-import React, { useState, useEffect } from "react";
-import { useLocation } from "../../hooks/useLocation";
-import { useLocalBusinesses } from "../../hooks/useLocalBusinesses";
-import BusinessIcon from "../BusinessIcon/BusinessIcon";
+} from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet.awesome-markers';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from '../../hooks/useLocation';
+import { useLocalBusinesses } from '../../hooks/useLocalBusinesses';
+import BusinessIcon from '../BusinessIcon/BusinessIcon';
 
 /**
  * This map component displays a map for users on the website's home page.
@@ -25,39 +25,47 @@ export default function Map() {
   const { businesses } = useLocalBusinesses();
 
   useEffect(() => {
-    L.AwesomeMarkers.Icon.prototype.options.prefix = "fa";
+    L.AwesomeMarkers.Icon.prototype.options.prefix = 'fa';
   }, []);
 
+  /**
+   * The function determines which business icon is used on the markers, depending on the business type
+   * @param businessType String - Determined by user input when the business is created
+   * @returns
+   */
   function getBusinessMarkerIcon(businessType: string) {
     switch (businessType) {
-      case "Food/Drink":
+      case 'Food/Drink':
         return L.AwesomeMarkers.icon({
-          icon: "coffee",
-          markerColor: "red",
+          icon: 'coffee',
+          markerColor: 'red',
         });
-      case "Retail":
+      case 'Retail':
         return L.AwesomeMarkers.icon({
-          icon: "shopping-bag",
-          markerColor: "purple",
+          icon: 'shopping-bag',
+          markerColor: 'purple',
         });
-      case "Entertainment":
+      case 'Entertainment':
         return L.AwesomeMarkers.icon({
-          icon: "star",
-          markerColor: "orange",
+          icon: 'star',
+          markerColor: 'orange',
         });
       default:
         return L.AwesomeMarkers.icon({
-          icon: "coffee",
-          markerColor: "red",
+          icon: 'coffee',
+          markerColor: 'red',
         });
     }
   }
 
   let userIcon = L.AwesomeMarkers.icon({
-    icon: "user",
-    markerColor: "blue",
+    icon: 'user',
+    markerColor: 'blue',
   });
 
+  /**
+   * This function centers the map on the users co-ordinates once the position data is received
+   */
   function RecenterMap() {
     const map = useMap();
     useEffect(() => {
@@ -70,6 +78,9 @@ export default function Map() {
     return <p>Success</p>;
   }
 
+  /**
+   * Sets state for user position once location data has been received
+   */
   useEffect(() => {
     setUserLat(pos?.lat ? pos?.lat : 53.367459);
     setUserLng(pos?.lng ? pos?.lng : -1.501914);
@@ -77,7 +88,7 @@ export default function Map() {
 
   return (
     <MapContainer
-      className="h-screen w-screen"
+      className='h-screen w-screen'
       center={[userLat, userLng]}
       zoom={5}
       zoomControl={false}
@@ -85,7 +96,7 @@ export default function Map() {
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
       <RecenterMap />
       {/* REF:MARKERv2. This code is rendering a list of markers on a map, where each marker corresponds to a location in the businessLocations array which is stored as state. */}
@@ -97,12 +108,12 @@ export default function Map() {
             icon={getBusinessMarkerIcon(business.business_type)}
           >
             <Popup minWidth={90}>
-              <div className="bg-slate-700">
+              <div className='bg-slate-700'>
                 <BusinessIcon businessType={business.business_type} />
                 <div>
-                  <span className="text-slate-50 text-lg">{business.name}</span>
+                  <span className='text-slate-50 text-lg'>{business.name}</span>
                   <br />
-                  <span className="text-slate-50">
+                  <span className='text-slate-50'>
                     {business.business_type}
                   </span>
                 </div>
@@ -119,12 +130,12 @@ export default function Map() {
         >
           <Circle
             center={[userLat, userLng]}
-            radius={500}
-            color="black"
+            radius={400}
+            color='black'
             opacity={0.1}
           />
           <Popup>
-            <span className="text-slate-50">You are here!</span>
+            <span className='text-slate-50'>You are here!</span>
           </Popup>
         </Marker>
       </div>

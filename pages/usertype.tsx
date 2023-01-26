@@ -70,7 +70,7 @@ export default function UserType() {
         if (error) {
           throw error;
         }
-        router.push("/businesshome");
+        router.push("/businessdetails");
       }
     }
   }
