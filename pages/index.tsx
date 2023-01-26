@@ -8,7 +8,6 @@ import { useProfile } from "../hooks/useProfile";
 
 import React, { useState } from "react";
 import { useEffect, useContext } from "react";
-import Carousel from "../components/Carousel/Carousel";
 import DemoModeContext from "../contexts/demoMode";
 
 /**
@@ -22,19 +21,18 @@ export default function Home() {
   const [demoButtonText, setDemoButtonText] = useState("");
 
   useEffect(() => {
-    if (profile?.user_type === 'business') {
-      router.push('/businesshome');
-    } else if (profile?.user_type === '') {
-      router.push('/usertype');
+    if (profile?.user_type === "business") {
+      router.push("/businesshome");
+    } else if (profile?.user_type === "") {
+      router.push("/usertype");
     }
   }, [profile]);
 
-
   useEffect(() => {
     if (demoModeActive) {
-      setDemoButtonText("DEMO MODE OFF");
-    } else {
       setDemoButtonText("DEMO MODE ON");
+    } else {
+      setDemoButtonText("DEMO MODE OFF");
     }
   }, [demoModeActive]);
 
@@ -42,28 +40,28 @@ export default function Home() {
    * Function that redirects the user to the user settings page
    */
   function redirectToSettings() {
-    router.push('/usersettings');
+    router.push("/usersettings");
   }
 
   /**
    * Function that redirects the user to the login page
    */
   function redirectToLogIn() {
-    router.push('/login');
+    router.push("/login");
   }
 
   return (
     <>
       <Head>
         <title>IndyGo</title>
-        <meta name='description' content='Support local businesses!' />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='icon' href='/favicon.ico' />
+        <meta name="description" content="Support local businesses!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
         <link
-          rel='stylesheet'
-          href='https://unpkg.com/leaflet@1.9.3/dist/leaflet.css'
-          integrity='sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI='
-          crossOrigin=''
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossOrigin=""
         />
       </Head>
       <Image
@@ -76,39 +74,28 @@ export default function Home() {
       {user ? (
         <>
           <Button
-
             className="absolute top-20 right-2 z-10"
             buttonText="SETTINGS"
-
             onClick={redirectToSettings}
           />
         </>
       ) : (
         <Button
-
           className="absolute top-20 right-2 z-10"
-
           buttonText="LOG IN"
           onClick={redirectToLogIn}
         />
       )}
-      
+
       <Button
         className="absolute top-2 right-2 z-10 h-18"
         buttonText={demoButtonText}
         onClick={() => setDemoModeActive(!demoModeActive)}
       />
 
-
       <main className="w-screen">
         <div className="z-0">
-
           <Map />
-        </div>
-
-        <div className="z-10 absolute bottom-0 w-screen h-60 md:h-80">
-
-          <Carousel />
         </div>
       </main>
     </>

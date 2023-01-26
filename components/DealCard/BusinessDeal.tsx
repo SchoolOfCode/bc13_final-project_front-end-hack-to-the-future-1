@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { useBusiness } from "../../hooks/useBusiness";
 import { RxCross2 } from "react-icons/rx";
 import { RiRestaurantFill } from "react-icons/ri";
+import BusinessIcon from "../BusinessIcon/BusinessIcon";
 
 export interface BusinessDealProps {
   id: string;
@@ -29,7 +30,8 @@ export default function BusinessDeal({
     flex
     flex-none
     flex-col
-    justify-between
+    justify-center
+    gap-10
     w-80
     md:w-120
     xl:w-124
@@ -50,12 +52,10 @@ export default function BusinessDeal({
   return (
     <div id="card-container" className={classes}>
       {page === "newdeal" ? (
-        <div
-          id="Business-Icon"
-          className="flex justify-center  pt-5 text-4xl xl:text-5xl  text-slate-50"
-        >
-          <RiRestaurantFill />
-        </div>
+        <BusinessIcon
+          className="flex justify-center  pt-5 text-4xl xl:text-6xl  text-slate-50"
+          businessType={business?.business_type}
+        />
       ) : (
         <div id="Delete-Icon" className="flex justify-end items-end px-5 ">
           {onClick ? (

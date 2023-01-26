@@ -1,10 +1,12 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import { useState, useEffect } from "react";
+import "leaflet.awesome-markers";
+import { useState, useEffect, useRef } from "react";
 import React from "react";
 import { useLocation } from "../../hooks/useLocation";
 import { useLocalBusinesses } from "../../hooks/useLocalBusinesses";
-import Button from "../Button/Button";
+import Carousel from "../Carousel/Carousel";
+import BusinessIcon from "../BusinessIcon/BusinessIcon";
 
 /**
  * This map component displays a map for users on the website's home page.
@@ -14,15 +16,60 @@ import Button from "../Button/Button";
 export default function Map() {
   const [userLat, setUserLat] = useState<number>(52.598229);
   const [userLng, setUserLng] = useState<number>(-1.353992);
-
   const { pos } = useLocation();
   const { businesses } = useLocalBusinesses();
+
+  /**
+   * We needed the carousel to be rendered inside the map component to be able to have clickable deal cards.
+   * However this had the knock on effect of preventing scroll within the carousel container.
+   * This code fixes this issue, enabling the user to still scroll through deals in the container.
+   */
+  let carouselContainer = document.getElementById("carousel-container");
+  if (carouselContainer) {
+    L.DomEvent.disableScrollPropagation(carouselContainer as HTMLElement);
+  }
+
+  useEffect(() => {
+    L.AwesomeMarkers.Icon.prototype.options.prefix = "fa";
+  }, []);
+
+  function getBusinessMarkerIcon(businessType: string) {
+    switch (businessType) {
+      case "Food/Drink":
+        return L.AwesomeMarkers.icon({
+          icon: "coffee",
+          markerColor: "red",
+        });
+      case "Retail":
+        return L.AwesomeMarkers.icon({
+          icon: "shopping-bag",
+          markerColor: "purple",
+        });
+      case "Entertainment":
+        return L.AwesomeMarkers.icon({
+          icon: "star",
+          markerColor: "orange",
+        });
+      default:
+        return L.AwesomeMarkers.icon({
+          icon: "coffee",
+          markerColor: "red",
+        });
+    }
+  }
+
+  let userIcon = L.AwesomeMarkers.icon({
+    icon: "user",
+    markerColor: "blue",
+  });
 
   function RecenterMap() {
     const map = useMap();
     useEffect(() => {
       if (pos?.lat) {
-        map.flyTo([pos?.lat, pos?.lng], 16);
+        map.flyTo([pos?.lat, pos?.lng], 17, {
+          duration: 0.75,
+        });
       }
     }, [pos]);
     return <p>Success</p>;
@@ -33,16 +80,9 @@ export default function Map() {
     setUserLng(pos?.lng ? pos?.lng : -1.501914);
   }, [pos]);
 
-  // Custom icon for users position
-  // iconUrl: '../Icons.tsx', <-- Exploring the possibilites of using tailwind to style the users icon.
-  let userIcon = L.icon({
-    iconUrl: 'https://cdn.onlinewebfonts.com/svg/img_155117.png',
-    iconSize: [25, 25],
-  });
-
   return (
     <MapContainer
-      className='h-screen w-screen'
+      className="h-screen w-screen"
       center={[userLat, userLng]}
       zoom={5}
       zoomControl={false}
@@ -50,15 +90,28 @@ export default function Map() {
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <RecenterMap />
       {/* REF:MARKERv2. This code is rendering a list of markers on a map, where each marker corresponds to a location in the businessLocations array which is stored as state. */}
       <div>
         {businesses.map((business: any) => (
-          <Marker key={business.id} position={[business.lat, business.lon]}>
-            <Popup>
-              {business.name} <br /> {business.business_type}
+          <Marker
+            key={business.id}
+            position={[business.lat, business.lon]}
+            icon={getBusinessMarkerIcon(business.business_type)}
+          >
+            <Popup minWidth={90}>
+              <div className="bg-slate-700">
+                <BusinessIcon businessType={business.business_type} />
+                <div>
+                  <span className="text-slate-50 text-lg">{business.name}</span>
+                  <br />
+                  <span className="text-slate-50">
+                    {business.business_type}
+                  </span>
+                </div>
+              </div>
             </Popup>
           </Marker>
         ))}
@@ -69,8 +122,16 @@ export default function Map() {
           icon={userIcon}
           position={[userLat ? userLat : 0, userLng ? userLng : 0]}
         >
-          <Popup>You are here!</Popup>
+          <Popup>
+            <span className="text-slate-50">You are here!</span>
+          </Popup>
         </Marker>
+      </div>
+      <div
+        id="carousel-container"
+        className="z-10 absolute bottom-0 w-screen h-60 md:h-80"
+      >
+        <Carousel />
       </div>
     </MapContainer>
   );

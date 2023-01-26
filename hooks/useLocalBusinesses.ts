@@ -1,10 +1,8 @@
-
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "./useLocation";
 import DemoModeContext from "../contexts/demoMode";
 import { PostcodesFetch, Business, Deal } from "../types/fetch";
-
 
 /**
  *
@@ -13,7 +11,7 @@ import { PostcodesFetch, Business, Deal } from "../types/fetch";
 export function useLocalBusinesses() {
   const supabase = useSupabaseClient();
   const { pos } = useLocation();
-  const { demoModeActive, setDemoModeActive } = useContext(DemoModeContext);
+  const { demoModeActive } = useContext(DemoModeContext);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any | null>(null);
@@ -55,9 +53,9 @@ export function useLocalBusinesses() {
     if (postcodes.length > 0) {
       const getAllLocalBusinesses = async () => {
         const { data } = await supabase
-          .from('businesses')
-          .select('*, deals (*)')
-          .in('postcode', [postcodes]);
+          .from("businesses")
+          .select("*, deals (*)")
+          .in("postcode", [postcodes]);
         if (data != null) {
           setBusinesses(data);
         }
