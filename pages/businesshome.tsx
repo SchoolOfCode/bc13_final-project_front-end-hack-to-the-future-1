@@ -7,6 +7,7 @@ import { supabase } from "../supabase";
 import { useBusiness } from "../hooks/useBusiness";
 import BusinessDeal from "../components/DealCard/BusinessDeal";
 import getTimeRemaining from "../helperFunctions/getTimeRemaining";
+import { useProfile } from "../hooks/useProfile";
 
 
 interface Deals {
@@ -26,6 +27,16 @@ export default function BusinessHome() {
 
   const [offers, setOffers] = useState<Deals[]>([]);
   const { business } = useBusiness();
+  const {profile}= useProfile();
+
+  useEffect(() => {
+    if (!profile){
+      router.push('/')
+    }
+    if (profile?.user_type === 'consumer') {
+      router.push('/');   
+    }
+  }, []);
 
   useEffect(() => {
     async function getDeals() {

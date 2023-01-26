@@ -6,6 +6,7 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import BusinessDeal from "../components/DealCard/BusinessDeal";
 import { useBusiness } from "../hooks/useBusiness";
 import getTimeRemaining from "../helperFunctions/getTimeRemaining";
+import { useProfile } from "../hooks/useProfile";
 
 export default function Newdeal() {
   const supabase = useSupabaseClient();
@@ -16,11 +17,22 @@ export default function Newdeal() {
   const [endDate, setEndDate] = useState<any>();
   const [fieldColor, setFieldColor] = useState("bg-slate-300");
   const [nameWarning, setNameWarning] = useState("");
+  const {profile} = useProfile()
+
 
   /* function to return to businesshome  */
   const tobusinesshome = () => {
     router.push("/businesshome");
   };
+
+  useEffect(() => {
+    if (!profile){
+      router.push('/')
+    }
+    if (profile?.user_type === 'consumer') {
+      router.push('/');   
+    }
+  }, []);
 
   useEffect(() => {
     if (dealText?.length > 60) {
