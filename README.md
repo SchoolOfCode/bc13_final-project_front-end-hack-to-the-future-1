@@ -1,6 +1,6 @@
 # **IndyGo**
 
-![IndyGo Logo](/bc13_final-project_front-end-hack-to-the-future-1/public/logo.png)
+![IndyGo Logo](./public/logo.png)
 
 ---
 
