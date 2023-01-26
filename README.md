@@ -4,15 +4,15 @@
 
 ---
 
-### [Check it out here!](https://indygo.netlify.app/)
+### [Deployed here, check it out!](https://indygo.netlify.app/)
 
 ---
 
 #### IndyGo is a mobile application that allows local independent businesses to fight back against economic pressures by offering live deals to consumers within a walkable distance. Consumers can use IndyGo to get active and shop local with a map of independent businesses in their area, and can scroll through a carousel of deals available to them.
 
-<br>
-
 ---
+
+![Map Banner](./public/IndyDeployedMap.png)
 
 #### The app consists of two different user journeys, the consumer and the business.
 
@@ -25,7 +25,11 @@ The user is then asked if they are signing in as a consumer or a business. If a 
 A business account needs a bit more information, which the user can then fill out. They are then pathed to the business side of the application, the business home.  
 From this page they can view their active deals, create new deals and delete deals if neccessary.
 
-<br>
+---
+
+![Deployed App Screenshots](./public/IndyDeployed.png)
+
+##### _Screenshots of the app **landing page** the **new deal page** and **business home page**_
 
 ---
 
@@ -70,3 +74,9 @@ From this page they can view their active deals, create new deals and delete dea
 #### _Deployment_
 
 - [Netlify](https://www.netlify.com/)
+
+---
+
+## ![Map Banner](./public/IndyDeployedBanner.png)
+
+---
