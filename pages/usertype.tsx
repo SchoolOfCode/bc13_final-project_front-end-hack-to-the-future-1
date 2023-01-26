@@ -4,6 +4,7 @@ import Button from "../components/Button/Button";
 import { useProfile } from "../hooks/useProfile";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import React from "react";
 
 export default function UserType() {
   const router = useRouter();
