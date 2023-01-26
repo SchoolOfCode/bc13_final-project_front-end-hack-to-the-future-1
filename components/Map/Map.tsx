@@ -1,11 +1,16 @@
-import { MapContainer, TileLayer, useMap, Marker, Popup, Circle, ZoomControl } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  useMap,
+  Marker,
+  Popup,
+  Circle,
+} from "react-leaflet";
 import L from "leaflet";
 import "leaflet.awesome-markers";
-import { useState, useEffect, useRef } from "react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "../../hooks/useLocation";
 import { useLocalBusinesses } from "../../hooks/useLocalBusinesses";
-import Carousel from "../Carousel/Carousel";
 import BusinessIcon from "../BusinessIcon/BusinessIcon";
 
 /**
@@ -18,16 +23,6 @@ export default function Map() {
   const [userLng, setUserLng] = useState<number>(-1.353992);
   const { pos } = useLocation();
   const { businesses } = useLocalBusinesses();
-
-  /**
-   * We needed the carousel to be rendered inside the map component to be able to have clickable deal cards.
-   * However this had the knock on effect of preventing scroll within the carousel container.
-   * This code fixes this issue, enabling the user to still scroll through deals in the container.
-   */
-  let carouselContainer = document.getElementById("carousel-container");
-  if (carouselContainer) {
-    L.DomEvent.disableScrollPropagation(carouselContainer as HTMLElement);
-  }
 
   useEffect(() => {
     L.AwesomeMarkers.Icon.prototype.options.prefix = "fa";
@@ -122,17 +117,16 @@ export default function Map() {
           icon={userIcon}
           position={[userLat ? userLat : 0, userLng ? userLng : 0]}
         >
-          <Circle center={[userLat, userLng]} radius={500} color='black' opacity={0.1}/>
+          <Circle
+            center={[userLat, userLng]}
+            radius={500}
+            color="black"
+            opacity={0.1}
+          />
           <Popup>
             <span className="text-slate-50">You are here!</span>
           </Popup>
         </Marker>
-      </div>
-      <div
-        id="carousel-container"
-        className="z-10 absolute bottom-0 w-screen h-60 md:h-80"
-      >
-        <Carousel />
       </div>
     </MapContainer>
   );

@@ -9,6 +9,7 @@ import { useProfile } from "../hooks/useProfile";
 import React, { useState } from "react";
 import { useEffect, useContext } from "react";
 import DemoModeContext from "../contexts/demoMode";
+import Carousel from "../components/Carousel/Carousel";
 
 /**
  * The landing page for new, not logged in users, and the home page for the consumer account.
@@ -86,16 +87,20 @@ export default function Home() {
           onClick={redirectToLogIn}
         />
       )}
-
       <Button
         className="absolute top-2 right-2 z-10 h-18"
         buttonText={demoButtonText}
         onClick={() => setDemoModeActive(!demoModeActive)}
       />
-
       <main className="w-screen">
         <div className="z-0">
           <Map />
+        </div>
+        <div
+          id="carousel-container"
+          className="z-50 absolute bottom-0 w-screen h-60 md:h-80"
+        >
+          <Carousel />
         </div>
       </main>
     </>

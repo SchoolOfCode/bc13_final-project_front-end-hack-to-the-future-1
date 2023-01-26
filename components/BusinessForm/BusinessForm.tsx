@@ -49,6 +49,8 @@ export default function BusinessForm() {
   const [formMessage, setFormMessage] = useState("");
   const [postCodeMessage, setPostCodeMessage] = useState("");
   const [postCodeMessageColor, setPostCodeMessageColor] = useState("");
+  const [fieldColor, setFieldColor] = useState("bg-slate-300");
+  const [nameWarning, setNameWarning] = useState("");
 
   /**
    * State to hold postcode error message if response "404" from fetch request to postcodes.io. Indicates invalid postcode.
@@ -73,6 +75,16 @@ export default function BusinessForm() {
       setLatLon([business.lat, business.lon]);
     }
   }, [business]);
+
+  useEffect(() => {
+    if (businessInfo?.name.length > 30) {
+      setFieldColor("bg-red-200");
+      setNameWarning("All Business Names Need To Be Less Than 30 Characters");
+    } else {
+      setFieldColor("bg-slate-300");
+      setNameWarning("");
+    }
+  }, [businessInfo]);
 
   useEffect(() => {
     if (businessInfo.postcode.length != 0) {
@@ -108,7 +120,8 @@ export default function BusinessForm() {
       businessInfo.postcode.length > 0 &&
       businessInfo.lat != 0 &&
       businessInfo.lon != 0 &&
-      postcodeRegex.test(businessInfo.postcode)
+      postcodeRegex.test(businessInfo.postcode) &&
+      businessInfo?.name.length < 30
     ) {
       if (business && user) {
         const { data, error } = await supabase
@@ -185,6 +198,7 @@ export default function BusinessForm() {
           value={businessInfo.name}
           onChange={handleChange}
         />
+        <p className="text-red-600">{nameWarning}</p>
 
         <label
           htmlFor="business_type"
