@@ -19,7 +19,7 @@ export default function Carousel() {
         id="deal-carousel"
         className="flex absolute bottom items-end px-5 gap-5 overflow-y-auto overflow-x-auto z-50 w-screen h-full p-3  bg-slate-900 bg-opacity-30"
       >
-        {businesses ? (
+        {businesses.length > 0 ? (
           businesses.map((business) =>
             business.deals.map((offer: any) => (
               <ConsumerDeal
@@ -33,7 +33,27 @@ export default function Carousel() {
             ))
           )
         ) : (
-          <h1>No businesses</h1>
+          <div className="flex gap-5 justify-self-center h-full  pt-5">
+          <ConsumerDeal
+            key={1}
+            businessName="No Active Deals Within Your Radius"
+            dealText=""
+                dealHighlight="Toggle Demo Mode 'ON' To See Deals Within the Test Area"
+              
+              />
+               <ConsumerDeal
+            key={1}
+            businessName="No Active Deals Within Your Radius"
+            dealText=""
+            dealHighlight="Toggle Demo Mode 'ON' To See Deals Within the Test Area"
+              />
+               <ConsumerDeal
+            key={1}
+            businessName="No Active Deals Within Your Radius"
+            dealText=""
+            dealHighlight="Toggle Demo Mode 'ON' To See Deals Within the Test Area"
+          />
+        </div>
         )}
       </div>
     </div>
