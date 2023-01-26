@@ -26,7 +26,7 @@ export function useProfile() {
   const user = useUser();
   const supabase = useSupabaseClient();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
 

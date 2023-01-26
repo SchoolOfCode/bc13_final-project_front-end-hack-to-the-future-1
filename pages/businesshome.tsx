@@ -27,16 +27,16 @@ export default function BusinessHome() {
 
   const [offers, setOffers] = useState<Deals[]>([]);
   const { business } = useBusiness();
-  const {profile}= useProfile();
+  const {profile,loading}= useProfile();
 
   useEffect(() => {
-    if (!profile){
+    if (profile === null && loading===false ){
       router.push('/')
     }
     if (profile?.user_type === 'consumer') {
       router.push('/');   
     }
-  }, []);
+  }, [profile,loading]);
 
   useEffect(() => {
     async function getDeals() {
