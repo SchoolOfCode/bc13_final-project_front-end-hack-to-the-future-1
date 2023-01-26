@@ -13,7 +13,6 @@ export default function Newdeal() {
   const router = useRouter();
   const { business } = useBusiness();
   const [dealText, setDealText] = useState<any>();
-  const [startDate, setStartDate] = useState<any>();
   const [endDate, setEndDate] = useState<any>();
   const [fieldColor, setFieldColor] = useState("bg-slate-300");
   const [nameWarning, setNameWarning] = useState("");
@@ -38,12 +37,12 @@ export default function Newdeal() {
     if (dealText?.length > 60) {
       return;
     }
-    if (dealText?.length > 0 && startDate && endDate) {
+    if (dealText?.length > 0 && endDate) {
       const response = await supabase
         .from("deals")
         .insert({
           name: dealText,
-          created_at: startDate,
+          created_at: new Date(),
           expiration_time: endDate,
           business_id: business?.id,
           user_id: user?.id,
@@ -65,11 +64,14 @@ export default function Newdeal() {
         </header>
       </div>
       <div className="flex flex-col justify-start items-center pb-10">
-        <h1 className="font-Open font-bold text-xl text-slate-50 pb-10">
+        <h1 className="font-Open font-bold text-xl text-slate-50 pb-3">
           Create New Deal
         </h1>
         <form className="flex flex-col justify-start gap-4 items-center text-center h-5/6 w-5/6 max-w-md bg-slate-800">
           {/* Deal Details text */}
+          <p className="font-Open font-bold text-sm text-slate-50 pb-3">
+          Deals become active immediately once added
+        </p>
           <label
             htmlFor="dealName"
             className="font-Open text-sm text-amber-500 font-bold w-full text-left"
@@ -86,23 +88,6 @@ export default function Newdeal() {
             }}
           />
           <p className="text-red-600">{nameWarning}</p>
-          {/* Start Date/Time */}
-          <label
-            htmlFor="start"
-            className="font-Open text-sm font-bold text-amber-500 w-full text-left"
-          >
-            Deal Start:
-          </label>
-          <input
-            className="w-full h-14 bg-slate-300 text-slate-800 border-amber-600  border-2 rounded-md font-Open text-sm px-2 focus:ring-indigo-400 focus:ring-4"
-            id="start"
-            name="start"
-            type="datetime-local"
-            value={startDate}
-            onChange={(e) => {
-              setStartDate(e.target.value);
-            }}
-          />
           {/* End Date/Time */}
           <label
             htmlFor="End"
