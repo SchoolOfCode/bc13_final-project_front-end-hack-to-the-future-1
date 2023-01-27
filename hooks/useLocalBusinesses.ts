@@ -32,7 +32,6 @@ export function useLocalBusinesses() {
             mappedPostcodes.push(item.postcode);
           });
           setPostcodes(mappedPostcodes);
-          console.log('Postcodes State', mappedPostcodes);
         }
       } else if (pos) {
         const response = await fetch(
