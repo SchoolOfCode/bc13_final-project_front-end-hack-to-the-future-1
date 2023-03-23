@@ -1,14 +1,15 @@
 import { supabaseAnon, supabaseService } from "../../jest.setup";
+import {expect} from '@jest/globals'
 
 const businessUser1 = {
-  email: "fawiwe3771@moneyzon.com",
+  email: "toxemej433@kaudat.com",
   password: "password123",
 };
 
-const businessUser1ID = "44437ab8-2ab2-49d6-a71a-fe8f49f39032";
+const businessUser1ID = "0dcb4aaa-4b64-4ee0-882e-a24dabe5abe4";
 
 const businessUser2 = {
-  email: "bilisaw709@quamox.com",
+  email: "gerago3744@galcake.com",
   password: "password123",
 };
 
@@ -356,6 +357,7 @@ describe("Supabase Testing for Deals Table Row Level Security", () => {
       .delete()
       .eq("user_id", businessUser1ID)
       .select();
+      console.log(data)
     expect(data![0].user_id).toEqual(businessUser1ID);
   });
 });
